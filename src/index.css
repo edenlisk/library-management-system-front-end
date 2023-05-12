@@ -1,13 +1,50 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+html,
+body,
+#root,
+.App{
+  height: 100%;
+  width: 100%;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+.custom-header{
+  background-color: #2cade0;
+  font-size: medium;
+  font-weight: bold;
+}
+/* //////// CLASSES DETAILS CSS STYLE*/
+.status-clear,.status-rent {
+  background-color: #84cf2369;
+  /* color: #337010; */
+  border: 0px;
+  border-radius: 20px;
+  font-weight: 500;
+  padding: 3px 5px 3px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+}
+.status-clear-circle,.status-rent-circle {
+  background-color: #45910f;
+  width: 10px;
+  height: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 8px;
+  border-radius: 50%;
+}
+.status-rent{
+  background-color: #cf232369;
+  color: #701010;
+}
+.status-rent-circle{
+  background-color: #910f0f;
+  color: #fff;
+  font-size: small;
+  padding: 10px 10px;
 }

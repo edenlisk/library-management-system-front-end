@@ -1,24 +1,59 @@
-import logo from './logo.svg';
-import './App.css';
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import { createTheme } from "@mui/material/styles";
+import { themeSettings } from "./components/theme";
+import { useSelector } from "react-redux";
+import { useMemo } from "react";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import Dashboard from "./components/Dashboard";
+import Layout from "./layout/Layout";
+
+// import AddForm from './components/AddForm';
+import LoginPage from "./components/userAuthentication/LoginPage";
+import PasswordRecoverPage from "./components/userAuthentication/PasswordRecoverPage";
+import SignUpPage from "./components/userAuthentication/SignupPage";
+import StudentsRentalsPage from "./Pages/StudentsRentalsPage";
+import ClassListPage from "./Pages/ClassListPage";
+import Tests from "./components/Tests";
+import EditPage from "./components/EditPage";
+import ClassNamesPage from "./Pages/ClassNamesPage";
 
 function App() {
+  const mode = useSelector((state) => state.global.mode);
+  const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <div className="App">
+        <BrowserRouter>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <Routes>
+              <Route element={<Layout />}>
+                <Route
+                  path="/"
+                  element={<Navigate to="/dashboard" replace />}
+                />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route
+                  path="/passwordrecover"
+                  element={<PasswordRecoverPage />}
+                />
+                {/* <Route path="/classes" element={<ClassListPage />} /> */}
+                <Route path="/classes" element={<ClassNamesPage />} />
+                <Route path="/details/:id" element={<ClassListPage />} />
+                <Route path="/transactions" element={<LoginPage />} />
+                <Route path="/teachers" element={<StudentsRentalsPage />} />
+                <Route path="/overview" element={<SignUpPage />} />
+                <Route path="/edit/:rowId" element={<EditPage />} />
+                {/* TEST OF RTK QUERY DATAS IN THE TEST FILE */}
+                <Route path="/history" element={<Tests />} />
+              </Route>
+            </Routes>
+          </ThemeProvider>
+        </BrowserRouter>
+      </div>
+    </LocalizationProvider>
   );
 }
 
