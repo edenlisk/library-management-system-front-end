@@ -14,8 +14,8 @@ export const apiSlice = createApi({
     // CREATE NEW CLASS
 
     createClass: builder.mutation({
-      query: ({ name, category }) => ({
-        url: "/classes/2023-2024",
+      query: ({ name, category,academicYear }) => ({
+        url: `/classes/${academicYear}`,
         method: "POST",
         body: { name, category },
       }),

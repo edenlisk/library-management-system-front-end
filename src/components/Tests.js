@@ -11,8 +11,14 @@ import React, { useState } from "react";
 // } from "@material-ui/core";
 // import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { useGetClassesQuery } from "../states/apiSlice";
-import { Box, Typography, Button, Menu, MenuItem } from "@mui/material";
+import { Box, Typography, Button, Menu, MenuItem,FormControl,Select,InputLabel } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+import { useDispatch } from "react-redux";
+
+// ACTION USED TO STORE YEAR
+import { setAcademicYear } from "../states/slice";
+
+
 // const rows = [
 //   { id: 1, name: "John", age: 25, email: "john@example.com" },
 //   { id: 2, name: "Jane", age: 30, email: "jane@example.com" },
@@ -84,6 +90,11 @@ const columns = [
   },
 ];
 const Tests = () => {
+
+  //  DISPATCH TO DISPATCH FOR SETTING YEAR
+
+  const dispatch=useDispatch();
+
   //FUNCTION FOR THE MENU LIST
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -94,10 +105,18 @@ const Tests = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  // SELECT COMPONENT STATE
+
+  const [selectedAcademicYear, setSelectedAcademicYear] = useState('');
+  const handleChange = (event) => {
+    setSelectedAcademicYear(event.target.value);
+    
+  };
+  console.log(selectedAcademicYear);
 
   // TESTING DATA FETCH TO BE EXPORTED LATER TO CLASSLISTPAGE
   const { data, isLoading, isSuccess, isError, error } =
-    useGetClassesQuery(`2023-2024`);
+    useGetClassesQuery(selectedAcademicYear);
   console.log(data);
   let rows = [];
   if (isLoading) {
@@ -166,6 +185,28 @@ const Tests = () => {
           rows={rows}
           columns={columns}
         />
+           <FormControl sx={{width:"300px"}}> 
+        <InputLabel id="demo-simple-select-label">Age</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={selectedAcademicYear}
+          label="Age"
+          onChange={ (event) => {
+            setSelectedAcademicYear(event.target.value);
+            dispatch(setAcademicYear(selectedAcademicYear))
+            console.log(selectedAcademicYear)
+            
+            }}
+        >
+           <MenuItem value="2023-2024">
+                    <em>five</em>
+                  </MenuItem>
+          <MenuItem value="2023-2024">2023-2024</MenuItem>
+          <MenuItem value="2024-2025">2024-2025</MenuItem>
+          <MenuItem value="2025-2026">2025-2026</MenuItem>
+        </Select>
+      </FormControl>
       </Box>
     </>
   );

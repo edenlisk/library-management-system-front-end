@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 import { useGetClassesQuery, useCreateClassMutation } from "../states/apiSlice";
+import { useSelector } from "react-redux";
 import ClassNames from "../components/classTables/ClassNamescomponents";
 
+
 const ClassNamesPage = () => {
+// FOR GETTING ACADEMIC YAER
+
+const academicYear=useSelector((state)=>state.global.academicYear)
+
   // FOR FETCHING
 
   const { data, isLoading, isSuccess, isError, error } = useGetClassesQuery(`2023-2024`);
@@ -56,5 +62,6 @@ const ClassNamesPage = () => {
     </>
   );
 };
+
 
 export default ClassNamesPage;
