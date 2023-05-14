@@ -13,7 +13,7 @@ export const globalSlice=createSlice({
             state.mode=state.mode === "light" ? "dark": "light";
         },
         setAcademicYear:(state,action)=>{
-            state.academicYear=action.payload.academicYear;
+            state.academicYear = action.payload;
         }
     }
 })

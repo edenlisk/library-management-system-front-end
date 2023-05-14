@@ -5,15 +5,15 @@ import ClassNames from "../components/classTables/ClassNamescomponents";
 
 
 const ClassNamesPage = () => {
-// FOR GETTING ACADEMIC YAER
+// FOR GETTING ACADEMIC YEAR
 
-const academicYear=useSelector((state)=>state.global.academicYear)
+  const academicYear=useSelector((state)=>state.global.academicYear)
 
   // FOR FETCHING
 
-  const { data, isLoading, isSuccess, isError, error } = useGetClassesQuery(`2023-2024`);
-  const[createClass]=useCreateClassMutation()
-  console.log(data);
+  const { data, isLoading, isSuccess, isError, error } = useGetClassesQuery(academicYear);
+  const [createClass] = useCreateClassMutation()
+  // console.log(data);
   let rows = [];
   if (isLoading) {
     console.log("loading");

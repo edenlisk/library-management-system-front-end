@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 // import {
 //   DataGrid,
 // //   GridToolbar,
@@ -10,10 +10,10 @@ import React, { useState } from "react";
 //   Typography,
 // } from "@material-ui/core";
 // import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { useGetClassesQuery } from "../states/apiSlice";
+import { useGetClassesQuery, useGetAcademicYearsQuery } from "../states/apiSlice";
 import { Box, Typography, Button, Menu, MenuItem,FormControl,Select,InputLabel } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { useDispatch } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 // ACTION USED TO STORE YEAR
 import { setAcademicYear } from "../states/slice";
@@ -60,7 +60,7 @@ import { setAcademicYear } from "../states/slice";
 //       </AccordionDetails>
 //     </Accordion>
 //   );
-// };
+// }
 
 const columns = [
   // {
@@ -91,9 +91,27 @@ const columns = [
 ];
 const Tests = () => {
 
+  // FETCH ACADEMIC YEARS
+  const { data:years, isSuccess:isDone } = useGetAcademicYearsQuery();
+
+  const [selectedAcademicYear, setSelectedAcademicYear] = useState(() => {
+    if (isDone) {
+      const { data:academicYears } = years;
+      const { schoolYears } = academicYears;
+      return schoolYears[0].academicYear;
+      // setSelectedAcademicYear(schoolYears[0].academicYear);
+    }
+    return '';
+  });
+
+
   //  DISPATCH TO DISPATCH FOR SETTING YEAR
 
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setAcademicYear(selectedAcademicYear))
+  }, [dispatch, selectedAcademicYear]);
+  const schoolYear = useSelector(state => state.global.academicYear);
 
   //FUNCTION FOR THE MENU LIST
 
@@ -107,17 +125,15 @@ const Tests = () => {
   };
   // SELECT COMPONENT STATE
 
-  const [selectedAcademicYear, setSelectedAcademicYear] = useState('');
   const handleChange = (event) => {
     setSelectedAcademicYear(event.target.value);
-    
+
   };
-  console.log(selectedAcademicYear);
+  // console.log(selectedAcademicYear);
 
   // TESTING DATA FETCH TO BE EXPORTED LATER TO CLASSLISTPAGE
-  const { data, isLoading, isSuccess, isError, error } =
-    useGetClassesQuery(selectedAcademicYear);
-  console.log(data);
+  const { data, isLoading, isSuccess, isError, error } = useGetClassesQuery(schoolYear);
+  // console.log(data);
   let rows = [];
   if (isLoading) {
     console.log("loading");
@@ -132,7 +148,7 @@ const Tests = () => {
     // rows.forEach(element => {
     //   element.studentNumber=element.students.length;
     // });
-    console.log(rows);
+    // console.log(rows);
     // console.log(rows.numberOfStudents)
   }
 
@@ -185,7 +201,7 @@ const Tests = () => {
           rows={rows}
           columns={columns}
         />
-           <FormControl sx={{width:"300px"}}> 
+           <FormControl sx={{width:"300px"}}>
         <InputLabel id="demo-simple-select-label">Age</InputLabel>
         <Select
           labelId="demo-simple-select-label"
@@ -194,15 +210,13 @@ const Tests = () => {
           label="Age"
           onChange={ (event) => {
             setSelectedAcademicYear(event.target.value);
-            dispatch(setAcademicYear(selectedAcademicYear))
-            console.log(selectedAcademicYear)
-            
+            // dispatch(setAcademicYear(selectedAcademicYear))
+            // console.log(selectedAcademicYear)
+
             }}
         >
-           <MenuItem value="2023-2024">
-                    <em>five</em>
-                  </MenuItem>
-          <MenuItem value="2023-2024">2023-2024</MenuItem>
+           {/*<MenuItem value="2023-2024"><em>five</em></MenuItem>*/}
+          <MenuItem selected value="2023-2024">2023-2024</MenuItem>
           <MenuItem value="2024-2025">2024-2025</MenuItem>
           <MenuItem value="2025-2026">2025-2026</MenuItem>
         </Select>
