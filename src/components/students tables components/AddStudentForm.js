@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   IconButton,
   Modal,
@@ -17,18 +17,9 @@ import {
 import { CloseOutlined } from "@mui/icons-material";
 import AddIcon from "@mui/icons-material/Add";
 // COMPONENT TO ADD A NEW STUDENT USING POP UP MODAL
-const AddStudentForm = ({newStudent,setNewStudent,handleChange,onSubmit}) => {
+const AddStudentForm = ({newStudent,setNewStudent,handleChange,onSubmit,open,handleOpen,handleClose}) => {
   const theme = useTheme();
-  const [open, setOpen] = useState(false);
-
-//  TODO:ADD FORM VALIDATION PREVENTING SUBMITION OF EMPTY INPUT OBJECT
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
+ 
 
   return (
     <>
@@ -68,10 +59,10 @@ const AddStudentForm = ({newStudent,setNewStudent,handleChange,onSubmit}) => {
                 // backgroundColor={theme.palette.neutral.main}
                 required
                 fullWidth
-                name="fullname"
-                label="Full Name"
+                name="name"
+                label="Name"
                 type="text"
-                id="fullname"
+                id="name"
                 variant="outlined"
                 // changing input color on each input field
                 sx={{
@@ -82,10 +73,10 @@ const AddStudentForm = ({newStudent,setNewStudent,handleChange,onSubmit}) => {
               <TextField
                 required
                 fullWidth
-                name="id"
-                label="ID"
-                type="number"
-                id="id"
+                name="registrationNumber"
+                label="registrationNumber"
+                type="registrationNumber"
+                id="registrationNumber"
                 variant="outlined"
                 sx={{ mb: 2 }}
                 onChange={handleChange}

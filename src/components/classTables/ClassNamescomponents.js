@@ -102,7 +102,7 @@ const ClassNames = ({
       headerName: "Details",
       flex: 0.2,
       renderCell: (params) => (
-        <Link to={`/details/${params.row._id}`}>
+        <Link to={`/students/${params.row._id}`}>
           <ChevronRightOutlined />
         </Link>
       ),

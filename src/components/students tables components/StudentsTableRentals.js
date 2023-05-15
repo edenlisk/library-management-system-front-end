@@ -9,11 +9,12 @@ import React from 'react'
 import { useTheme } from '@emotion/react';
 const StudentsTableRentals = ({rows}) => {
 const columns=[
-    { field: 'bookName', headerName: 'Book name', flex:1, },
-    { field: 'id', headerName: 'Serial number', flex:1, },
+ 
+    { field: 'nameOfBook', headerName: 'Book name', flex:1, },
+    { field: 'bookId', headerName: 'ID', flex:1, },
     { field: 'issueDate', headerName: 'Issue date', flex:1, },
     { field: 'dueDate', headerName: 'Due date', flex:1, },
-    { field: 'status', headerName: 'Status', flex:1, },
+    { field: 'nameOfLender', headerName: 'Lender', flex:1, },
    {
     field: 'actions', headerName: 'Actions',flex:1,
     renderCell: (params) => (

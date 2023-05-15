@@ -16,7 +16,7 @@ import SignUpPage from "./components/userAuthentication/SignupPage";
 import StudentsRentalsPage from "./Pages/StudentsRentalsPage";
 import ClassListPage from "./Pages/ClassListPage";
 import Tests from "./components/Tests";
-import EditPage from "./components/EditPage";
+import EditPage from "./Pages/EditPage";
 import ClassNamesPage from "./Pages/ClassNamesPage";
 
 function App() {
@@ -41,11 +41,11 @@ function App() {
                 />
                 {/* <Route path="/classes" element={<ClassListPage />} /> */}
                 <Route path="/classes" element={<ClassNamesPage />} />
-                <Route path="/details/:id" element={<ClassListPage />} />
+                <Route path="/students/:classId" element={<ClassListPage />} />
                 <Route path="/transactions" element={<LoginPage />} />
                 <Route path="/teachers" element={<StudentsRentalsPage />} />
                 <Route path="/overview" element={<SignUpPage />} />
-                <Route path="/edit/:rowId" element={<EditPage />} />
+                <Route path="/edit/student/:studentId" element={<EditPage />} />
                 {/* TEST OF RTK QUERY DATAS IN THE TEST FILE */}
                 <Route path="/history" element={<Tests />} />
               </Route>

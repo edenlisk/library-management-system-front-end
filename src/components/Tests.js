@@ -93,6 +93,7 @@ const Tests = () => {
 
   // FETCH ACADEMIC YEARS
   const { data:years, isSuccess:isDone } = useGetAcademicYearsQuery();
+  console.log( years)
 
   const [selectedAcademicYear, setSelectedAcademicYear] = useState(() => {
     if (isDone) {
@@ -201,7 +202,7 @@ const Tests = () => {
           rows={rows}
           columns={columns}
         />
-           <FormControl sx={{width:"300px"}}>
+           <FormControl sx={{minWidth:125}} size="small">
         <InputLabel id="demo-simple-select-label">Age</InputLabel>
         <Select
           labelId="demo-simple-select-label"

@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import StudentsRentalsComponent from "../components/students tables components/StudentsRentalsComponent";
 import dummyBooks from "../components/dummyBooks";
+import { useGetRentalsQuery } from "../states/apiSlice";
+import { useSelector } from "react-redux";
 
 const rows = dummyBooks;
 const StudentsRentalsPage = () => {
+  const academicYear=useSelector((state)=>state.global.academicYear)
+  const{data,isLoading,isSuccess,isError,error}=useGetRentalsQuery({academicYear})
   const [rental, setRental] = useState({
     bookName: "",
     bookId: "",

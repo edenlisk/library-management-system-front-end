@@ -8,6 +8,7 @@ const ClassNamesPage = () => {
 // FOR GETTING ACADEMIC YEAR
 
   const academicYear=useSelector((state)=>state.global.academicYear)
+  console.log(`academic year: ${academicYear}`)
 
   // FOR FETCHING
 
@@ -23,8 +24,8 @@ const ClassNamesPage = () => {
   }
   if (isSuccess) {
     const { data: classes } = data;
-    const { classes: klasses } = classes;
-    rows = klasses;
+    const { classes: allclasses } = classes;
+    rows = allclasses;
     console.log(rows);
   }
 
@@ -37,9 +38,9 @@ const ClassNamesPage = () => {
     setNewClass({ ...newClass, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    createClass(newClass);
+    await createClass({...newClass,academicYear});
     console.log(newClass);
     setNewClass({ name: "", category: "" });
   };

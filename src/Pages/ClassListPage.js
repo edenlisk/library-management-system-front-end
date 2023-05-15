@@ -1,12 +1,45 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import ClassList from "../components/students tables components/ClassListComponent";
 import dummyData from "../components/dummydata";
+import { useParams } from "react-router-dom";
+import { useCreateStudentMutation, useDeleteStudentMutation, useGetStudentsQuery } from "../states/apiSlice";
 
 const ClassListPage = () => {
-  const rows = dummyData;
+  const academicYear = useSelector(state => state.global.academicYear);
+const{classId}=useParams();
+// FETCHING STUDENTS LIST
+const{ data, isLoading, isSuccess,isError,error}=useGetStudentsQuery({academicYear,classId})
+
+
+// ADDING NEW STUDENT
+const[createNewStudent]=useCreateStudentMutation()
+const[deleteStudent]=useDeleteStudentMutation()
+
+let rows = [];
+if (isLoading) {
+  console.log("loading");
+}
+if (isError) {
+  console.log(`the api provided error: ${error}`);
+}
+if (isSuccess) {
+  const {data:students}=data
+  const{result}=students
+  console.log(result)
+  rows=result
+}
+const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(!open);
+  };
+  const handleClose = () => {
+    setOpen(!open);
+  };
   const [newStudent, setNewStudent] = useState({
-    fullname: "",
-    id: "",
+    name: "",
+    registrationNumber: "",
     academicLevel: "",
   });
 
@@ -14,25 +47,33 @@ const ClassListPage = () => {
     setNewStudent({ ...newStudent, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    handleClose();
+    await createNewStudent({...newStudent, academicYear,classId});
     console.log(newStudent);
-    setNewStudent({ fullname: "", id: "", academicLevel: "" });
+    setNewStudent({ name: "",registrationNumber: "", academicLevel: "" });
+    
   };
-  const handleRowDelete = () => {
-    console.log("weee");
+  const handleRowDelete =  () => {
+    // await deleteStudent({academicYear,classId,})
+    console.log("wee");
   };
 
   return (
     <>
       <ClassList
         rows={rows}
-        className={"S6 MPC 2019"}
+        loading={isLoading || !rows}
+        className={`class name ${academicYear}`}
         newStudent={newStudent}
         setNewStudent={setNewStudent}
         handleChange={handleChange}
         onSubmit={handleSubmit}
         handleRowDelete={handleRowDelete}
+        open={open}
+            handleOpen={handleOpen}
+            handleClose={handleClose}
       />
     </>
   );

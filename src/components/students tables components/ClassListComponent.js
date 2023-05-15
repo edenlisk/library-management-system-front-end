@@ -15,12 +15,16 @@ import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 
 const ClassList = ({
   rows,
+  loading,
   className,
   newStudent,
   onSubmit,
   handleChange,
   setNewStudent,
   handleRowDelete,
+  open,
+  handleOpen,
+  handleClose
 }) => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
@@ -38,21 +42,21 @@ const ClassList = ({
   };
 
   const columns = [
-    { field: "firstName", headerName: "First name", flex: 0.5},
+    { field: "name", headerName: "Name", flex: 1},
     {
-      field: "secondName",
-      headerName: "Second Name",
+      field: "registrationNumber",
+      headerName: "ID",
       flex:0.5,
       editable: true,
     },
-    { field: "location", headerName: "Location", flex: 0.5},
+    { field: "numberOfRentals", headerName: "Rentals", flex: 0.5},
     {
       field: "actions",
       headerName: "Actions",
       flex: 0.5,
       renderCell: (params) => {
         // TO DELETE LATER
-        const rowId=params.row.id;
+        
         return (
           <Stack direction="row" spacing={1}>
             {/* icons only */}
@@ -74,7 +78,7 @@ const ClassList = ({
             >
               Delete
             </Button>
-            <Link to={`/edit/${rowId}`}>
+            <Link to={`/edit/student/${params.row._id}`}>
               <Button
                 variant="contained"
                 size="small"
@@ -91,15 +95,15 @@ const ClassList = ({
     {
       field: "status",
       headerName: "Status",
-      flex:0.5,
+      flex:0.3,
       renderCell: (params) => <Status />,
     },
     {
       field: "details",
       headerName: "Details",
-      flex:0.5,
+      flex:0.3,
       renderCell: (params) => (
-        <Link to={`/details/${params.row.id}`}>
+        <Link to={`/details/${params.row._id}`}>
           <ChevronRightOutlined />
         </Link>
       ),
@@ -143,12 +147,17 @@ const ClassList = ({
             setNewStudent={setNewStudent}
             onSubmit={onSubmit}
             handleChange={handleChange}
+            open={open}
+            handleOpen={handleOpen}
+            handleClose={handleClose}
           />
         </Grid2>
       </Grid2>
 
       <div style={{ maxWidth: "99%", margin: "auto" }}>
         <DataGrid
+        loading={loading}
+        getRowId={(row) => row._id}
           rows={rows}
           columns={columns}
           disableColumnFilter

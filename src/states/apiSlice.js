@@ -66,10 +66,10 @@ export const apiSlice = createApi({
       providesTags: ['students']
     }),
     createStudent: builder.mutation({
-      query: ({body, academicYear, classId}) => ({
+      query: ({name,registrationNumber, academicYear, classId}) => ({
         url: `/students/${academicYear}/${classId}`,
         method: 'POST',
-        body
+        body:{name,registrationNumber}
       }),
       invalidatesTags: ['students']
     }),
