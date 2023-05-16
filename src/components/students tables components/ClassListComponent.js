@@ -1,29 +1,37 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-// import IconButton from '@mui/material/IconButton';
 import Stack from "@mui/material/Stack";
 // import { Box } from '@mui/material';
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import ModeEditOutlinedIcon from "@mui/icons-material/ModeEditOutlined";
 import Button from "@mui/material/Button";
-import { Box, Typography, useTheme, Modal, Fade } from "@mui/material";
+import { Box, Typography, useTheme, Modal, Fade,IconButton,Tooltip } from "@mui/material";
 import Status from "../Status";
 import { Link } from "react-router-dom";
 import { ChevronRightOutlined, CloseOutlined } from "@mui/icons-material";
 import AddStudentForm from "./AddStudentForm";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { useParams } from "react-router-dom";
-import {
-  useCreateStudentMutation,
-  useDeleteStudentMutation,
-  useGetStudentsQuery,
-} from "../states/apiSlice";
+// import {
+//   useCreateStudentMutation,
+//   useDeleteStudentMutation,
+//   useGetStudentsQuery,
+// } from "../states/apiSlice";
+import { useCreateStudentMutation,useDeleteStudentMutation,useGetStudentsQuery } from "../../states/apiSlice";
 
-const ClassList = ({}) => {
+const ClassList = () => {
   const academicYear = useSelector((state) => state.global.academicYear);
 
   const { classId } = useParams();
+
+  const [createNewStudent] = useCreateStudentMutation();
+  const [deleteStudent] = useDeleteStudentMutation();
+
+  const { data, isLoading, isSuccess, isError, error } = useGetStudentsQuery({
+    academicYear,
+    classId,
+  });
 
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
@@ -41,14 +49,10 @@ const ClassList = ({}) => {
     setOpenDeleteModal(!openDeleteModal);
   };
   // FETCHING STUDENTS LIST
-  const { data, isLoading, isSuccess, isError, error } = useGetStudentsQuery({
-    academicYear,
-    classId,
-  });
+
 
   // ADDING NEW STUDENT
-  const [createNewStudent] = useCreateStudentMutation();
-  const [deleteStudent] = useDeleteStudentMutation();
+
 
   let rows = [];
   if (isLoading) {
@@ -88,9 +92,11 @@ const ClassList = ({}) => {
     console.log(newStudent);
     setNewStudent({ name: "", registrationNumber: "", academicLevel: "" });
   };
-  const handleRowDelete = async (studentId) => {
-    await deleteStudent({ academicYear, classId, studentId });
-    console.log("weee");
+  const handleRowDelete = async () => {
+    const studentId= selectedId;
+    // await deleteStudent({ academicYear, classId, studentId });
+    handleCloseDeleteModal();
+    console.log(studentId);
   };
 
   const columns = [
@@ -101,7 +107,7 @@ const ClassList = ({}) => {
       flex: 0.5,
       editable: true,
     },
-    { field: "numberOfRentals", headerName: "Rentals", flex: 0.5 },
+    { field: "numberOfRentals", headerName: "Rentals", flex: 0.3 },
     {
       field: "actions",
       headerName: "Actions",
@@ -112,115 +118,49 @@ const ClassList = ({}) => {
         return (
           <>
             <Stack direction="row" spacing={1}>
-              {/* icons only */}
-              {/* <IconButton aria-label="delete">
-      <DeleteOutlinedIcon sx={{fontSize:20}} />
-    </IconButton>
-    <IconButton  aria-label="edit"
-     onClick={() => {
-      console.log(`Button clicked for row ${params.id}`);
-    }}>
-      <ModeEditOutlinedIcon sx={{fontSize:20}} />
-    </IconButton> */}
-              {/* buttons with icons and text */}
-              <Button
+              <Tooltip title="Delete" placement="top" arrow>
+              <IconButton aria-label="delete"
                 variant="contained"
                 size="small"
-                startIcon={<DeleteOutlinedIcon sx={{ fontSize: 15 }} />}
-                onClick={() => handleClickOpenDeleteModal(params.id)}
+                // startIcon={<DeleteOutlinedIcon sx={{ fontSize: 15 }} />}
+                onClick={() => handleClickOpenDeleteModal(params.row._id)}
               >
-                Delete
-              </Button>
+                  <DeleteOutlinedIcon sx={{ fontSize: 21 }} />
+              </IconButton>
+              </Tooltip>
               <Link to={`/edit/student/${params.row._id}`}>
-                <Button
+              <Tooltip title="Edit" placement="top" arrow>
+                <IconButton  aria-label="edit"
                   variant="contained"
                   size="small"
-                  startIcon={<ModeEditOutlinedIcon sx={{ fontSize: 15 }} />}
+                  // startIcon={<ModeEditOutlinedIcon sx={{ fontSize: 15 }} />}
                 >
-                  Edit
-                </Button>
+                  <ModeEditOutlinedIcon sx={{ fontSize: 21 }} />
+                </IconButton>
+                </Tooltip>
                 {/* TO DELETE LATER */}
               </Link>
+              <Link to={`/details/${params.row._id}`}>
+              <Tooltip title="Details" placement="top" arrow>
+                <IconButton aria-label="details"
+                  variant="contained"
+                  size="small">
+          <ChevronRightOutlined sx={{ fontSize: 21 }} />
+          </IconButton>
+          </Tooltip>
+        </Link>
             </Stack>
-            {/* DELETE CONFIRMATION MODAL */}
-            <Modal
-              open={openDeleteModal}
-              aria-labelledby="add-modal-title"
-              aria-describedby="add-modal-description"
-              sx={{
-                "& .MuiBackdrop-root-MuiModal-backdrop": {
-                  backgroundColor: `red`,
-                  opacity: "0.1px",
-                },
-              }}
-            >
-              <Fade in={openDeleteModal}>
-                <Box maxWidth={700} height="100%" margin="auto" padding={3}>
-                  <Box
-                    component="form"
-                    display="flex"
-                    flexDirection="column"
-                    justifyContent="top"
-                    alignItems="center"
-                    height="40%"
-                    sx={{ p: "10px 10px" }}
-                    backgroundColor={theme.palette.primary[900]}
-                    onSubmit={onSubmit}
-                  >
-                    <CloseOutlined
-                      sx={{ alignSelf: "end" }}
-                      onClick={handleCloseDeleteModal}
-                    />
-                    <Typography
-                      variant="h3"
-                      sx={{ textAlign: "center", mb: 3, mt: 3 }}
-                    >
-                      {`Sure you want to delete data in row ${selectedId}`}
-                    </Typography>
-                    <Box display="flex" gap={2} sx={{ alignSelf: "center" }}>
-                      <Button
-                        variant="contained"
-                        size="medium"
-                        type="button"
-                        sx={{ mb: 2, width: "200px", alignSelf: "start" }}
-                        onClick={handleRowDelete(selectedId)}
-                      >
-                        Delete
-                      </Button>
-                      <Button
-                        variant="contained"
-                        size="medium"
-                        type="button"
-                        sx={{ mb: 2, width: "200px", alignSelf: "start" }}
-                        onClick={handleCloseDeleteModal}
-                      >
-                        cancel
-                      </Button>
-                    </Box>
-                  </Box>
-                </Box>
-              </Fade>
-            </Modal>
+
           </>
         );
       },
     },
-    {
-      field: "status",
-      headerName: "Status",
-      flex: 0.3,
-      renderCell: (params) => <Status />,
-    },
-    {
-      field: "details",
-      headerName: "Details",
-      flex: 0.3,
-      renderCell: (params) => (
-        <Link to={`/details/${params.row._id}`}>
-          <ChevronRightOutlined />
-        </Link>
-      ),
-    },
+    // {
+    //   field: "status",
+    //   headerName: "Status",
+    //   flex: 0.3,
+    //   renderCell: (params) => <Status />,
+    // },
   ];
 
   // glitch in maximizing screen
@@ -257,7 +197,7 @@ const ClassList = ({}) => {
           <AddStudentForm
             newStudent={newStudent}
             setNewStudent={setNewStudent}
-            onSubmit={onSubmit}
+            onSubmit={handleSubmit}
             handleChange={handleChange}
             open={open}
             handleOpen={handleOpen}
@@ -266,7 +206,8 @@ const ClassList = ({}) => {
         </Grid2>
       </Grid2>
       {/* DATA GRID TABLE */}
-      <div style={{ maxWidth: "99%", margin: "auto" }}>
+      <div style={{ maxWidth: "99%", margin: "auto" ,overflowX: 'auto'}}>
+      <div style={{ width: "100%",overflowX: 'auto'}}>
         <DataGrid
           rows={rows}
           loading={isLoading || !rows}
@@ -290,7 +231,67 @@ const ClassList = ({}) => {
           pageSizeOptions={[8, 16, 24]}
           item="true"
         />
+        </div>
       </div>
+                  {/* DELETE CONFIRMATION MODAL */}
+                  <Modal
+              open={openDeleteModal}
+              aria-labelledby="add-modal-title"
+              aria-describedby="add-modal-description"
+              sx={{
+                "& .MuiBackdrop-root-MuiModal-backdrop": {
+                  backgroundColor: `red`,
+                  opacity: "0.1px",
+                },
+              }}
+            >
+              <Fade in={openDeleteModal}>
+                <Box maxWidth={700} height="100%" margin="auto" padding={3}>
+                  <Box
+                    
+                    display="flex"
+                    flexDirection="column"
+                    justifyContent="top"
+                    alignItems="center"
+                    height="40%"
+                    sx={{ p: "10px 10px" }}
+                    backgroundColor={theme.palette.primary[900]}
+                    
+                  >
+                    <CloseOutlined
+                      sx={{ alignSelf: "end" }}
+                      onClick={handleCloseDeleteModal}
+                    />
+                    <Typography
+                      variant="h3"
+                      sx={{ textAlign: "center", mb: 3, mt: 3 }}
+                    >
+                      {`Sure you want to delete data in row ${selectedId}`}
+                    </Typography>
+                    <Box display="flex" gap={2} sx={{ alignSelf: "center" }}>
+                      <Button
+                        variant="contained"
+                        size="medium"
+                        type="button"
+                        sx={{ mb: 2, width: "200px", alignSelf: "start" }}
+                        onClick={handleRowDelete}
+                      >
+                        Delete
+                      </Button>
+                      <Button
+                        variant="contained"
+                        size="medium"
+                        type="button"
+                        sx={{ mb: 2, width: "200px", alignSelf: "start" }}
+                        onClick={handleCloseDeleteModal}
+                      >
+                        cancel
+                      </Button>
+                    </Box>
+                  </Box>
+                </Box>
+              </Fade>
+            </Modal>
     </Box>
   );
 };
