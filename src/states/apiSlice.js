@@ -120,7 +120,7 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ['rentals']
     }),
-    // body: { nameOfBook, bookId, dueDate, nameOfLender }
+    // body: { nameOfBook, bookId, dueDate, category ,status}
     updateRental: builder.mutation({
       query: ({ body, rentalId }) => ({
         url: `/rentals/${rentalId}`,
@@ -154,5 +154,6 @@ export const {
   useDeleteStudentMutation,
   useGenerateStudentReportMutation,
   useGetRentalsQuery,
-  useCreateRentalQuery,
+  useCreateRentalMutation,
+  useDeleteRentalMutation,
   useUpdateRentalMutation } = apiSlice;

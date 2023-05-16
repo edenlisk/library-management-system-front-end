@@ -26,7 +26,7 @@ const today = dayjs();
 
 // THI COMPONENT TO BE ADDED IN THE ADDRENTAL PAGE PARENT
 
-const RentalForm = ({ rental, setRental, handleChange, onSubmit,handleStartDateChange,handleEndDateChange }) => {
+const RentalForm = ({ rental,format, handleChange, onSubmit,handleStartDateChange,handleEndDateChange }) => {
   const theme = useTheme();
 
   const [open, setOpen] = useState(false);
@@ -76,10 +76,10 @@ const RentalForm = ({ rental, setRental, handleChange, onSubmit,handleStartDateC
                 backgroundcolor={theme.palette.neutral.main}
                 required
                 fullWidth
-                name="bookName"
-                label="Book Name"
+                name="nameOfBook"
+                label="nameOfBook"
                 type="text"
-                id="book-name"
+                id="nameOfBook"
                 variant="outlined"
                 // changing input color on each input field
                 sx={{
@@ -103,31 +103,12 @@ const RentalForm = ({ rental, setRental, handleChange, onSubmit,handleStartDateC
                   variant="outlined"
                   sx={{ minWidth: 230, alignSelf: "start", mb: 4 }}
                 >
-                  <InputLabel id="academic-level">Academic Level</InputLabel>
+                  <InputLabel id="category">Book Category</InputLabel>
                   <Select
-                    name="academicLevel"
-                    labelId="academic-level"
-                    id="academic-level"
-                    value={rental.academicLevel}
-                    onChange={handleChange}
-                  >
-                    <MenuItem value="">
-                      <em>Choose Academic level</em>
-                    </MenuItem>
-                    <MenuItem value="A-level">A-level</MenuItem>
-                    <MenuItem value="O-level">O-level</MenuItem>
-                  </Select>
-                </FormControl>
-                <FormControl
-                  variant="outlined"
-                  sx={{ minWidth: 230, alignSelf: "start", mb: 4 }}
-                >
-                  <InputLabel id="book-category">Book Category</InputLabel>
-                  <Select
-                    name="bookCategory"
-                    labelId="book-category"
-                    id="book-category"
-                    value={rental.bookCategory}
+                    name="category"
+                    labelId="category"
+                    id="category"
+                    value={rental.category}
                     onChange={handleChange}
                   >
                     <MenuItem value="">
@@ -155,13 +136,13 @@ const RentalForm = ({ rental, setRental, handleChange, onSubmit,handleStartDateC
               <Box display="flex" gap={2} sx={{ alignSelf: "start", mb: 2 }}>
                 {/* to add date pickers isued and due dates */}
                 <DatePicker disablePast disableFuture 
-                value={rental.startDate}
+                value={rental.issueDate}
                 onChange={handleStartDateChange}
-                format="MM/DD/YYYY"/>
+                format={format}/>
                 <DatePicker disablePast
-                value={rental.endDate}
+                value={rental.dueDate}
                 onChange={handleEndDateChange}
-                format="MM/DD/YYYY" />
+                format={format} />
               </Box>
               <Box display="flex" gap={2} sx={{ alignSelf: "start" }}>
                 <Button

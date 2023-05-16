@@ -94,7 +94,7 @@ const ClassList = () => {
   };
   const handleRowDelete = async () => {
     const studentId= selectedId;
-    // await deleteStudent({ academicYear, classId, studentId });
+    await deleteStudent({ academicYear, classId, studentId });
     handleCloseDeleteModal();
     console.log(studentId);
   };
@@ -140,7 +140,7 @@ const ClassList = () => {
                 </Tooltip>
                 {/* TO DELETE LATER */}
               </Link>
-              <Link to={`/details/${params.row._id}`}>
+              <Link to={`/rentals/${params.row._id}`}>
               <Tooltip title="Details" placement="top" arrow>
                 <IconButton aria-label="details"
                   variant="contained"

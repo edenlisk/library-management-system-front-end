@@ -15,7 +15,7 @@ import { useUpdateStudentMutation } from "../states/apiSlice";
 
 // TO ADD A BOOLEAN TO MAKE FIELDS RED WHEN THERE IS AN ERROR
 
-const EditPage = () => {
+const EditStudentPage = () => {
   const { studentId } = useParams();
   const navigate=useNavigate();
   const [updateStudent] = useUpdateStudentMutation();
@@ -33,7 +33,7 @@ const EditPage = () => {
     const body={...user}
     await updateStudent({ body, studentId });
     console.log(user);
-    setUser({ name: ""});
+    setUser({ name: "",fine:null});
     navigate(-1);
   };
 
@@ -99,4 +99,4 @@ const EditPage = () => {
   );
 };
 
-export default EditPage;
+export default EditStudentPage;

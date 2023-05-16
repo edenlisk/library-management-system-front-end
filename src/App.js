@@ -13,12 +13,14 @@ import Layout from "./layout/Layout";
 import LoginPage from "./components/userAuthentication/LoginPage";
 import PasswordRecoverPage from "./components/userAuthentication/PasswordRecoverPage";
 import SignUpPage from "./components/userAuthentication/SignupPage";
-import StudentsRentalsPage from "./Pages/StudentsRentalsPage";
+// import StudentsRentalsPage from "./Pages/StudentsRentalsPage";
 // import ClassListPage from "./Pages/ClassListPage";
 import Tests from "./components/Tests";
-import EditPage from "./Pages/EditPage";
+import EditStudentPage from "./Pages/EditStudentPage";
 import ClassNamesPage from "./Pages/ClassNamesPage";
 import ClassList from "./components/students tables components/ClassListComponent";
+import StudentsRentalsComponent from "./components/students tables components/StudentsRentalsComponent";
+import EditRentalPage from "./Pages/EditRentalPage";
 
 function App() {
   const mode = useSelector((state) => state.global.mode);
@@ -44,9 +46,10 @@ function App() {
                 <Route path="/classes" element={<ClassNamesPage />} />
                 <Route path="/students/:classId" element={<ClassList />} />
                 <Route path="/transactions" element={<LoginPage />} />
-                <Route path="/teachers" element={<StudentsRentalsPage />} />
+                <Route path="/rentals/:studentId" element={<StudentsRentalsComponent/>} />
                 <Route path="/overview" element={<SignUpPage />} />
-                <Route path="/edit/student/:studentId" element={<EditPage />} />
+                <Route path="/edit/student/:studentId" element={<EditStudentPage />} />
+                <Route path="/breakdown" element={<EditRentalPage />} />
                 {/* TEST OF RTK QUERY DATAS IN THE TEST FILE */}
                 <Route path="/history" element={<Tests />} />
               </Route>
