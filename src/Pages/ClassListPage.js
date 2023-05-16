@@ -57,7 +57,7 @@ const [open, setOpen] = useState(false);
   };
   const handleRowDelete =  () => {
     // await deleteStudent({academicYear,classId,})
-    console.log("wee");
+    console.log("weee");
   };
 
   return (

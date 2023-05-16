@@ -14,10 +14,11 @@ import LoginPage from "./components/userAuthentication/LoginPage";
 import PasswordRecoverPage from "./components/userAuthentication/PasswordRecoverPage";
 import SignUpPage from "./components/userAuthentication/SignupPage";
 import StudentsRentalsPage from "./Pages/StudentsRentalsPage";
-import ClassListPage from "./Pages/ClassListPage";
+// import ClassListPage from "./Pages/ClassListPage";
 import Tests from "./components/Tests";
 import EditPage from "./Pages/EditPage";
 import ClassNamesPage from "./Pages/ClassNamesPage";
+import ClassList from "./components/students tables components/ClassListComponent";
 
 function App() {
   const mode = useSelector((state) => state.global.mode);
@@ -41,7 +42,7 @@ function App() {
                 />
                 {/* <Route path="/classes" element={<ClassListPage />} /> */}
                 <Route path="/classes" element={<ClassNamesPage />} />
-                <Route path="/students/:classId" element={<ClassListPage />} />
+                <Route path="/students/:classId" element={<ClassList />} />
                 <Route path="/transactions" element={<LoginPage />} />
                 <Route path="/teachers" element={<StudentsRentalsPage />} />
                 <Route path="/overview" element={<SignUpPage />} />
