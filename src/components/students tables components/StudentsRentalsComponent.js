@@ -136,24 +136,6 @@ const StudentsRentalsComponent = () => {
             <ModeEditOutlinedIcon sx={{ fontSize: 20 }} />
           </IconButton>
           <Link  ></Link>
-          <IconButton
-            aria-label="details"
-            onClick={() => {
-              console.log(`Button clicked for row ${typeof(params.id)}`);
-            }}
-          >
-            <ChevronRightOutlined sx={{ fontSize: 20 }} />
-          </IconButton>
-          {/* buttons with icons and text */}
-          {/* <Button variant="outlined" size="small" startIcon={ <DeleteOutlinedIcon sx={{fontSize:15}} />}>
-        Delete
-      </Button>
-      <Button variant="outlined" size="small" startIcon={<ModeEditOutlinedIcon sx={{fontSize:15}} 
-             onClick={() => {
-              console.log(`Button clicked for row ${params.id}`);
-            }}/>}>
-        Edit
-      </Button> */}
         </Stack>
       ),
     },
