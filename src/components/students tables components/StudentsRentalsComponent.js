@@ -1,4 +1,4 @@
-import { ChevronLeft } from "@mui/icons-material";
+import { ChevronLeft, ChevronRightOutlined } from "@mui/icons-material";
 import { Box, Typography,IconButton } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import React,{useState} from "react";
@@ -12,7 +12,7 @@ import { useTheme } from "@emotion/react";
 // import StudentsTableRentals from "./StudentsTableRentals";
 import AddBookRental from "./AddBookRental";
 import dayjs from "dayjs";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams,Link} from "react-router-dom";
 import { useCreateRentalMutation, useDeleteRentalMutation, useGetRentalsQuery } from "../../states/apiSlice";
 // import dummyBooks from './dummyBooks'
 
@@ -26,7 +26,7 @@ const StudentsRentalsComponent = () => {
 
   const academicYear = useSelector((state) => state.global.academicYear);
 
-  const [selectedId, setSelectedId] = useState(null);
+  const [selectedId, setSelectedId] = useState();
 
   const[createRental]=useCreateRentalMutation();
   const[deleteRental]=useDeleteRentalMutation();
@@ -44,10 +44,12 @@ const StudentsRentalsComponent = () => {
   }
   if (isSuccess) {
     const { data:rentalsinfo } = data;
-    const { rentals:rentalsObj } = rentalsinfo;
-    const{rentalHistory}=rentalsObj;
-    console.log(rentalsObj);
-    rows = rentalsObj;
+    const { rentalHistory } = rentalsinfo;
+    // const{rentals:rentalskey}=rentalsObj;
+    // const{0:rentalsvalue}=rentalskey
+    // const{rentalHistory}=rentalsvalue
+    console.log(rentalHistory);
+    rows = rentalHistory;
     // console.log(data);
   }
 
@@ -66,13 +68,16 @@ const StudentsRentalsComponent = () => {
   };
 
   const handleStartDateChange = (newDate) => {
+  
     setRental((prevState) => ({
       ...prevState,
       issueDate: newDate.format("MM/DD/YYYY"),
+  
     }));
   };
 
   const handleEndDateChange = (newDate) => {
+
     setRental((prevState) => ({
       ...prevState,
       dueDate: newDate.format("MM/DD/YYYY"),
@@ -98,19 +103,18 @@ const StudentsRentalsComponent = () => {
 
 
   const handleRowDelete = async (id) => {
-    setSelectedId(id);
-    // const studentId= selectedId;
-    await deleteRental({  selectedId });
-    console.log(selectedId);
+   
+    const rentalId= id;
+    await deleteRental( rentalId );
+    console.log(typeof(rentalId));
   };
 
   const columns = [
     { field: "nameOfBook", headerName: "Book name", flex: 0.4 },
     { field: "bookId", headerName: "ID", flex: 0.4 },
-    { field: "issueDate", headerName: "Issue date", flex: 0.3 },
-    { field: "dueDate", headerName: "Due date", flex: 0.3 },
     { field: "category", headerName: "category", flex: 0.3 },
- 
+    { field: "issueDate", headerName: "Issue date", flex: 0.4 },
+    { field: "dueDate", headerName: "Due date", flex: 0.4 },
     {
       field: "actions",
       headerName: "Actions",
@@ -119,17 +123,26 @@ const StudentsRentalsComponent = () => {
         <Stack direction="row" spacing={1}>
           {/* icons only */}
           <IconButton aria-label="delete"
-            onClick={()=>handleRowDelete(params.rows._id)}
+            onClick={()=>handleRowDelete(params.id)}
           >
             <DeleteOutlinedIcon sx={{ fontSize: 20 }} />
           </IconButton>
           <IconButton
             aria-label="edit"
             onClick={() => {
-              console.log(`Button clicked for row ${params.rows._id}`);
+              console.log(`Button clicked for row ${typeof(params.id)}`);
             }}
           >
             <ModeEditOutlinedIcon sx={{ fontSize: 20 }} />
+          </IconButton>
+          <Link  ></Link>
+          <IconButton
+            aria-label="details"
+            onClick={() => {
+              console.log(`Button clicked for row ${typeof(params.id)}`);
+            }}
+          >
+            <ChevronRightOutlined sx={{ fontSize: 20 }} />
           </IconButton>
           {/* buttons with icons and text */}
           {/* <Button variant="outlined" size="small" startIcon={ <DeleteOutlinedIcon sx={{fontSize:15}} />}>

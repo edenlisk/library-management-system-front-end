@@ -100,11 +100,13 @@ const RentalForm = ({ rental,format, handleChange, onSubmit,handleStartDateChang
               />
               <Box display="flex" gap={2} sx={{ alignSelf: "start" }}>
                 <FormControl
+                
                   variant="outlined"
                   sx={{ minWidth: 230, alignSelf: "start", mb: 4 }}
                 >
                   <InputLabel id="category">Book Category</InputLabel>
                   <Select
+                  required
                     name="category"
                     labelId="category"
                     id="category"
@@ -135,7 +137,8 @@ const RentalForm = ({ rental,format, handleChange, onSubmit,handleStartDateChang
 
               <Box display="flex" gap={2} sx={{ alignSelf: "start", mb: 2 }}>
                 {/* to add date pickers isued and due dates */}
-                <DatePicker disablePast disableFuture 
+                <DatePicker disablePast disableFuture
+                required
                 value={rental.issueDate}
                 onChange={handleStartDateChange}
                 format={format}/>

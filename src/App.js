@@ -49,7 +49,7 @@ function App() {
                 <Route path="/rentals/:studentId" element={<StudentsRentalsComponent/>} />
                 <Route path="/overview" element={<SignUpPage />} />
                 <Route path="/edit/student/:studentId" element={<EditStudentPage />} />
-                <Route path="/breakdown" element={<EditRentalPage />} />
+                <Route path="/edit/rental/:rentalId" element={<EditRentalPage />} />
                 {/* TEST OF RTK QUERY DATAS IN THE TEST FILE */}
                 <Route path="/history" element={<Tests />} />
               </Route>
