@@ -170,6 +170,18 @@ export const apiSlice = createApi({
         url: '/librarians/logout',
         method: 'POST'
       })
+    }),
+    adminLogin: builder.mutation({
+      query: () => ({
+        url: `/admin/login`,
+        method: 'POST'
+      })
+    }),
+    adminSignup: builder.mutation({
+      query: () => ({
+        url: `/admin/signup`,
+        method: 'METHOD'
+      })
     })
 
 
