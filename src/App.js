@@ -10,6 +10,7 @@ import Dashboard from "./components/Dashboard";
 import Layout from "./layout/Layout";
 // import FileUploadStudents from "./components/FileUploadStudents";
 // import GenerateClassReport from "./components/GenerateClassReport";
+import GenerateStudentReport from "./components/GenerateStudentReport";
 
 // import AddForm from './components/AddForm';
 import LoginPage from "./components/userAuthentication/LoginPage";
@@ -55,7 +56,7 @@ function App() {
                 <Route path="/edit/rental/:rentalId" element={<EditRentalPage />} />
                 {/* TEST OF RTK QUERY DATAS IN THE TEST FILE */}
                 <Route path="/history" element={<Tests />} />
-                <Route path='/breakdown' element={<FileUploadStudents/>}/>
+                <Route path='/breakdown' element={<GenerateStudentReport/>}/>
               </Route>
             </Routes>
           </ThemeProvider>
