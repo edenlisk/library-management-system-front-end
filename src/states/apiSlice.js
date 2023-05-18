@@ -100,7 +100,7 @@ export const apiSlice = createApi({
     }),
     generateStudentReport: builder.mutation({
       query: (studentId) => ({
-        url: `/students/${studentId}`,
+        url: `/students/report/${studentId}`,
         method: 'POST',
         responseHandler: (response) => response.blob()
       }),
@@ -143,6 +143,26 @@ export const apiSlice = createApi({
         body
       }),
       invalidatesTags: ['rentals']
+    }),
+    login: builder.mutation({
+      query: ({body}) => ({
+        url: '/librarians/login',
+        method: 'POST',
+        body
+      })
+    }),
+    signup: builder.mutation({
+      query: ({body}) => ({
+        url: '/librarians/signup',
+        method: 'POST',
+        body
+      })
+    }),
+    logout: builder.mutation({
+      query: () => ({
+        url: '/librarians/logout',
+        method: 'POST'
+      })
     })
 
 
@@ -171,4 +191,7 @@ export const {
   useGetRentalsQuery,
   useCreateRentalMutation,
   useDeleteRentalMutation,
-  useUpdateRentalMutation } = apiSlice;
+  useUpdateRentalMutation,
+  useLoginMutation,
+  useSignupMutation,
+  useLogoutMutation } = apiSlice;
