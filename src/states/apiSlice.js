@@ -213,4 +213,6 @@ export const {
   useUpdateRentalMutation,
   useLoginMutation,
   useSignupMutation,
-  useLogoutMutation } = apiSlice;
+  useLogoutMutation,
+  useAdminLoginMutation,
+  useAdminSignupMutation } = apiSlice;
