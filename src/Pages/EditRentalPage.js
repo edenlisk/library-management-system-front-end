@@ -13,6 +13,8 @@ import {
   MenuItem,
   Select,
   FormControl,
+  FormControlLabel,
+  Checkbox
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
@@ -28,15 +30,13 @@ const EditRentalPage = () => {
 
   const [rental, setRental] = useState({
     nameOfBook: "",
-    bookId: "",
     dueDate: null,
-    category: "",
-    status: "",
+    returned:false
   });
 
   // TAKES INPUT FROM INPUT FIELDS
   const handleChange = (e) => {
-    setRental({ ...rental, [e.target.name]: e.target.value });
+    setRental({ ...rental, [e.target.name]: e.target.type === 'checkbox' ? e.target.checked : e.target.value,});
   };
 
   const handleEndDateChange = (newDate) => {
@@ -50,15 +50,13 @@ const EditRentalPage = () => {
   // SUBMITS DATA IN THE INPUTS FIELDS
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // const body = { ...rental };
-    // await updateRental({ body, rentalId });
+    const body = { ...rental };
+    await updateRental({ body, rentalId });
     console.log(rental);
     setRental({
       nameOfBook: "",
-      bookId: "",
       dueDate: null,
-      category: "",
-      status: "",
+      returned:false
     });
     navigate(-1);
   };
@@ -81,7 +79,7 @@ const EditRentalPage = () => {
         borderRadius="7px"
         marginTop="20px"
       >
-        <Typography variant="h3" sx={{ textAlign: "center", mb: 3 }}>
+        <Typography variant="h3" sx={{ textAlign: "center", pb: 3 }}>
           Edit Rental Info
         </Typography>
         <TextField
@@ -96,19 +94,6 @@ const EditRentalPage = () => {
           onChange={handleChange}
           sx={{ mb: 2 }}
         />
-        <TextField
-          required
-          fullWidth
-          name="bookId"
-          placeholder="bookId"
-          label="bookId"
-          type="number"
-          id="bookId"
-          variant="outlined"
-          onChange={handleChange}
-          sx={{ mb: 2 }}
-        />
-
         <DatePicker
           disablePast
           value={rental.dueDate}
@@ -116,36 +101,18 @@ const EditRentalPage = () => {
           format="MM/DD/YYYY"
           sx={{ minWidth: 230, alignSelf: "start", mb: 2 }}
         />
-        <FormControl
-          variant="outlined"
-          sx={{ minWidth: 230, alignSelf: "start", mb: 4 }}
-        >
-          <InputLabel id="category">Book Category</InputLabel>
-          <Select
-            name="category"
-            labelId="category"
-            id="category"
-            value={rental.category}
+
+        <FormControlLabel
+        sx={{ alignSelf: "start" }}
+        control={
+          <Checkbox
+            name="returned"
+            checked={rental.returned}
             onChange={handleChange}
-          >
-            <MenuItem value="">
-              <em>Others</em>
-            </MenuItem>
-            <MenuItem value="Mathematics">Mathematics</MenuItem>
-            <MenuItem value="Physics">Physics</MenuItem>
-            <MenuItem value="Chemistry">Chemistry</MenuItem>
-            <MenuItem value="Biology">Biology</MenuItem>
-            <MenuItem value="Geography">Geography</MenuItem>
-            <MenuItem value="Economics">Economics</MenuItem>
-            <MenuItem value="Entrepreneurship">Entrepreneurship</MenuItem>
-            <MenuItem value="History">History</MenuItem>
-            <MenuItem value="Kinyarwanda">Kinyarwanda</MenuItem>
-            <MenuItem value="Kiswahili">Kiswahili</MenuItem>
-            <MenuItem value="English">English</MenuItem>
-            <MenuItem value="Literature">Literature</MenuItem>
-            <MenuItem value="French">French</MenuItem>
-          </Select>
-        </FormControl>
+          />
+        }
+        label="Returned"
+      />
 
         <Button
           variant="contained"

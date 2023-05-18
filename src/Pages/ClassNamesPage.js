@@ -53,7 +53,7 @@ const ClassNamesPage = () => {
       <ClassNames
         rows={rows}
         loading={isLoading || !rows}
-        className={"S6 MPC 2019"}
+        className={` ${academicYear}`}
         newClass={newClass}
         setNewClass={setNewClass}
         handleChange={handleChange}

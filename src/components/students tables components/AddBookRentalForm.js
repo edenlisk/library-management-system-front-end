@@ -14,45 +14,29 @@ import {
   Toolbar,
   Button,
 } from "@mui/material";
-import dayjs from 'dayjs';
 import { DatePicker } from "@mui/x-date-pickers";
-import { CloseOutlined } from "@mui/icons-material";
-import AddIcon from "@mui/icons-material/Add";
-// COMPONENT TO ADD A NEW STUDENT USING POP UP MODAL
+import { CloseOutlined,Add } from "@mui/icons-material";
 
-// FOR GETTING DEFAULT DATE FOR START AND END DATE TO  AVOID ERRORS AT THE START
-const tomorrow = dayjs().add(1, 'day');
-const today = dayjs();
-
-// THI COMPONENT TO BE ADDED IN THE ADDRENTAL PAGE PARENT
-
-const RentalForm = ({ rental,format, handleChange, onSubmit,handleStartDateChange,handleEndDateChange }) => {
+const RentalForm = ({ rental,format, handleChange, onSubmit,handleStartDateChange,handleEndDateChange,openModal,handleModalOpen,handleModalClose }) => {
   const theme = useTheme();
 
-  const [open, setOpen] = useState(false);
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   return (
     <>
-      <Toolbar sx={{ display: "flex" }} onClick={handleOpen}>
+      <Toolbar sx={{ display: "flex" }} onClick={handleModalOpen}>
         <IconButton>
-          <AddIcon />
+          <Add />
         </IconButton>
         <Typography variant="h6">Add new book rental...</Typography>
       </Toolbar>
 
       <Modal
-        open={open}
-        aria-labelledby="add-modal-title"
-        aria-describedby="add-modal-description"
+        open={openModal}
+        aria-labelledby="add new book rental"
+        aria-describedby="Adding a new book rental for a particular individul"
       >
-        <Fade in={open}>
+        <Fade in={openModal}>
           <Box maxWidth={700} height="100%" margin="auto" padding={3}>
             <Box
               component="form"
@@ -65,7 +49,7 @@ const RentalForm = ({ rental,format, handleChange, onSubmit,handleStartDateChang
               backgroundColor={theme.palette.primary[500]}
               onSubmit={onSubmit}
             >
-              <CloseOutlined sx={{ alignSelf: "end" }} onClick={handleClose} />
+              <CloseOutlined sx={{ alignSelf: "end" }} onClick={handleModalClose} />
               <Typography
                 variant="h3"
                 sx={{ textAlign: "center", mb: 3, mt: 3 }}
@@ -160,7 +144,7 @@ const RentalForm = ({ rental,format, handleChange, onSubmit,handleStartDateChang
                   variant="contained"
                   size="medium"
                   type="button"
-                  onClick={handleClose}
+                  onClick={handleModalClose}
                   sx={{ alignSelf: "start" }}
                 >
                   cancel

@@ -6,7 +6,7 @@ import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 // import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 // import ModeEditOutlinedIcon from "@mui/icons-material/ModeEditOutlined";
 // import Button from "@mui/material/Button";
-import { Box, Typography, useTheme, Modal, Fade } from "@mui/material";
+import { Box, Typography, useTheme, Modal, Fade, IconButton } from "@mui/material";
 // import Status from "../Status";
 import { Link } from "react-router-dom";
 import { ChevronRightOutlined, CloseOutlined } from "@mui/icons-material";
@@ -103,7 +103,9 @@ const ClassNames = ({
       flex: 0.2,
       renderCell: (params) => (
         <Link to={`/students/${params.row._id}`}>
+          <IconButton>
           <ChevronRightOutlined />
+          </IconButton>
         </Link>
       ),
     },
