@@ -8,6 +8,8 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import Dashboard from "./components/Dashboard";
 import Layout from "./layout/Layout";
+// import FileUploadStudents from "./components/FileUploadStudents";
+// import GenerateClassReport from "./components/GenerateClassReport";
 
 // import AddForm from './components/AddForm';
 import LoginPage from "./components/userAuthentication/LoginPage";
@@ -21,6 +23,7 @@ import ClassNamesPage from "./Pages/ClassNamesPage";
 import ClassList from "./components/students tables components/ClassListComponent";
 import StudentsRentalsComponent from "./components/students tables components/StudentsRentalsComponent";
 import EditRentalPage from "./Pages/EditRentalPage";
+import FileUploadStudents from "./components/FileUploadStudents";
 
 function App() {
   const mode = useSelector((state) => state.global.mode);
@@ -52,6 +55,7 @@ function App() {
                 <Route path="/edit/rental/:rentalId" element={<EditRentalPage />} />
                 {/* TEST OF RTK QUERY DATAS IN THE TEST FILE */}
                 <Route path="/history" element={<Tests />} />
+                <Route path='/breakdown' element={<FileUploadStudents/>}/>
               </Route>
             </Routes>
           </ThemeProvider>

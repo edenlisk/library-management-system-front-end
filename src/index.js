@@ -14,7 +14,7 @@ const store= configureStore({
     [apiSlice.reducerPath]:apiSlice.reducer
   },
   middleware: (getDefaultMiddleware) =>
-  getDefaultMiddleware().concat(apiSlice.middleware),
+  getDefaultMiddleware({serializableCheck: false}).concat(apiSlice.middleware),
 })
 setupListeners(store.dispatch)
 
@@ -24,7 +24,7 @@ root.render(
     <Provider store={store}>
     <App />
     </Provider>
-    
+
   </React.StrictMode>
 );
 

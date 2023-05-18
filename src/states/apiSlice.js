@@ -5,7 +5,7 @@ export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "https://library-management-system-7uoz.onrender.com/api/v1/",
   }),
-  tagTypes: ["classes", "students", "rentals", "academicYear"],
+  tagTypes: ["classes", "students", "rentals", "academicYear", "classreport"],
   endpoints: (builder) => ({
     // GET CLASSES
     getClasses: builder.query({
@@ -39,15 +39,25 @@ export const apiSlice = createApi({
     }),
     // USE MULTI-PART FORM DATA TO BE ABLE TO PUT FILE INTO REQ BODY
     uploadClasses: builder.mutation({
-      query: (academicYear) => ({
+      query: ({academicYear, formData}) => ({
         url: `/classes/upload/${academicYear}`,
         method: 'POST',
-        body: {}
+        body: formData
       }),
       invalidatesTags: ['classes']
     }),
     generateClassReport: builder.mutation({
-      query: (classId) => `/classes/report/${classId}`
+      query: (classId) => ({
+        url: `/classes/report/${classId}`,
+        method: 'POST',
+        // headers: {
+        //   'Content-Type': 'application/pdf'
+        // },
+        responseHandler: (response) => {
+          return response.blob()
+        }
+      }),
+      invalidatesTags: ['classreport']
     }),
     getAcademicYears: builder.query({
       query: () => `/academic-year`,
@@ -88,17 +98,22 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ['students']
     }),
-    generateStudentReport: builder.query({
-      query: ({studentId}) => `/students/${studentId}`,
-      providesTags: ['students']
+    generateStudentReport: builder.mutation({
+      query: (studentId) => ({
+        url: `/students/${studentId}`,
+        method: 'POST',
+        responseHandler: (response) => response.blob()
+      }),
+      invalidatesTags: ['students']
     }),
     // USE MULTI-PART FORM DATA TO BE ABLE TO PUT FILE INTO REQ BODY
     uploadStudents: builder.mutation({
-      query: (classId) => ({
+      query: ({classId, formData}) => ({
         url: `/students/upload/${classId}`,
-        method: 'POST'
+        method: 'POST',
+        body: formData
       }),
-      invalidatesTags: ['students']
+      invalidatesTags: ['students', 'classes']
     }),
     getRentals: builder.query({
       query: ({ academicYear, studentId }) => `/rentals/${academicYear}/${studentId}`,
