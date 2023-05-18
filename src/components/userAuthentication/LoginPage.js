@@ -1,5 +1,8 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useLoginMutation } from "../../states/apiSlice";
+import { setAuthToken, setUserData } from "../../states/authSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { FormHelperText, TextField, Typography } from "@mui/material";
 import {
   FormControl,
@@ -14,22 +17,26 @@ import { LoginOutlined, Visibility, VisibilityOff } from "@mui/icons-material";
 // TO ADD A BOOLEAN TO MAKE FIELDS RED WHEN THERE IS AN ERROR
 
 const LoginPage = () => {
+  const [ login, {data, isSuccess, isLoading, isError, error} ] = useLoginMutation();
+  // const userDataStore = useSelector(state => state.auth.userData);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-  
+
   const [user, setUser] = useState({ email: "", password: "" });
 
   const [loginErrors, setLoginErrors] = useState({ email: "", password: "" });
-  
+
 
 // TAKES INPUT FROM INPUT FIELDS
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  // SUBMITS DATA IN THE INPUTS FIELDS 
-  const handleSubmit = (event) => {
+  // SUBMITS DATA IN THE INPUTS FIELDS
+  const handleSubmit = async (event) => {
     event.preventDefault();
     // form validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -42,37 +49,51 @@ const LoginPage = () => {
       password: "",
     };
 
-    if (!emailRegex.test(email)) {
-      newErrors.email = "Invalid email address";
-      // setUser({email:"",password:""})
-    }
+    // if (!emailRegex.test(email)) {
+    //   newErrors.email = "Invalid email address";
+    //   // setUser({email:"",password:""})
+    // }
 
-    if (!passwordRegex.test(password)) {
-      newErrors.password = "Password can only contain letters and numbers";
-      // setUser({email:"",password:""})
-    }
-    else if(password.length<4){
-      newErrors.password="Password is too short";
-      // setUser({email:"",password:""})
-    }
-  
+    // if (!passwordRegex.test(password)) {
+    //   newErrors.password = "Password can only contain letters and numbers";
+    //   // setUser({email:"",password:""})
+    // }
+    // else if(password.length<4){
+    //   newErrors.password="Password is too short";
+    //   // setUser({email:"",password:""})
+    // }
+
 
     // Check if email and username are taken together
-    if (email === "example@example.com" && password === "example") {
-      newErrors.email = "This email and pasword combination is already taken";
-      newErrors.password =
-        "This email and pasword combination is already taken";
-        // setUser({email:"",password:""})
+    // if (email === "example@example.com" && password === "example") {
+    //   newErrors.email = "This email and pasword combination is already taken";
+    //   newErrors.password =
+    //     "This email and pasword combination is already taken";
+    //     // setUser({email:"",password:""})
+    // }
+
+    const body = { email, password };
+    const response = await login({body});
+    if (response) {
+      const { data:userData } = response;
+      const { token, data } = userData;
+      dispatch(setAuthToken(token));
+      dispatch(setUserData(data.user));
+      navigate('/dashboard')
     }
 
-    setLoginErrors(newErrors);
+    // setLoginErrors(newErrors);
 
-    console.log(user);
-    setUser({ email: "", password: "" });
+    // console.log(user);
+    // setUser({ email: "", password: "" });
   };
+
+
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+
+
   return (
     <Box height="100%">
       <Box

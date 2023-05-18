@@ -5,12 +5,14 @@ import  globalReducer  from './states/slice';
 import { Provider } from 'react-redux';
 import './index.css';
 import App from './App';
+import authReducer from './states/authSlice';
 import { apiSlice } from './states/apiSlice';
 import { setupListeners } from '@reduxjs/toolkit/dist/query';
 
 const store= configureStore({
   reducer:{
     global:globalReducer,
+    auth: authReducer,
     [apiSlice.reducerPath]:apiSlice.reducer
   },
   middleware: (getDefaultMiddleware) =>
