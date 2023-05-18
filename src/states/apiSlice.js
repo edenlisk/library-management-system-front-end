@@ -4,6 +4,13 @@ export const apiSlice = createApi({
   reducerPath: "adminApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "https://library-management-system-7uoz.onrender.com/api/v1/",
+    prepareHeaders: (headers, {getState}) => {
+      const token = getState().auth.token;
+      if (token) {
+        headers.append('Authorization', `Bearer ${token}`)
+      }
+      return headers;
+    }
   }),
   tagTypes: ["classes", "students", "rentals", "academicYear", "classreport"],
   endpoints: (builder) => ({
