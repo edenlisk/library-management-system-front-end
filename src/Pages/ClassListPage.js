@@ -4,6 +4,7 @@ import { useParams, Link } from "react-router-dom";
 import {
   useCreateStudentMutation,
   useDeleteStudentMutation,
+  useGetOneClassQuery,
   useGetStudentsQuery,
 } from "../states/apiSlice";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
@@ -43,6 +44,8 @@ const ClassListPage = () => {
     academicYear,
     classId,
   });
+  const{data:classInfo,isSuccess:isDone}=useGetOneClassQuery(classId);
+
 
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
@@ -62,6 +65,14 @@ const ClassListPage = () => {
   // FETCHING STUDENTS LIST
 
   // ADDING NEW STUDENT
+
+  let className="";
+  if (isDone) {
+    const { data:classData } = classInfo;
+    const { selectedClass} = classData;
+    console.log(classInfo);
+    className=selectedClass.name;
+  }
 
   let rows = [];
   if (isLoading) {
@@ -201,7 +212,7 @@ const ClassListPage = () => {
           alignItems="center"
         >
           <Typography variant="h3" sx={{ mb: 2 }}>
-            {`class name ${academicYear}`}
+            {className}
           </Typography>
 
           <AddStudentForm

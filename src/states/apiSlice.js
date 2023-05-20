@@ -19,6 +19,10 @@ export const apiSlice = createApi({
       query: (academicYear) => `classes/${academicYear}`,
       providesTags: ["classes"],
     }),
+    getOneClass: builder.query({
+      query: (classId) => `/classes/class/${classId}`,
+      providesTags: ["classes"],
+    }),
     // CREATE NEW CLASS
     createClass: builder.mutation({
       query: ({ name, category,academicYear }) => ({
@@ -92,7 +96,7 @@ export const apiSlice = createApi({
         method: 'POST',
         body:{name,registrationNumber}
       }),
-      invalidatesTags: ['students']
+      invalidatesTags: ['students','classes']
     }),
     updateStudent: builder.mutation({
       query: ({ body, studentId}) => ({
@@ -107,7 +111,7 @@ export const apiSlice = createApi({
         url: `/students/${academicYear}/${classId}/${studentId}`,
         method: 'DELETE'
       }),
-      invalidatesTags: ['students']
+      invalidatesTags: ['students','classes']
     }),
     generateStudentReport: builder.mutation({
       query: (studentId) => ({
@@ -141,14 +145,14 @@ export const apiSlice = createApi({
         method: 'POST',
         body
       }),
-      invalidatesTags: ['rentals']
+      invalidatesTags: ['rentals','students']
     }),
     deleteRental: builder.mutation({
       query: (rentalId) => ({
         url: `/rentals/${rentalId}`,
         method: 'DELETE'
       }),
-      invalidatesTags: ['rentals']
+      invalidatesTags: ['rentals','students']
     }),
     // body: { nameOfBook, bookId, dueDate, category ,status}
     updateRental: builder.mutation({
@@ -202,6 +206,7 @@ export const apiSlice = createApi({
 
 export const {
   useGetClassesQuery,
+  useGetOneClassQuery,
   useCreateClassMutation,
   useUpdateClassMutation,
   useDeleteClassMutation,

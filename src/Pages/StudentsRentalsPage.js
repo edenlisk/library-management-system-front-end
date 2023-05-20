@@ -5,6 +5,7 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import {
   useCreateRentalMutation,
   useDeleteRentalMutation,
+  useGetOneStudentQuery,
   useGetRentalsQuery,
 } from "../states/apiSlice";
 import {
@@ -40,6 +41,17 @@ const StudentsRentalsPage = () => {
     academicYear,
     studentId,
   });
+
+  const{data:studentInfo,isSuccess:isDone}=useGetOneStudentQuery(studentId);
+
+let studentName="";
+  if (isDone) {
+    const { data:studentData } = studentInfo;
+    const { student } = studentData;
+    console.log(student.name);
+    studentName=student.name;
+  }
+
   let rows = [];
   if (isLoading) {
     console.log("loading");
@@ -183,7 +195,7 @@ const StudentsRentalsPage = () => {
         justifyContent="space-between"
         alignItems="center"
       >
-        <Typography variant="h4">{""}:{academicYear}</Typography>
+        <Typography variant="h4">{ studentName }:{academicYear}</Typography>
         <AddBookRental
           rental={rental}
           format="MM/DD/YYYY"
