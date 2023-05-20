@@ -11,16 +11,25 @@ import {
   Box,
 } from "@mui/material";
 import { LoginOutlined } from "@mui/icons-material";
-import { useUpdateStudentMutation } from "../states/apiSlice";
+import { useUpdateStudentMutation,useGetOneStudentQuery } from "../states/apiSlice";
 
 // TO ADD A BOOLEAN TO MAKE FIELDS RED WHEN THERE IS AN ERROR
 
 const EditStudentPage = () => {
   const { studentId } = useParams();
   const navigate=useNavigate();
-  const [updateStudent] = useUpdateStudentMutation();
+  const{data,isLoading,isSuccess,isError,error}=useGetOneStudentQuery(studentId);
+ 
+  const [user, setUser] = useState({ name: "", fine: 0 });
 
-  const [user, setUser] = useState({ name: "",fine:0 });
+  const [updateStudent] = useUpdateStudentMutation();
+  let  forminfo =[];
+  if (isSuccess) {
+    const { data: info } = data;
+    const{student}=info;
+    console.log(student);
+     forminfo = student;
+  }
 
   // TAKES INPUT FROM INPUT FIELDS
   const handleChange = (e) => {
@@ -33,7 +42,7 @@ const EditStudentPage = () => {
     const body={...user}
     await updateStudent({ body, studentId });
     console.log(user);
-    setUser({ name: "",fine:null});
+    setUser({ name: "",fine:0});
     navigate(-1);
   };
 
@@ -61,9 +70,9 @@ const EditStudentPage = () => {
         <TextField
           required
           fullWidth
+          defaultValue={forminfo.name}
           name="name"
-          placeholder=" Name"
-          label="Name"
+          label="name"
           type="text"
           id="name"
           variant="outlined"
@@ -74,9 +83,9 @@ const EditStudentPage = () => {
         <TextField
           required
           fullWidth
+          defaultValue={forminfo.fine}
           name="fine"
-          placeholder="fine"
-          label="Fine"
+          label="fine"
           type="number"
           id="fine"
           variant="outlined"

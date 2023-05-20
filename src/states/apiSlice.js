@@ -82,6 +82,10 @@ export const apiSlice = createApi({
       query: ({ academicYear, classId }) => `/students/${academicYear}/${classId}`,
       providesTags: ['students']
     }),
+    getOneStudent: builder.query({
+      query: ( studentId ) => `/students/${studentId}`,
+      providesTags: ['students']
+    }),
     createStudent: builder.mutation({
       query: ({name,registrationNumber, academicYear, classId}) => ({
         url: `/students/${academicYear}/${classId}`,
@@ -124,6 +128,10 @@ export const apiSlice = createApi({
     }),
     getRentals: builder.query({
       query: ({ academicYear, studentId }) => `/rentals/${academicYear}/${studentId}`,
+      providesTags: ['rentals']
+    }),
+    getOneRental: builder.query({
+      query: (rentalId ) => `/rentals/${rentalId}`,
       providesTags: ['rentals']
     }),
     // body: { nameOfBook, bookId, issueDate, dueDate, nameOfLender }
@@ -202,12 +210,14 @@ export const {
   useGetAcademicYearsQuery,
   useCreateAcademicYearMutation,
   useGetStudentsQuery,
+  useGetOneStudentQuery,
   useCreateStudentMutation,
   useUpdateStudentMutation,
   useUploadStudentsMutation,
   useDeleteStudentMutation,
   useGenerateStudentReportMutation,
   useGetRentalsQuery,
+  useGetOneRentalQuery,
   useCreateRentalMutation,
   useDeleteRentalMutation,
   useUpdateRentalMutation,

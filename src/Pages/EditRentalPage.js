@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import {
   FormHelperText,
@@ -19,15 +19,28 @@ import {
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { LoginOutlined } from "@mui/icons-material";
-import { useUpdateRentalMutation } from "../states/apiSlice";
+import { useUpdateRentalMutation,useGetOneRentalQuery } from "../states/apiSlice";
 
 // TO ADD A BOOLEAN TO MAKE FIELDS RED WHEN THERE IS AN ERROR
 
 const EditRentalPage = () => {
   const { rentalId } = useParams();
   const navigate = useNavigate();
-  const [updateRental] = useUpdateRentalMutation();
 
+  const{data,isLoading,isSuccess,isError,error}=useGetOneRentalQuery(rentalId);
+
+  const [updateRental] = useUpdateRentalMutation();
+  let  forminfo =[];
+
+  
+    if (isSuccess) {
+      const { data: info } = data;
+      const{rental:rentals}=info;
+      console.log(rentals);
+      forminfo=rentals;
+    }
+
+   
   const [rental, setRental] = useState({
     nameOfBook: "",
     dueDate: null,
@@ -85,9 +98,10 @@ const EditRentalPage = () => {
         <TextField
           required
           fullWidth
+          defaultValue={forminfo.nameOfBook}
           name="nameOfBook"
-          placeholder=" nameOfBook"
-          label="nameOfBook"
+          // placeholder=" nameOfBook"
+          // label="nameOfBook"
           type="text"
           id="nameOfBook"
           variant="outlined"

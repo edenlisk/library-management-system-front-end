@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useGetClassesQuery, useCreateClassMutation } from "../states/apiSlice";
 import { useSelector } from "react-redux";
 import ClassNames from "../components/classTables/ClassNamescomponents";
-
+import Customtoolbar from "../components/Customtoolbar";
 
 const ClassNamesPage = () => {
 // FOR GETTING ACADEMIC YEAR
@@ -53,6 +53,9 @@ const ClassNamesPage = () => {
       <ClassNames
         rows={rows}
         loading={isLoading || !rows}
+        components={{
+          Toolbar: () => <Customtoolbar academicYear={academicYear} />,
+        }}
         className={` ${academicYear}`}
         newClass={newClass}
         setNewClass={setNewClass}

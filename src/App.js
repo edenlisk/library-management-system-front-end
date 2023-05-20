@@ -18,13 +18,14 @@ import PasswordRecoverPage from "./components/userAuthentication/PasswordRecover
 import SignUpPage from "./components/userAuthentication/SignupPage";
 import StudentsRentalsPage from "./Pages/StudentsRentalsPage";
 import ClassListPage from "./Pages/ClassListPage";
-import Tests from "./components/Tests";
+// import Tests from "./components/Tests";
 import EditStudentPage from "./Pages/EditStudentPage";
 import ClassNamesPage from "./Pages/ClassNamesPage";
 // import ClassList from "./components/students tables components/ClassListComponent";
 // import StudentsRentalsComponent from "./components/students tables components/StudentsRentalsComponent";
 import EditRentalPage from "./Pages/EditRentalPage";
 import FileUploadStudents from "./components/FileUploadStudents";
+import CustomButtuonUpload from "./components/CustomButtuonUpload";
 
 function App() {
   const mode = useSelector((state) => state.global.mode);
@@ -55,7 +56,7 @@ function App() {
                 <Route path="/edit/student/:studentId" element={<EditStudentPage />} />
                 <Route path="/edit/rental/:rentalId" element={<EditRentalPage />} />
                 {/* TEST OF RTK QUERY DATAS IN THE TEST FILE */}
-                <Route path="/history" element={<Tests />} />
+                <Route path="/history" element={<CustomButtuonUpload />} />
                 <Route path='/breakdown' element={<GenerateStudentReport/>}/>
               </Route>
             </Routes>

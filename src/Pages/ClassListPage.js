@@ -27,6 +27,7 @@ import {
   ModeEditOutlined,
 } from "@mui/icons-material";
 import AddStudentForm from "../components/students tables components/AddStudentForm";
+import Customtoolbar from "../components/Customtoolbar";
 
 
 const ClassListPage = () => {
@@ -226,13 +227,16 @@ const ClassListPage = () => {
             disableColumnSelector
             disableDensitySelector
             autoHeight
-            slots={{ toolbar: GridToolbar }}
-            slotProps={{
-              toolbar: {
-                showQuickFilter: true,
-                quickFilterProps: { debounceMs: 500 },
-              },
+            components={{
+              Toolbar: () => <Customtoolbar classId={classId} />,
             }}
+            // slots={{ toolbar: Customtoolbar }}
+            // slotProps={{
+            //   toolbar: {
+            //     showQuickFilter: true,
+            //     quickFilterProps: { debounceMs: 500 },
+            //   },
+            // }}
             initialState={{
               ...rows.initialState,
               pagination: { paginationModel: { pageSize: 8 } },

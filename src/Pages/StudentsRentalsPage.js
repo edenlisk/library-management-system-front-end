@@ -16,6 +16,7 @@ import {
 import { Box, Typography, IconButton, Stack, Tooltip } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import Customtoolbar from "../components/Customtoolbar";
 import AddBookRental from "../components/students tables components/AddBookRentalForm";
 import Status from "../components/Status";
 import dayjs from "dayjs";
@@ -199,7 +200,7 @@ const StudentsRentalsPage = () => {
       <Grid2 xs={12} display="flex" justifyContent="start">
         <Box
           sx={{
-            width: "100%",
+            width: 1,
             height: "600px",
           }}
         >
@@ -222,13 +223,16 @@ const StudentsRentalsPage = () => {
             disableColumnSelector
             disableDensitySelector
             autoHeight
-            slots={{ toolbar: GridToolbar }}
-            slotProps={{
-              toolbar: {
-                showQuickFilter: true,
-                quickFilterProps: { debounceMs: 500 },
-              },
+            components={{
+              Toolbar: () => <Customtoolbar studentId={studentId} />,
             }}
+            // slots={{ toolbar: GridToolbar }}
+            // slotProps={{
+            //   toolbar: {
+            //     showQuickFilter: true,
+            //     quickFilterProps: { debounceMs: 500 },
+            //   },
+            // }}
             initialState={{
               ...rows.initialState,
               pagination: { paginationModel: { pageSize: 8 } },

@@ -18,6 +18,7 @@ const ClassNames = ({
   rows,
   className,
   newClass,
+  components,
   onSubmit,
   handleChange,
   setNewClass,
@@ -161,13 +162,14 @@ const ClassNames = ({
           disableColumnSelector
           disableDensitySelector
           autoHeight
-          slots={{ toolbar: GridToolbar }}
-          slotProps={{
-            toolbar: {
-              showQuickFilter: true,
-              quickFilterProps: { debounceMs: 500 },
-            },
-          }}
+          components={components}
+          // slots={{ toolbar: GridToolbar }}
+          // slotProps={{
+          //   toolbar: {
+          //     showQuickFilter: true,
+          //     quickFilterProps: { debounceMs: 500 },
+          //   },
+          // }}
           initialState={{
             ...rows.initialState,
             pagination: { paginationModel: { pageSize: 8 } },
