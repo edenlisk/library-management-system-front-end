@@ -32,7 +32,7 @@ const StudentsRentalsPage = () => {
 
   const [selectedId, setSelectedId] = useState();
 
-  
+
 
   const [createRental] = useCreateRentalMutation();
   const [deleteRental] = useDeleteRentalMutation();
@@ -61,7 +61,12 @@ let studentName="";
   }
   if (isSuccess) {
     const { data: rentalsinfo } = data;
-    const { rentalHistory } = rentalsinfo;
+    const { rentalHistory:rawRentalHistory } = rentalsinfo;
+    const rentalHistory = [];
+    rawRentalHistory.forEach(rent => {
+      const rental = { ...rent, issueDate: rent.issueDate.split('T')[0], dueDate: rent.dueDate.split('T')[0] }
+      rentalHistory.push(rental);
+    })
     // const{rentals:rentalskey}=rentalsObj;
     // const{0:rentalsvalue}=rentalskey
     // const{rentalHistory}=rentalsvalue
@@ -100,14 +105,16 @@ let studentName="";
   const handleStartDateChange = (newDate) => {
     setRental((prevState) => ({
       ...prevState,
-      issueDate: newDate.format("MM/DD/YYYY"),
+      // issueDate: newDate.format("MM/DD/YYYY"),
+      issueDate: newDate.format('YYYY-MM-DD'),
     }));
   };
 
   const handleEndDateChange = (newDate) => {
     setRental((prevState) => ({
       ...prevState,
-      dueDate: newDate.format("MM/DD/YYYY"),
+      // dueDate: newDate.format("MM/DD/YYYY"),
+      dueDate: newDate.format('YYYY-MM-DD'),
     }));
   };
 
@@ -198,7 +205,7 @@ let studentName="";
         <Typography variant="h4">{ studentName }:{academicYear}</Typography>
         <AddBookRental
           rental={rental}
-          format="MM/DD/YYYY"
+          format="YYYY-MM-DD"
           setRental={setRental}
           handleChange={handleChange}
           onSubmit={handleSubmit}

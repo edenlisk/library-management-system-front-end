@@ -12,7 +12,7 @@ export const apiSlice = createApi({
       return headers;
     }
   }),
-  tagTypes: ["classes", "students", "rentals", "academicYear", "classreport"],
+  tagTypes: ["classes", "students", "rentals", "academicYear", "classreport", "statistics", "teachers", "teachersRentals"],
   endpoints: (builder) => ({
     // GET CLASSES
     getClasses: builder.query({
@@ -83,9 +83,12 @@ export const apiSlice = createApi({
       invalidatesTags: ['academicYear']
     }),
     getStudents: builder.query({
-      query: ({ academicYear, classId }) => `/students/${academicYear}/${classId}`,
-      providesTags: ['students']
-    }),
+      query: ({ academicYear, classId }) => ({
+          url: `students/${academicYear}/${classId}`,
+      }),
+    providesTags: ['students']
+
+  }),
     getOneStudent: builder.query({
       query: ( studentId ) => `/students/${studentId}`,
       providesTags: ['students']
@@ -131,7 +134,9 @@ export const apiSlice = createApi({
       invalidatesTags: ['students', 'classes']
     }),
     getRentals: builder.query({
-      query: ({ academicYear, studentId }) => `/rentals/${academicYear}/${studentId}`,
+      query: ({ academicYear, studentId }) => ({
+        url: `/rentals/${academicYear}/${studentId}`,
+      }),
       providesTags: ['rentals']
     }),
     getOneRental: builder.query({
@@ -194,6 +199,76 @@ export const apiSlice = createApi({
         url: `/admin/signup`,
         method: 'METHOD'
       })
+    }),
+    topStudents: builder.query({
+      query: (academicYear) => ({
+        url: `/statistics/top-students/${academicYear}`
+      }),
+      providesTags: ['statistics']
+    }),
+    lastCreated: builder.query({
+      query: () => `/statistics/last-created`,
+      providesTags: ['statistics']
+    }),
+    getTeachers: builder.query({
+      query: () => `/teachers`,
+      providesTags: ['teachers']
+    }),
+    getTeacher: builder.query({
+      query: (teacherId) => `/teachers/${teacherId}`,
+      providesTags: ['teachers']
+    }),
+    updateTeacher: builder.mutation({
+      query: ({body, teacherId}) => ({
+        url: `/teachers/${teacherId}`,
+        method: 'PATCH',
+        body
+      }),
+      invalidatesTags: ['teachers']
+    }),
+    createTeacher: builder.mutation({
+      query: ({body}) => ({
+        url: `/teachers`,
+        method: 'POST',
+        body
+      }),
+      invalidatesTags: ['teachers']
+    }),
+    deleteTeacher: builder.mutation({
+      query: (teacherId) => ({
+        url: `/teachers/${teacherId}`,
+        method: 'DELETE'
+      }),
+      invalidatesTags: ['teachers']
+    }),
+    getTeacherRentals: builder.query({
+      query: (teacherId) => ({
+        url: `/teachers/teachers-rentals/${teacherId}`
+      }),
+      providesTags: ["teachersRentals"]
+    }),
+    createTeacherRental: builder.mutation({
+      query: ({body}) => ({
+        url: `/teachers-rental`,
+        method: 'POST',
+        body
+      }),
+      invalidatesTags: ["teachersRentals"]
+    }),
+    updateTeacherRental: builder.mutation({
+      query: ({body, rentalId}) => ({
+        url: `/teachers-rental/${rentalId}`,
+        method: 'PATCH',
+        body
+      }),
+      invalidatesTags: ['teachersRentals']
+    }),
+    deleteTeacherRental: builder.mutation({
+      query: (rentalId) => ({
+        url: `/teachers-rental/${rentalId}`,
+        method: 'DELETE'
+      }),
+      invalidatesTags: ['teachersRentals']
     })
 
 
