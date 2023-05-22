@@ -269,6 +269,15 @@ export const apiSlice = createApi({
         method: 'DELETE'
       }),
       invalidatesTags: ['teachersRentals']
+    }),
+
+    weeklyStats: builder.query({
+      query: () => `/statistics/weekly-stats`,
+      providesTags: ['statistics']
+    }),
+    bookStats: builder.query({
+      query: () => `statistics/books`,
+      providesTags: ['statistics']
     })
 
 
@@ -305,4 +314,16 @@ export const {
   useSignupMutation,
   useLogoutMutation,
   useAdminLoginMutation,
-  useAdminSignupMutation } = apiSlice;
+  useAdminSignupMutation ,
+  useGetTeachersQuery,
+useGetTeacherQuery,
+useCreateTeacherMutation,
+useDeleteTeacherMutation,
+useUpdateTeacherMutation,
+useGetTeacherRentalsQuery,
+useCreateTeacherRentalMutation,
+useDeleteTeacherRentalMutation,
+useUpdateTeacherRentalMutation,
+useTopStudentsQuery,
+useWeeklyStatsQuery,
+useBookStatsQuery} = apiSlice;

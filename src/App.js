@@ -26,6 +26,9 @@ import ClassNamesPage from "./Pages/ClassNamesPage";
 import EditRentalPage from "./Pages/EditRentalPage";
 import FileUploadStudents from "./components/FileUploadStudents";
 import CustomButtuonUpload from "./components/CustomButtuonUpload";
+import TeacherListPage from "./Pages/TeachersListPage";
+import EditTeacherPage from "./Pages/EditTeacherPage";
+import TeachersRentalsPage from "./Pages/TeachersRentalPage";
 
 function App() {
   const mode = useSelector((state) => state.global.mode);
@@ -57,6 +60,9 @@ function App() {
                 <Route path="/edit/rental/:rentalId" element={<EditRentalPage />} />
                 {/* TEST OF RTK QUERY DATAS IN THE TEST FILE */}
                 <Route path="/history" element={<CustomButtuonUpload />} />
+                <Route path="/teachers/:teacherId" element={<EditTeacherPage />} />
+                <Route path="/teachers/teachers-rentals/:teacherId" element={<TeachersRentalsPage />} />
+                <Route path="/daily" element={<TeacherListPage/>} />
                 <Route path='/breakdown' element={<GenerateStudentReport/>}/>
               </Route>
             </Routes>

@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams, Link } from "react-router-dom";
 import {
-  useCreateStudentMutation,
-  useDeleteStudentMutation,
-  useGetOneClassQuery,
-  useGetStudentsQuery,
+useGetTeachersQuery,
+useCreateTeacherMutation,
+useDeleteTeacherMutation
 } from "../states/apiSlice";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
@@ -27,24 +26,20 @@ import {
   DeleteOutlined,
   ModeEditOutlined,
 } from "@mui/icons-material";
-import AddStudentForm from "../components/students tables components/AddStudentForm";
+import AddteacherForm from "../components/teachersComponents/AddTeacherForm";
 import Customtoolbar from "../components/Customtoolbar";
 
-
-const ClassListPage = () => {
+const TeacherListPage = () => {
   const academicYear = useSelector((state) => state.global.academicYear);
 
   const { classId } = useParams();
 
-  const [createNewStudent] = useCreateStudentMutation();
+  const [createNewTeacher] =useCreateTeacherMutation();
 
-  const [deleteStudent] = useDeleteStudentMutation();
+  const [deleteTeacher] = useDeleteTeacherMutation();
 
-  const { data, isLoading, isSuccess, isError, error } = useGetStudentsQuery({
-    academicYear,
-    classId,
-  });
-  const{data:classInfo,isSuccess:isDone}=useGetOneClassQuery(classId);
+  const { data, isLoading, isSuccess, isError, error } = useGetTeachersQuery();
+//   const{data:classInfo,isSuccess:isDone}=useGetOneClassQuery(classId);
 
 
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -67,12 +62,12 @@ const ClassListPage = () => {
   // ADDING NEW STUDENT
 
   let className="";
-  if (isDone) {
-    const { data:classData } = classInfo;
-    const { selectedClass} = classData;
-    console.log(classInfo);
-    className=selectedClass.name;
-  }
+//   if (isDone) {
+//     const { data:classData } = classInfo;
+//     const { selectedClass} = classData;
+//     console.log(classInfo);
+//     className=selectedClass.name;
+//   }
 
   let rows = [];
   if (isLoading) {
@@ -82,10 +77,11 @@ const ClassListPage = () => {
     console.log(`the api provided error: ${error}`);
   }
   if (isSuccess) {
-    const { data: students } = data;
-    const { result } = students;
-    console.log(result);
-    rows = result;
+    const { data: teachersdata } = data;
+    const { teachers } = teachersdata;
+    console.log(teachersdata);
+    rows = teachers
+    ;
   }
   const [open, setOpen] = useState(false);
 
@@ -95,28 +91,28 @@ const ClassListPage = () => {
   const handleClose = () => {
     setOpen(!open);
   };
-  const [newStudent, setNewStudent] = useState({
+  const [newTeacher, setNewTeacher] = useState({
     name: "",
     registrationNumber: "",
-    academicLevel: "",
   });
 
   const handleChange = (e) => {
-    setNewStudent({ ...newStudent, [e.target.name]: e.target.value });
+    setNewTeacher({ ...newTeacher, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const body = { ...newTeacher };
+    await createNewTeacher({ ...newTeacher, body});
+    console.log(newTeacher);
+    setNewTeacher({ name: "", registrationNumber: ""});
     handleClose();
-    await createNewStudent({ ...newStudent, academicYear, classId });
-    console.log(newStudent);
-    setNewStudent({ name: "", registrationNumber: "", academicLevel: "" });
   };
   const handleRowDelete = async () => {
-    const studentId = selectedId;
-    await deleteStudent({ academicYear, classId, studentId });
+    const teacherId = selectedId;
+    await deleteTeacher(teacherId);
     handleCloseDeleteModal();
-    console.log(studentId);
+    console.log(teacherId);
   };
 
   const columns = [
@@ -128,7 +124,6 @@ const ClassListPage = () => {
       editable: true,
     },
     { field: "numberOfRentals", headerName: "Rentals", flex: 0.3 },
-    { field: "fine", headerName: "Fine", flex: 0.2 },
     {
       field: "actions",
       headerName: "Actions",
@@ -149,7 +144,7 @@ const ClassListPage = () => {
                   <DeleteOutlined sx={{ fontSize: 21 }} />
                 </IconButton>
               </Tooltip>
-              <Link to={`/edit/student/${params.row._id}`}>
+              <Link to={`/teachers/${params.row._id}`}>
                 <Tooltip title="Edit" placement="top" arrow>
                   <IconButton
                     aria-label="edit"
@@ -161,7 +156,7 @@ const ClassListPage = () => {
                 </Tooltip>
                 {/* TO DELETE LATER */}
               </Link>
-              <Link to={`/rentals/${params.row._id}`}>
+              <Link to={`/teachers/teachers-rentals/${params.row._id}`}>
                 <Tooltip title="Details" placement="top" arrow>
                   <IconButton
                     aria-label="details"
@@ -216,9 +211,9 @@ const ClassListPage = () => {
             {className}
           </Typography>
 
-          <AddStudentForm
-            newStudent={newStudent}
-            setNewStudent={setNewStudent}
+          <AddteacherForm
+            newTeacher={newTeacher}
+            setNewTeacher={setNewTeacher}
             onSubmit={handleSubmit}
             handleChange={handleChange}
             open={open}
@@ -239,9 +234,9 @@ const ClassListPage = () => {
             disableColumnSelector
             disableDensitySelector
             autoHeight
-            components={{
-              Toolbar: () => <Customtoolbar classId={classId} />,
-            }}
+            // components={{
+            //   Toolbar: () => <Customtoolbar classId={classId} />,
+            // }}
             // slots={{ toolbar: Customtoolbar }}
             // slotProps={{
             //   toolbar: {
@@ -319,4 +314,4 @@ const ClassListPage = () => {
   );
 };
 
-export default ClassListPage;
+export default TeacherListPage;
