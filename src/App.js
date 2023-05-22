@@ -26,6 +26,10 @@ import ClassNamesPage from "./Pages/ClassNamesPage";
 import EditRentalPage from "./Pages/EditRentalPage";
 import FileUploadStudents from "./components/FileUploadStudents";
 import CustomButtuonUpload from "./components/CustomButtuonUpload";
+import RequireAuth from "./components/RequireAuth";
+import Books from "./components/Books";
+import CardComponent from "./components/Books";
+import MyResponsiveLine from "./components/Graph";
 
 function App() {
   const mode = useSelector((state) => state.global.mode);
@@ -38,26 +42,28 @@ function App() {
             <CssBaseline />
             <Routes>
               <Route element={<Layout />}>
-                <Route
-                  path="/"
-                  element={<Navigate to="/dashboard" replace />}
-                />
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route
-                  path="/passwordrecover"
-                  element={<PasswordRecoverPage />}
-                />
-                {/* <Route path="/classes" element={<ClassListPage />} /> */}
-                <Route path="/classes" element={<ClassNamesPage />} />
-                <Route path="/students/:classId" element={<ClassListPage />} />
-                <Route path="/transactions" element={<LoginPage />} />
-                <Route path="/rentals/:studentId" element={<StudentsRentalsPage/>} />
-                <Route path="/overview" element={<SignUpPage />} />
-                <Route path="/edit/student/:studentId" element={<EditStudentPage />} />
-                <Route path="/edit/rental/:rentalId" element={<EditRentalPage />} />
-                {/* TEST OF RTK QUERY DATAS IN THE TEST FILE */}
-                <Route path="/history" element={<CustomButtuonUpload />} />
-                <Route path='/breakdown' element={<GenerateStudentReport/>}/>
+                <Route path="/login" element={<LoginPage />} />
+                <Route element={<RequireAuth />}>
+                  <Route
+                      path="/"
+                      element={<Navigate to="/dashboard" replace />}
+                  />
+                  <Route path="/dashboard" element={<Dashboard />} />
+                  <Route
+                      path="/passwordrecover"
+                      element={<PasswordRecoverPage />}
+                  />
+                  {/* <Route path="/classes" element={<ClassListPage />} /> */}
+                  <Route path="/classes" element={<ClassNamesPage />} />
+                  <Route path="/students/:classId" element={<ClassListPage />} />
+                  <Route path="/rentals/:studentId" element={<StudentsRentalsPage/>} />
+                  <Route path="/overview" element={<SignUpPage />} />
+                  <Route path="/edit/student/:studentId" element={<EditStudentPage />} />
+                  <Route path="/edit/rental/:rentalId" element={<EditRentalPage />} />
+                  {/* TEST OF RTK QUERY DATAS IN THE TEST FILE */}
+                  <Route path="/history" element={<CustomButtuonUpload />} />
+                  <Route path='/breakdown' element={<MyResponsiveLine/>}/>
+                </Route>
               </Route>
             </Routes>
           </ThemeProvider>

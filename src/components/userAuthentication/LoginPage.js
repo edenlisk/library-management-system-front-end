@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../states/apiSlice";
 import { setAuthToken, setUserData } from "../../states/authSlice";
@@ -18,7 +18,7 @@ import { LoginOutlined, Visibility, VisibilityOff } from "@mui/icons-material";
 
 const LoginPage = () => {
   const [ login, {data, isSuccess, isLoading, isError, error} ] = useLoginMutation();
-  // const userDataStore = useSelector(state => state.auth.userData);
+  const token = useSelector(state => state.auth.token);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -28,6 +28,11 @@ const LoginPage = () => {
   const [user, setUser] = useState({ email: "", password: "" });
 
   const [loginErrors, setLoginErrors] = useState({ email: "", password: "" });
+  // useEffect(() => {
+  //   if (token) {
+  //     navigate('/dashboard')
+  //   }
+  // }, []);
 
 
 // TAKES INPUT FROM INPUT FIELDS
