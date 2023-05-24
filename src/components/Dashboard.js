@@ -29,12 +29,17 @@ const Dashboard = () => {
 
   const academicYear = useSelector((state) => state.global.academicYear);
 
-  const{data:topinfo, isLoading}=useTopStudentsQuery('2023-2024');
+  const{data, isLoading, isSuccess}=useTopStudentsQuery('2023-2024');
 
-    const{data:topData}=topinfo;
+  let rows = [];
+  if (isSuccess) {
+    const { data:topData } = data
+    const { result } = topData;
+    rows = result;
+  }
     // const{results}=topData;
     // const rows=results;
-  console.log(topinfo);
+  // console.log(topinfo);
 
   const columns = [
     { field: "name", headerName: "Name", flex: 1 },
@@ -217,9 +222,9 @@ const Dashboard = () => {
         }}
       >
         <DataGrid
-          // loading={isLoading || !rows}
+          loading={isLoading || !rows}
           getRowId={(row) => row._id}
-          // rows={rows || []}
+          rows={rows || []}
           columns={columns}
         />
       </Box>
