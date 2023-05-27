@@ -112,6 +112,7 @@ const Sidebar = ({
 
     const [ logout, { data, isLoading, isSuccess, isError, error } ] = useLogoutMutation();
     const dispatch = useDispatch();
+    const token = useSelector(state => state.auth.token);
     const userData = useSelector(state => state.auth.userData);
 
     useEffect(() => {
@@ -137,7 +138,7 @@ const Sidebar = ({
         if (response) {
             dispatch(setUserData(null));
             dispatch(setAuthToken(null));
-            navigate('/');
+            navigate('/login');
         }
         handleClose();
     }
@@ -154,7 +155,7 @@ const Sidebar = ({
         setActive(pathname.substring(1));
     }, [pathname]);
     return (
-        <Box component="nav">
+        token ? <Box component="nav">
             {isSidebarOpen && (
                 <Drawer
                     open={isSidebarOpen}
@@ -302,7 +303,7 @@ const Sidebar = ({
                     </Menu>
                 </Drawer>
             )}
-        </Box>
+        </Box> : <div/>
     );
 };
 

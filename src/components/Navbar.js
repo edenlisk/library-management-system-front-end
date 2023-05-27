@@ -25,6 +25,7 @@ import { setAcademicYear } from "../states/slice";
 import { useGetAcademicYearsQuery } from "../states/apiSlice";
 
 const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
+  const token = useSelector(state => state.auth.token);
   const dispatch = useDispatch();
   const theme = useTheme();
   // FETCH ACADEMIC YEARS
@@ -48,12 +49,12 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
   const schoolYear = useSelector((state) => state.global.academicYear);
 
   return (
-    <AppBar
-      sx={{
-        position: "static",
-        background: "none",
-        boxShadow: "none",
-      }}
+    token ? <AppBar
+        sx={{
+          position: "static",
+          background: "none",
+          boxShadow: "none",
+        }}
     >
       <Toolbar sx={{ justifyContent: "space-between" }}>
         {/* LEFT SIDE */}
@@ -62,10 +63,10 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
             <MenuIcon />
           </IconButton>
           <FlexBetween
-            backgroundColor={theme.palette.background.alt}
-            borderRadius="9px"
-            gap="3rem"
-            p="0.1rem "
+              backgroundColor={theme.palette.background.alt}
+              borderRadius="9px"
+              gap="3rem"
+              p="0.1rem "
           >
             {/* <InputBase placeholder="Search.." />
             <IconButton>
@@ -74,16 +75,16 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
             <FormControl sx={{ border: "0px",minWidth:160 }} fullWidth size="small">
               <InputLabel id="demo-simple-select-label">academic Year</InputLabel>
               <Select
-              
-                labelId="academicYear"
-                id="academicYear"
-                value={selectedAcademicYear}
-                label="academicYear"
-                onChange={(event) => {
-                  setSelectedAcademicYear(event.target.value);
-                  // dispatch(setAcademicYear(selectedAcademicYear))
-                  // console.log(selectedAcademicYear)
-                }}
+
+                  labelId="academicYear"
+                  id="academicYear"
+                  value={selectedAcademicYear}
+                  label="academicYear"
+                  onChange={(event) => {
+                    setSelectedAcademicYear(event.target.value);
+                    // dispatch(setAcademicYear(selectedAcademicYear))
+                    // console.log(selectedAcademicYear)
+                  }}
               >
                 {/* <MenuItem value=""><em>academic Year</em></MenuItem> */}
                 <MenuItem selected value="2023-2024">
@@ -99,9 +100,9 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
         <FlexBetween gap="1.5rem">
           <IconButton onClick={() => dispatch(setMode())}>
             {theme.palette.mode === "dark" ? (
-              <DarkModeOutlined sx={{ fontSize: "25px" }} />
+                <DarkModeOutlined sx={{ fontSize: "25px" }} />
             ) : (
-              <LightModeOutlined sx={{ fontSize: "25px" }} />
+                <LightModeOutlined sx={{ fontSize: "25px" }} />
             )}
           </IconButton>
           <IconButton>
@@ -109,7 +110,7 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
           </IconButton>
         </FlexBetween>
       </Toolbar>
-    </AppBar>
+    </AppBar> : <div/>
   );
 };
 

@@ -3,11 +3,12 @@ import { createTheme } from "@mui/material/styles";
 import { themeSettings } from "./components/theme";
 import { useSelector } from "react-redux";
 import { useMemo } from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes, Redirect } from "react-router-dom";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import Dashboard from "./components/Dashboard";
 import Layout from "./layout/Layout";
+import AlertDialogSlide from "./components/new/BookInfo";
 // import FileUploadStudents from "./components/FileUploadStudents";
 // import GenerateClassReport from "./components/GenerateClassReport";
 import GenerateStudentReport from "./components/GenerateStudentReport";
@@ -29,7 +30,8 @@ import CustomButtuonUpload from "./components/CustomButtuonUpload";
 import RequireAuth from "./components/RequireAuth";
 import Books from "./components/Books";
 import CardComponent from "./components/Books";
-import MyResponsiveLine from "./components/Graph";
+import MyResponsiveLine from "./components/new/RentalsPerCategory";
+import MyResponsivePie from "./components/new/IssuedReturnedPieChart";
 
 function App() {
   const mode = useSelector((state) => state.global.mode);
@@ -42,12 +44,14 @@ function App() {
             <CssBaseline />
             <Routes>
               <Route element={<Layout />}>
+                <Route path="/" element={<Navigate to="/login" replace/> }/>
                 <Route path="/login" element={<LoginPage />} />
                 <Route element={<RequireAuth />}>
-                  <Route
-                      path="/"
-                      element={<Navigate to="/dashboard" replace />}
-                  />
+                  {/*<Route*/}
+                  {/*    exact*/}
+                  {/*    path="/"*/}
+                  {/*    element={<Navigate to="/dashboard"  />}*/}
+                  {/*/>*/}
                   <Route path="/dashboard" element={<Dashboard />} />
                   <Route
                       path="/passwordrecover"

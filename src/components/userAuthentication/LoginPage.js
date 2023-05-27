@@ -14,6 +14,7 @@ import {
   Box,
 } from "@mui/material";
 import { LoginOutlined, Visibility, VisibilityOff } from "@mui/icons-material";
+import {RotatingLines} from "react-loader-spinner";
 // TO ADD A BOOLEAN TO MAKE FIELDS RED WHEN THERE IS AN ERROR
 
 const LoginPage = () => {
@@ -28,11 +29,11 @@ const LoginPage = () => {
   const [user, setUser] = useState({ email: "", password: "" });
 
   const [loginErrors, setLoginErrors] = useState({ email: "", password: "" });
-  // useEffect(() => {
-  //   if (token) {
-  //     navigate('/dashboard')
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (token) {
+      navigate('/dashboard')
+    }
+  }, [navigate, token]);
 
 
 // TAKES INPUT FROM INPUT FIELDS
@@ -84,6 +85,7 @@ const LoginPage = () => {
       const { token, data } = userData;
       dispatch(setAuthToken(token));
       dispatch(setUserData(data.user));
+      console.log('logged in')
       navigate('/dashboard')
     }
 
@@ -100,8 +102,23 @@ const LoginPage = () => {
 
 
   return (
-    <Box height="100%">
-      <Box
+    isLoading ? <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+        }}
+    >
+      <RotatingLines
+          strokeColor="grey"
+          strokeWidth={5}
+          animationDuration={0.75}
+          width={350}
+          visible={true}
+      />
+    </div> : <Box height="100%">
+    <Box
         component="form"
         onSubmit={handleSubmit}
         maxWidth={440}
@@ -116,11 +133,11 @@ const LoginPage = () => {
         padding={2}
         borderRadius="7px"
         marginTop="20px"
-      >
-        <Typography variant="h3" sx={{ textAlign: "center", mb: 3 }}>
-          Account Login
-        </Typography>
-        <TextField
+    >
+      <Typography variant="h3" sx={{ textAlign: "center", mb: 3 }}>
+        Account Login
+      </Typography>
+      <TextField
           required
           fullWidth
           name="email"
@@ -133,55 +150,55 @@ const LoginPage = () => {
           sx={{ mb: 2 }}
           error={Boolean(loginErrors.email)}
           helperText={loginErrors.email}
-        />
+      />
 
-        <FormControl
+      <FormControl
           variant="outlined"
           required
           fullWidth
           error={Boolean(loginErrors.password)}
           onChange={handleChange}
           sx={{ mb: 2 }}
-        >
-          <InputLabel htmlFor="password">Password</InputLabel>
-          <OutlinedInput
+      >
+        <InputLabel htmlFor="password">Password</InputLabel>
+        <OutlinedInput
             id="password"
             name="password"
             type={showPassword ? "text" : "password"}
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                  edge="end"
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
                 >
                   {showPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
               </InputAdornment>
             }
             label="Password"
-          />
-          {/* Form helper in helper text */}
-          <FormHelperText id="password">{loginErrors.password}</FormHelperText>
-        </FormControl>
-        <Button
+        />
+        {/* Form helper in helper text */}
+        <FormHelperText id="password">{loginErrors.password}</FormHelperText>
+      </FormControl>
+      <Button
           variant="contained"
           size="medium"
           type="submit"
           sx={{ mb: 2, width: "100px", alignSelf: "start" }}
           endIcon={<LoginOutlined />}
-        >
-          Login
-        </Button>
-        <Typography
+      >
+        Login
+      </Button>
+      <Typography
           variant="p"
           sx={{ alignSelf: "start", paddingRight: "4px" }}
-        >
-          Forgot Password ? <NavLink to="/passwordrecover">Recover</NavLink>
-        </Typography>
-      </Box>
+      >
+        Forgot Password ? <NavLink to="/passwordrecover">Recover</NavLink>
+      </Typography>
     </Box>
+  </Box>
   );
 };
 
