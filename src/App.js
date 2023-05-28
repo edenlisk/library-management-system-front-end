@@ -32,6 +32,7 @@ import TeachersRentalsPage from "./Pages/TeachersRentalPage";
 import AddBook from "./components/books components/AddBook";
 import BooksPage from "./components/books components/BooksPage";
 import AddBookRentalPage from "./components/books components/AddBookRentalPage";
+import BooksList from "./components/books components/BooksList";
 function App() {
   const mode = useSelector((state) => state.global.mode);
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
@@ -69,6 +70,7 @@ function App() {
                 <Route path='/book' element={<AddBook/>}/>
                 <Route path='/bookspage' element={<BooksPage/>}/>
                 <Route path='/addbookrental' element={<AddBookRentalPage/>}/>
+                <Route path="/monthly" element={<BooksList />} />
               </Route>
             </Routes>
           </ThemeProvider>

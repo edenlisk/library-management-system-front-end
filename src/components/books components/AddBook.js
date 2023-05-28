@@ -32,6 +32,7 @@ const AddBook = () => {
     // setBook({bookName:"",author:"",edition:"",numberOfBooks:"",academicLevel:"",category:"",language:""});
   };
   const levels = ["S1", "S2", "S3", "S4", "S5", "S6", "AllEvels"];
+  const languages = ["English", "French", "Kinyarwanda", "Swahili", "Other"];
 
   const categories=["Mathematics","Physics","Chemistry","Biology","Computer Science","Geography","Economics","Entrepreneurship","History",
   "Kinyarwanda","Kiswahili","English", "Literature","French","Novel","Others"];
@@ -175,9 +176,9 @@ const AddBook = () => {
                 onChange={handleChange}
                 // onChange={handleChange}
               >
-              {levels.map((level) => (
-                <MenuItem key={level} value={level}>
-                  {level}
+              {languages.map((lang) => (
+                <MenuItem key={lang} value={lang}>
+                  {lang}
                 </MenuItem>
               ))}
               </Select>
