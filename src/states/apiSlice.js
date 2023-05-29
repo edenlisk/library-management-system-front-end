@@ -166,10 +166,10 @@ export const apiSlice = createApi({
                 method: 'PATCH',
                 body
             }),
-            invalidatesTags: ['rentals']
+            invalidatesTags: ['rentals', 'teachersRentals']
         }),
         lostBooks: builder.query({
-            query: () => `/inactive-rentals`,
+            query: () => `/rentals/inactive-rentals`,
             providesTags: ['rentals']
         }),
         login: builder.mutation({
@@ -271,7 +271,7 @@ export const apiSlice = createApi({
                 method: 'PATCH',
                 body
             }),
-            invalidatesTags: ['teachersRentals']
+            invalidatesTags: ['teachersRentals', 'rentals']
         }),
         deleteTeacherRental: builder.mutation({
             query: (rentalId) => ({
@@ -309,10 +309,10 @@ export const apiSlice = createApi({
             invalidatesTags: ['books', 'books-categories']
         }),
         uploadBooks: builder.mutation({
-            query: (body) => ({
+            query: ({formData}) => ({
                 url: `/books/upload`,
                 method: 'POST',
-                body
+                body: formData
             }),
             invalidatesTags: ['books', 'books-categories']
         }),
@@ -386,5 +386,6 @@ export const {
     useUploadBooksMutation,
     useGetAllCategoriesQuery,
     useCreateBookCategoryMutation,
-    useGetCategoryQuery
+    useGetCategoryQuery,
+    useLostBooksQuery
 } = apiSlice;
