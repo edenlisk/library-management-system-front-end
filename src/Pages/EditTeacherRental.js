@@ -23,22 +23,11 @@ import { useUpdateRentalMutation,useGetOneRentalQuery } from "../states/apiSlice
 
 // TO ADD A BOOLEAN TO MAKE FIELDS RED WHEN THERE IS AN ERROR
 
-const EditRentalPage = () => {
+const EditTeacherRentalPage = () => {
   const { rentalId } = useParams();
   const navigate = useNavigate();
 
   const{data,isLoading,isSuccess,isError,error}=useGetOneRentalQuery(rentalId);
-
-  const [updateRental] = useUpdateRentalMutation();
-  let  forminfo =[];
-
-  
-    if (isSuccess) {
-      const { data: info } = data;
-      const{rental:rentals}=info;
-      console.log(rentals);
-      forminfo=rentals;
-    }
 
    
   const [rental, setRental] = useState({
@@ -46,6 +35,31 @@ const EditRentalPage = () => {
     dueDate: null,
     returned:false
   });
+  useEffect(() => {
+    if (isSuccess) {
+      const { data: info } = data;
+      const{rental:rentals}=info;
+      console.log(rentals);
+      setRental({
+        nameOfBook: rentals.nameOfBook,
+    dueDate: rentals.dueDate,
+    returned:rentals.returned
+      });
+    }
+  }, [isSuccess]);
+
+  const [updateRental] = useUpdateRentalMutation();
+  let  forminfo =[];
+
+  
+    // if (isSuccess) {
+    //   const { data: info } = data;
+    //   const{rental:rentals}=info;
+    //   console.log(rentals);
+    //   forminfo=rentals;
+    // }
+
+  
 
   // TAKES INPUT FROM INPUT FIELDS
   const handleChange = (e) => {
@@ -142,4 +156,4 @@ const EditRentalPage = () => {
   );
 };
 
-export default EditRentalPage;
+export default EditTeacherRentalPage;

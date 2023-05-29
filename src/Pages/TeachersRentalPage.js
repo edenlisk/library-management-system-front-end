@@ -71,8 +71,8 @@ let teacherName="";
     // const{rentals:rentalskey}=rentalsObj;
     // const{0:rentalsvalue}=rentalskey
     // const{rentalHistory}=rentalsvalue
-    console.log(rentalsinfo);
-    rows = rentalsinfo;
+    console.log(rawRentalHistory);
+    rows = rawRentalHistory;
     // console.log(data);
   }
 
@@ -164,7 +164,7 @@ let teacherName="";
             </IconButton>
           </Tooltip>
 
-          <Link to={`/teachers-rental/${params.id}`}>
+          <Link to={`/edit/teachers-rental/${params.id}`}>
             <Tooltip title="edit" placement="top" arrow>
               <IconButton
                 aria-label="edit"

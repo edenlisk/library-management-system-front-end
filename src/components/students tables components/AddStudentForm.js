@@ -81,26 +81,6 @@ const AddStudentForm = ({newStudent,handleChange,onSubmit,open,handleOpen,handle
                 sx={{ mb: 2 }}
                 onChange={handleChange}
               />
-              <FormControl
-                variant="outlined"
-
-                sx={{ minWidth: 230, alignSelf: "start", mb: 4 }}
-              >
-                <InputLabel id="academicLevel">Academic Level</InputLabel>
-                <Select
-                  name="academicLevel"
-                  labelId="category"
-                  id="academicLevel"
-                  value={newStudent.academicLevel}
-                  onChange={handleChange}
-                >
-                  <MenuItem value="">
-                    <em>A-Level</em>
-                  </MenuItem>
-                  <MenuItem value="O-Level">O-Level</MenuItem>
-                  <MenuItem value="A-Level">A-Level</MenuItem>
-                </Select>
-              </FormControl>
               <Box display="flex" gap={2} sx={{ alignSelf: "start" }}>
                 <Button
                   variant="contained"

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { FormHelperText, TextField, Typography } from "@mui/material";
 import {
@@ -22,14 +22,25 @@ const EditTeacherPage = () => {
  
   const [user, setUser] = useState({ name: "" });
 
+  useEffect(() => {
+    if (isSuccess) {
+      const { data: info } = data;
+      const{teacher:tchr}=info;
+      console.log(tchr);
+      setUser({
+        name:tchr.name,
+      })
+    }
+  }, [isSuccess]);
+
   const [updateTeacher] = useUpdateTeacherMutation();
   let  forminfo =[];
-  if (isSuccess) {
-    const { data: info } = data;
-    // const{student}=info;
-    console.log(info);
-     forminfo = info;
-  }
+  // if (isSuccess) {
+  //   const { data: info } = data;
+  //   // const{student}=info;
+  //   console.log(info);
+  //    forminfo = info;
+  // }
 
   // TAKES INPUT FROM INPUT FIELDS
   const handleChange = (e) => {
@@ -70,7 +81,7 @@ const EditTeacherPage = () => {
         <TextField
           required
           fullWidth
-          defaultValue={forminfo.name}
+          value={user.name || ""}
           name="name"
           label="name"
           type="text"

@@ -35,6 +35,7 @@ import AddBookRentalPage from "./components/books components/AddBookRentalPage";
 import BooksList from "./components/books components/BooksList";
 import LostBooks from "./components/books components/LostBooks";
 import EditBookPage from "./components/books components/EditBookPage";
+import EditTeacherRentalPage from "./Pages/EditTeacherRental";
 function App() {
   const mode = useSelector((state) => state.global.mode);
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
@@ -67,6 +68,7 @@ function App() {
                 <Route path="/history" element={<CustomButtuonUpload />} />
                 <Route path="/teachers/:teacherId" element={<EditTeacherPage />} />
                 <Route path="/teachers/teachers-rentals/:teacherId" element={<TeachersRentalsPage />} />
+                <Route path="/edit/teachers-rental/:rentalId" element={<EditTeacherRentalPage />} />
                 <Route path="/daily" element={<TeacherListPage/>} />
                 <Route path='/breakdown' element={<GenerateStudentReport/>}/>
                 <Route path='/book' element={<AddBook/>}/>
