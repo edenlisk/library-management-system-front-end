@@ -22,9 +22,9 @@ export default function ReceiveBook ({open, handleClose, book}) {
     const theme = useTheme()
     const handleReceive = async (bookId) => {
         const body = { returned: true }
-        if (book.model === 'teacher') {
+        if (book.model === 'teacher' || book.teacherId) {
             await updateTeacherRental({body, rentalId:bookId});
-        } else if (book.model === 'student') {
+        } else if (book.model === 'student' || book.studentId) {
             await updateRental({body, rentalId:bookId})
         }
         handleClose()
