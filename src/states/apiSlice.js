@@ -377,6 +377,7 @@ export const {
     useDeleteTeacherMutation,
     useUpdateTeacherMutation,
     useGetTeacherRentalsQuery,
+    useGetSingleTeacherRentalQuery,
     useCreateTeacherRentalMutation,
     useDeleteTeacherRentalMutation,
     useUpdateTeacherRentalMutation,

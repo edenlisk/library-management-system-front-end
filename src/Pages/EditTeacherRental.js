@@ -19,7 +19,7 @@ import {
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { LoginOutlined } from "@mui/icons-material";
-import { useUpdateRentalMutation,useGetOneRentalQuery } from "../states/apiSlice";
+import { useUpdateRentalMutation,useGetSingleTeacherRentalQuery } from "../states/apiSlice";
 
 // TO ADD A BOOLEAN TO MAKE FIELDS RED WHEN THERE IS AN ERROR
 
@@ -27,23 +27,30 @@ const EditTeacherRentalPage = () => {
   const { rentalId } = useParams();
   const navigate = useNavigate();
 
-  const{data,isLoading,isSuccess,isError,error}=useGetOneRentalQuery(rentalId);
+  const{data,isLoading,isSuccess,isError,error}=useGetSingleTeacherRentalQuery(rentalId);
 
    
   const [rental, setRental] = useState({
     nameOfBook: "",
     dueDate: null,
-    returned:false
+  
   });
   useEffect(() => {
     if (isSuccess) {
       const { data: info } = data;
       const{rental:rentals}=info;
-      console.log(rentals);
+      // console.log(rentals);
+     let rentalsData=[];
+     Object.keys(rentals).forEach(rent => {
+      // const rentz = { ...rent, issueDate: rent.issueDate.split('T')[0], dueDate: rent.dueDate.split('T')[0] }
+      // rentalsData.push(rentz);
+      console.log(rentals[rent]);
+    })
+      // console.log(rentals);
       setRental({
-        nameOfBook: rentals.nameOfBook,
-    dueDate: rentals.dueDate,
-    returned:rentals.returned
+        nameOfBook: rentalsData.nameOfBook,
+    dueDate: rentalsData.dueDate,
+
       });
     }
   }, [isSuccess]);
@@ -83,7 +90,6 @@ const EditTeacherRentalPage = () => {
     setRental({
       nameOfBook: "",
       dueDate: null,
-      returned:false
     });
     navigate(-1);
   };
@@ -112,7 +118,7 @@ const EditTeacherRentalPage = () => {
         <TextField
           required
           fullWidth
-          defaultValue={forminfo.nameOfBook}
+          defaultValue={rental.nameOfBook || ""}
           name="nameOfBook"
           // placeholder=" nameOfBook"
           // label="nameOfBook"
@@ -124,23 +130,13 @@ const EditTeacherRentalPage = () => {
         />
         <DatePicker
           disablePast
-          value={rental.dueDate}
+          value={rental.dueDate || null}
           onChange={handleEndDateChange}
           format="MM/DD/YYYY"
           sx={{ minWidth: 230, alignSelf: "start", mb: 2 }}
         />
 
-        <FormControlLabel
-        sx={{ alignSelf: "start" }}
-        control={
-          <Checkbox
-            name="returned"
-            checked={rental.returned}
-            onChange={handleChange}
-          />
-        }
-        label="Returned"
-      />
+
 
         <Button
           variant="contained"
