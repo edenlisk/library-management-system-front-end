@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -15,21 +15,15 @@ import {
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
-import { useGetAllCategoriesQuery,useCreateBookMutation } from "../../states/apiSlice";
+import { useGetBookQuery, useUpdateBookMutation } from "../../states/apiSlice";
+import { useParams } from "react-router-dom";
 
-const AddBook = () => {
+const EditBookPage = () => {
+    const{bookId}=useParams();
   const navigate = useNavigate();
-  const [createBook]=useCreateBookMutation();
-//   const {data:catz, isLoading, isSuccess, isError, error }=useGetAllCategoriesQuery();
-//  if (isSuccess) {
-  
-//     const { data } = catz;
-//     const {categories:catgz } = data;
-//     const {categoryName } = catgz;
-//     console.log(catgz);
-    
-  
-//   }
+  const [updateBook]=useUpdateBookMutation();
+  const {data:info, isLoading, isSuccess, isError, error }=useGetBookQuery(bookId);
+  let singleBk=[];
 
   const [book, setBook] = useState({
     bookName: "",
@@ -41,6 +35,22 @@ const AddBook = () => {
     language: "",
   });
 
+  useEffect(() => {
+    if (isSuccess) {
+      const { data: Bkdata } = info;
+      const { book: Bk } = Bkdata;
+      setBook({
+        bookName: Bk.bookName,
+        author: Bk.author,
+        edition: Bk.edition,
+        numberOfBooks: Bk.numberOfBooks,
+        academicLevel: Bk.academicLevel,
+        categoryName: Bk.categoryName,
+        language: Bk.language,
+      });
+    }
+  }, [isSuccess]);
+
   const handleChange = (e) => {
     setBook({ ...book, [e.target.name]: e.target.value });
   };
@@ -48,8 +58,8 @@ const AddBook = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const body=book;
-    await createBook(body);
-    navigate("/bookspage")
+    await updateBook({body, bookId});
+    navigate("/monthly");
     console.log(book);
     // setBook({bookName:"",author:"",edition:"",numberOfBooks:"",academicLevel:"",category:"",language:""});
   };
@@ -80,7 +90,7 @@ const AddBook = () => {
               id="bookName"
               type="text"
               variant="outlined"
-              value={book.bookName}
+              value={book.bookName || ""}
               onChange={handleChange}
             />
           </Grid2>
@@ -96,7 +106,7 @@ const AddBook = () => {
               id="author"
               type="text"
               variant="outlined"
-              value={book.author}
+              value={book.author || ""}
               onChange={handleChange}
             />
           </Grid2>
@@ -112,7 +122,7 @@ const AddBook = () => {
               id="edition"
               type="text"
               variant="outlined"
-              value={book.edition}
+              value={book.edition || ""}
               onChange={handleChange}
             />
           </Grid2>
@@ -128,7 +138,7 @@ const AddBook = () => {
               id="numberOfBooks"
               type="number"
               variant="outlined"
-              value={book.numberOfBooks}
+              value={book.numberOfBooks || ""}
               onChange={handleChange}
             />
           </Grid2>
@@ -137,7 +147,7 @@ const AddBook = () => {
             <Typography variant="p">Academic Level</Typography>
           </Grid2>
           <Grid2 xs={12} md={10}>
-            <FormControl variant="outlined" sx={{ width: "80%" }}>
+            {/* <FormControl variant="outlined" sx={{ width: "80%" }}>
               <InputLabel id="academicLevel">Academic Level </InputLabel>
               <Select
                 required
@@ -154,63 +164,55 @@ const AddBook = () => {
                 </MenuItem>
               ))}
               </Select>
-            </FormControl>
+            </FormControl> */}
+            <TextField
+                label="Academic Level"
+                sx={{ width: "80%" }}
+                name="academicLevel"
+                id="academicLevel"
+                type="text"
+                variant="outlined"
+                value={book.academicLevel || ""}
+                onChange={handleChange}
+              />
           </Grid2>
 
           <Grid2 xs={12} md={2}>
             <Typography variant="p">Category</Typography>
           </Grid2>
           <Grid2 xs={12} md={10}>
-            <FormControl variant="outlined" sx={{ width: "80%" }}>
-              <InputLabel id="categoryName">Book Category</InputLabel>
-              <Select
-                required
+          <TextField
+                label="Category name"
+                sx={{ width: "80%" }}
                 name="categoryName"
-                labelId="categoryName"
                 id="categoryName"
-                label="Book Category"
-                value={book.categoryName}
+                type="text"
+                variant="outlined"
+                value={book.categoryName || ""}
                 onChange={handleChange}
-                // onChange={handleChange}
-              >
-               {categories.map((categoriez) => (
-                <MenuItem key={categoriez} value={categoriez}>
-                  {categoriez}
-                </MenuItem>
-              ))}
-              </Select>
-            </FormControl>
+              />
           </Grid2>
           <Grid2 xs={12} md={2}>
             <Typography variant="p">Language</Typography>
           </Grid2>
           <Grid2 xs={12} md={10}>
-            <FormControl variant="outlined" sx={{ width: "80%" }}>
-              <InputLabel id="Language">Language</InputLabel>
-              <Select
-                required
-                name="language"
-                labelId="language"
-                id="language"
+          <TextField
                 label="Language"
-                value={book.language}
+                sx={{ width: "80%" }}
+                name="language"
+                id="language"
+                type="text"
+                variant="outlined"
+                value={book.language || ""}
                 onChange={handleChange}
-                // onChange={handleChange}
-              >
-              {languages.map((lang) => (
-                <MenuItem key={lang} value={lang}>
-                  {lang}
-                </MenuItem>
-              ))}
-              </Select>
-            </FormControl>
+              />
           </Grid2>
 
           <Grid2 container gap={2} display="flex">
             <Button variant="contained" type="submit" onClick={handleSubmit}>
-              Add book
+              Edit book
             </Button>
-            <Button variant="contained" type="button">
+            <Button variant="contained" type="button" onClick={() => navigate(-1)}>
               cancel
             </Button>
           </Grid2>
@@ -220,4 +222,4 @@ const AddBook = () => {
   );
 };
 
-export default AddBook;
+export default EditBookPage;

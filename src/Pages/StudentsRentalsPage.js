@@ -238,6 +238,7 @@ let studentName="";
             columns={columns}
             rows={rows}
             getRowId={(row) => row._id}
+            loading={isLoading || !rows}
             disableColumnFilter
             disableColumnSelector
             disableDensitySelector

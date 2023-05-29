@@ -17,8 +17,12 @@ import { DatePicker } from "@mui/x-date-pickers";
 import { SearchOutlined } from "@mui/icons-material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import BooksCard from "./BooksCard";
+import { useGetAllBooksQuery } from "../../states/apiSlice";
 
 const AddBookRentalPage = () => {
+  
+  const{data, isLoading, isSuccess, isError, error }=useGetAllBooksQuery();
+
   const theme = useTheme();
   const isNonMobile = useMediaQuery("(min-width: 1000px)");
 
@@ -32,7 +36,7 @@ const AddBookRentalPage = () => {
     numberOfBooks: "",
     academicLevel: "",
     // categoryName: "",
-    categoryName2: "",
+    categoryName: "",
     language: "",
     bookId: "",
     book_id: null,
@@ -52,74 +56,83 @@ const AddBookRentalPage = () => {
     /* STATE FOR HANDLING THE FILTERED ARRAY OBJECT BASING ON THE VALUE ON THE SELECTED  VALUE IN SELECT COMPONENTS*/
   }
 
-  const rows = [
-    {
-      bookName: "The Great Gatsby",
-      author: "F. Scott Fitzgerald",
-      category: "Novel",
-      academicLevel: "S5",
-      totalBooks: "20",
-      availableBook: "12",
-      language: "English",
-      edition: "Kindle Edition",
-      id: 1,
-    },
-    {
-      bookName: "To Kill a Mockingbird",
-      author: "Harper Lee",
-      category: "Action",
-      academicLevel: "S6",
-      totalBooks: "10",
-      availableBook: "4",
-      language: "French",
-      edition: "French Edition 1998",
-      id: 2,
-    },
-    {
-      bookName: "The Lord of the Rings",
-      author: "J. R. R. Tolkien",
-      category: "Fantasy",
-      academicLevel: "S4",
-      totalBooks: "11",
-      availableBook: "8",
-      language: "English",
-      edition: "The Rings of Power 1954",
-      id: 3,
-    },
-    {
-      bookName: "Animal Farm",
-      author: "George Orwell",
-      category: "History",
-      academicLevel: "S2",
-      totalBooks: "10",
-      availableBook: "2",
-      language: "Danish",
-      edition: "A Fairy Story 1944",
-      id: 4,
-    },
-    {
-      bookName: "Pride and Prejudice",
-      author: "Jane Austen",
-      category: "Romance",
-      academicLevel: "S2",
-      totalBooks: "30",
-      availableBook: "12",
-      language: "Spanish",
-      edition: "Deluxe edition(Spanish) 1813",
-      id: 5,
-    },
-    {
-      bookName: "Beloved",
-      author: "Toni Morrison",
-      category: "Novel",
-      academicLevel: "S1",
-      totalBooks: "15",
-      availableBook: "7",
-      language: "English",
-      edition: "Paperback 1987",
-      id: 6,
-    },
-  ];
+  let rows=[];
+
+  if (isSuccess) {
+    const { data: allBooks } = data;
+    const { books } = allBooks;
+    console.log(books);
+    rows = books;
+  }
+
+  // const rows = [
+  //   {
+  //     bookName: "The Great Gatsby",
+  //     author: "F. Scott Fitzgerald",
+  //     category: "Novel",
+  //     academicLevel: "S5",
+  //     totalBooks: "20",
+  //     availableBook: "12",
+  //     language: "English",
+  //     edition: "Kindle Edition",
+  //     id: 1,
+  //   },
+  //   {
+  //     bookName: "To Kill a Mockingbird",
+  //     author: "Harper Lee",
+  //     category: "Action",
+  //     academicLevel: "S6",
+  //     totalBooks: "10",
+  //     availableBook: "4",
+  //     language: "French",
+  //     edition: "French Edition 1998",
+  //     id: 2,
+  //   },
+  //   {
+  //     bookName: "The Lord of the Rings",
+  //     author: "J. R. R. Tolkien",
+  //     category: "Fantasy",
+  //     academicLevel: "S4",
+  //     totalBooks: "11",
+  //     availableBook: "8",
+  //     language: "English",
+  //     edition: "The Rings of Power 1954",
+  //     id: 3,
+  //   },
+  //   {
+  //     bookName: "Animal Farm",
+  //     author: "George Orwell",
+  //     category: "History",
+  //     academicLevel: "S2",
+  //     totalBooks: "10",
+  //     availableBook: "2",
+  //     language: "Danish",
+  //     edition: "A Fairy Story 1944",
+  //     id: 4,
+  //   },
+  //   {
+  //     bookName: "Pride and Prejudice",
+  //     author: "Jane Austen",
+  //     category: "Romance",
+  //     academicLevel: "S2",
+  //     totalBooks: "30",
+  //     availableBook: "12",
+  //     language: "Spanish",
+  //     edition: "Deluxe edition(Spanish) 1813",
+  //     id: 5,
+  //   },
+  //   {
+  //     bookName: "Beloved",
+  //     author: "Toni Morrison",
+  //     category: "Novel",
+  //     academicLevel: "S1",
+  //     totalBooks: "15",
+  //     availableBook: "7",
+  //     language: "English",
+  //     edition: "Paperback 1987",
+  //     id: 6,
+  //   },
+  // ];
 
   const [filteredProducts, setFilteredProducts] = useState(rows);
 
@@ -128,7 +141,7 @@ const AddBookRentalPage = () => {
       filteredrowz.academicLevel
         .toLowerCase()
         .includes(selectedValue.academicLevel.toLowerCase()) &&
-      filteredrowz.category
+      filteredrowz.categoryName
         .toLowerCase()
         .includes(selectedValue.category.toLowerCase())
   );
@@ -191,7 +204,7 @@ const AddBookRentalPage = () => {
       edition: "",
       numberOfBooks: "",
       academicLevel: "",
-      categoryName2: "",
+      categoryName: "",
       language: "",
       bookId: "",
       book_id: null,
@@ -228,16 +241,16 @@ const AddBookRentalPage = () => {
     /* FUNCTION TO HANDLE CARD CLICK TO PASS IN THE BOOK CARD DATA TO THE RENTAL BOOK FORM*/
   }
   const cardClick = (id) => {
-    const clickedBook = rows.find((book) => book.id === id);
+    const clickedBook = rows.find((book) => book._id === id);
     if (clickedBook) {
       setBook({
         bookName: clickedBook.bookName,
         author: clickedBook.author,
         edition: clickedBook.edition,
         academicLevel: clickedBook.academicLevel,
-        categoryName2: clickedBook.category,
+        categoryName: clickedBook.categoryName,
         language: clickedBook.language,
-        book_id: clickedBook.id,
+        book_id: clickedBook._id,
       });
     }
     console.log(id);
@@ -350,16 +363,16 @@ const AddBookRentalPage = () => {
               />
             ))} */}
             {filteredObject.map(
-              ({ bookName, author, category, academicLevel, language, id }) => (
+              ({ bookName, author, categoryName, academicLevel, language, _id }) => (
                 <BooksCard
                   bookName={bookName}
                   author={author}
-                  category={category}
+                  category={categoryName}
                   academicLevel={academicLevel}
                   language={language}
-                  id={id}
-                  cardClick={() => cardClick(id)}
-                  key={id}
+                  id={_id}
+                  cardClick={() => cardClick(_id)}
+                  key={_id}
                 />
               )
             )}
@@ -483,11 +496,11 @@ const AddBookRentalPage = () => {
               <TextField
                 label="Category name"
                 sx={{ width: "80%" }}
-                name="categoryName2"
-                id="categoryName2"
+                name="categoryName"
+                id="categoryName"
                 type="text"
                 variant="outlined"
-                value={book.categoryName2 || ""}
+                value={book.categoryName || ""}
                 onChange={handleChange}
               />
             </Grid2>
