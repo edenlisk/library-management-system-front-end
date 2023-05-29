@@ -14,17 +14,34 @@ import {
   DeleteOutlined,
   ModeEditOutlined,
 } from "@mui/icons-material";
-import { Box, Typography, IconButton, Stack, Tooltip } from "@mui/material";
+import {Box, Typography, IconButton, Stack, Tooltip, Button} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import Customtoolbar from "../components/Customtoolbar";
 import AddBookRental from "../components/students tables components/AddBookRentalForm";
 import Status from "../components/Status";
+import ReceiveBook from "../components/books components/ReceiveBook";
 import dayjs from "dayjs";
 
 const StudentsRentalsPage = () => {
   const { studentId } = useParams();
   const theme = useTheme();
+
+  const [book, setBook] = useState(null);
+
+  const [open, setOpen] = useState(false);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleShow = (bk) => {
+    setBook(bk);
+    handleClickOpen();
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setBook(null);
+  };
 
   const navigate = useNavigate();
 
@@ -147,6 +164,24 @@ let studentName="";
     { field: "category", headerName: "category", flex: 0.3 },
     { field: "issueDate", headerName: "Issue date", flex: 0.4 },
     { field: "dueDate", headerName: "Due date", flex: 0.4 },
+    {field: "returnDate", headerName: "Return date", flex: 0.3},
+    {
+      field: "Receive",
+      headerName: "Receive",
+      flex: 0.3,
+      renderCell: params => {
+        return (
+            <Button
+                variant="contained"
+                color= {params.row.returned ? "success" : "info"}
+                onClick={() => params.row.returned ? "" : handleShow(params.row)}
+                size="small"
+            >
+              {params.row.returned ? "Received" : "Receive"}
+            </Button>
+        )
+      }
+    },
     {
       field: "actions",
       headerName: "Actions",
@@ -178,12 +213,12 @@ let studentName="";
         </Stack>
       ),
     },
-       {
-      field: "status",
-      headerName: "Status",
-      flex: 0.3,
-      renderCell: (params) => <Status returned={params.row.returned} />,
-    },
+    //    {
+    //   field: "status",
+    //   headerName: "Status",
+    //   flex: 0.3,
+    //   renderCell: (params) => <Status returned={params.row.returned} />,
+    // },
   ];
   return (
     <Grid2
@@ -260,6 +295,7 @@ let studentName="";
             pageSizeOptions={[8, 16, 24]}
             item="true"
           />
+          {book ? <ReceiveBook book={book} handleClose={handleClose} open={open} /> : <div/> }
         </Box>
       </Grid2>
     </Grid2>

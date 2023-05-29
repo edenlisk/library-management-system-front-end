@@ -251,12 +251,16 @@ export const apiSlice = createApi({
             }),
             providesTags: ["teachersRentals"]
         }),
-        getAllTeacherRentals: builder.query({
-            query: () => ({
-                url: `/teachers/teachers-rentals`
-            }),
-            providesTags: ["teachersRentals"]
+        getSingleTeacherRental: builder.query({
+           query: (rentalId) => `/teachers-rental/${rentalId}`,
+           providesTags: ['teachersRentals']
         }),
+        // getAllTeacherRentals: builder.query({
+        //     query: () => ({
+        //         url: `/teachers/teachers-rentals`
+        //     }),
+        //     providesTags: ["teachersRentals"]
+        // }),
         createTeacherRental: builder.mutation({
             query: ({body}) => ({
                 url: `/teachers-rental`,

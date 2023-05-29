@@ -18,7 +18,8 @@ const LostBooks = () => {
     setOpen(true);
   };
   const handleShow = (bk) => {
-    setBook(bk);
+    const rental = {...bk}
+    setBook(rental);
     handleClickOpen();
   };
 
