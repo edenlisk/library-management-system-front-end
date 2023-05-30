@@ -27,7 +27,7 @@ const AddTeacherBookRentalPage = () => {
   const academicYear = useSelector((state) => state.global.academicYear);
   
   const{data, isLoading, isSuccess, isError, error }=useGetAllBooksQuery();
-  const[createRental]=useCreateTeacherRentalMutation();
+  const[createTeacherRental]=useCreateTeacherRentalMutation();
 
   const theme = useTheme();
   const navigate=useNavigate();
@@ -214,6 +214,7 @@ const AddTeacherBookRentalPage = () => {
 
         setRentBook((prevRentBook)=>({
           book_id:book.book_id,
+          teacherId:teacherId,
           ...prevRentBook,[e.target.name]: e.target.value,
           
         }));
@@ -226,10 +227,10 @@ const AddTeacherBookRentalPage = () => {
   }
   const handleSubmit = async(event) => {
     event.preventDefault();
-    const body={...rentBook};
-    await createRental(body);
+    const body={...rentBook,bookIds:rentBook.bookIds.split(",")};
+    await createTeacherRental({body});
     console.log(book);
-    console.log(rentBook);
+    console.log(body);
     setBook({
       bookName: "",
       author: "",
@@ -476,13 +477,13 @@ const AddTeacherBookRentalPage = () => {
                 sx={{ width: "80%" }}
                 name="bookIds"
                 id="bookIds"
-                type="number"
+                type="text"
                 variant="outlined"
                 value={book.bookIds || ""}
                 onChange={handleChange}
               />
             </Grid2>
-/////////////
+
             <Grid2 xs={12} md={3}>
               <Typography variant="p">Rental For</Typography>
             </Grid2>
@@ -498,7 +499,7 @@ const AddTeacherBookRentalPage = () => {
                 onChange={handleChange}
               />
             </Grid2>
-/////////////////////
+
 
             <Grid2 xs={12} md={3}>
               <Typography variant="p">Issue date</Typography>

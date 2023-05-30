@@ -78,7 +78,7 @@ function App() {
                 <Route path='/edit-book/:bookId' element={<EditBookPage/>}/>
                 <Route path='/bookspage' element={<BooksPage/>}/>
                 <Route path='/add/student-rental/:studentId' element={<AddStudentBookRentalPage/>}/>
-                <Route path='/addteacher-rental/:teacherId' element={<AddTeacherBookRentalPage/>}/>
+                <Route path='/add/teacher-rental/:teacherId' element={<AddTeacherBookRentalPage/>}/>
                 <Route path="/monthly" element={<BooksList />} />
                 <Route path="/lost-books" element={<LostBooks />} />
                 <Route path="/notification" element={<Notification />} />

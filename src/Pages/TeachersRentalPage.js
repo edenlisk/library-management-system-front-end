@@ -17,8 +17,9 @@ import {
     ChevronRightOutlined,
     DeleteOutlined,
     ModeEditOutlined,
+    Add
 } from "@mui/icons-material";
-import {Box, Typography, IconButton, Stack, Tooltip, Button} from "@mui/material";
+import {Box, Typography, IconButton, Stack, Tooltip, Button, Toolbar} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import {DataGrid} from "@mui/x-data-grid";
 import Customtoolbar from "../components/Customtoolbar";
@@ -89,57 +90,57 @@ const TeachersRentalsPage = () => {
     const [openModal, setOpenModal] = useState(false);
 
 
-    const [rental, setRental] = useState({
-        nameOfBook: "",
-        numberOfBooks: "",
-        rentalFor: "",
-        teacherId: "",
-        issueDate: null,
-        dueDate: null,
-    });
+    // const [rental, setRental] = useState({
+    //     nameOfBook: "",
+    //     numberOfBooks: "",
+    //     rentalFor: "",
+    //     teacherId: "",
+    //     issueDate: null,
+    //     dueDate: null,
+    // });
 
-    const handleModalOpen = () => {
-        setOpenModal(!openModal);
-    };
-    const handleModalClose = () => {
-        setOpenModal(!openModal);
-    };
+    // const handleModalOpen = () => {
+    //     setOpenModal(!openModal);
+    // };
+    // const handleModalClose = () => {
+    //     setOpenModal(!openModal);
+    // };
 
-    const handleChange = (e) => {
-        setRental({...rental, [e.target.name]: e.target.value});
-    };
+    // const handleChange = (e) => {
+    //     setRental({...rental, [e.target.name]: e.target.value});
+    // };
 
-    const handleStartDateChange = (newDate) => {
-        setRental((prevState) => ({
-            ...prevState,
-            // issueDate: newDate.format("MM/DD/YYYY"),
-            issueDate: newDate.format('YYYY-MM-DD'),
-        }));
-    };
+    // const handleStartDateChange = (newDate) => {
+    //     setRental((prevState) => ({
+    //         ...prevState,
+    //         // issueDate: newDate.format("MM/DD/YYYY"),
+    //         issueDate: newDate.format('YYYY-MM-DD'),
+    //     }));
+    // };
 
-    const handleEndDateChange = (newDate) => {
-        setRental((prevState) => ({
-            ...prevState,
-            // dueDate: newDate.format("MM/DD/YYYY"),
-            dueDate: newDate.format('YYYY-MM-DD'),
-        }));
-    };
+    // const handleEndDateChange = (newDate) => {
+    //     setRental((prevState) => ({
+    //         ...prevState,
+    //         // dueDate: newDate.format("MM/DD/YYYY"),
+    //         dueDate: newDate.format('YYYY-MM-DD'),
+    //     }));
+    // };
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        const body = {...rental};
-        await createRental(body);
-        console.log(rental);
-        setRental({
-            nameOfBook: "",
-            numberOfBooks: "",
-            rentalFor: "",
-            teacherId: "",
-            issueDate: null,
-            dueDate: null,
-        });
-        setOpenModal(!openModal);
-    };
+    // const handleSubmit = async (event) => {
+    //     event.preventDefault();
+    //     const body = {...rental};
+    //     await createRental(body);
+    //     console.log(rental);
+    //     setRental({
+    //         nameOfBook: "",
+    //         numberOfBooks: "",
+    //         rentalFor: "",
+    //         teacherId: "",
+    //         issueDate: null,
+    //         dueDate: null,
+    //     });
+    //     setOpenModal(!openModal);
+    // };
 
     const handleRowDelete = async (id) => {
         const rentalId = id;
@@ -229,7 +230,7 @@ const TeachersRentalsPage = () => {
                 alignItems="center"
             >
                 <Typography variant="h4">{teacherName}:{academicYear}</Typography>
-                <AddTeacherBookRental
+                {/* <AddTeacherBookRental
                     rental={rental}
                     format="YYYY-MM-DD"
                     setRental={setRental}
@@ -240,7 +241,15 @@ const TeachersRentalsPage = () => {
                     openModal={openModal}
                     handleModalOpen={handleModalOpen}
                     handleModalClose={handleModalClose}
-                />
+                /> */}
+                 <Link to={`/add/teacher-rental/${teacherId}`}>
+         <Toolbar sx={{ display: "flex" }}>
+        <IconButton>
+          <Add />
+        </IconButton>
+        <Typography variant="h6">Add new book rental...</Typography>
+      </Toolbar>
+      </Link>
             </Grid2>
             <Grid2 xs={12} display="flex" justifyContent="start">
                 <Box

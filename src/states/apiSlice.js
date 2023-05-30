@@ -201,7 +201,7 @@ export const apiSlice = createApi({
         adminSignup: builder.mutation({
             query: () => ({
                 url: `/admin/signup`,
-                method: 'METHOD'
+                method: 'POST'
             })
         }),
         topStudents: builder.query({
