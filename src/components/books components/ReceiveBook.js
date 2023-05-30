@@ -21,7 +21,7 @@ export default function ReceiveBook ({open, handleClose, book}) {
     const [updateTeacherRental, { isSuccess }] = useUpdateTeacherRentalMutation();
     const theme = useTheme()
     const handleReceive = async (bookId) => {
-        const body = { returned: true }
+        const body = { returned: true, returnDate: new Date().toISOString().split('T')[0] }
         if (book.model === 'teacher' || book.teacherId) {
             await updateTeacherRental({body, rentalId:bookId});
         } else if (book.model === 'student' || book.studentId) {

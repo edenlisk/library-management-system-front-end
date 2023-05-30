@@ -8,7 +8,6 @@ const ClassNamesPage = () => {
 // FOR GETTING ACADEMIC YEAR
 
   const academicYear=useSelector((state)=>state.global.academicYear)
-  console.log(`academic year: ${academicYear}`)
 
   // FOR FETCHING
 

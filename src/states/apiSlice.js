@@ -312,6 +312,10 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: ['books', 'books-categories']
         }),
+        topBooks: builder.query({
+            query: () => `/statistics/top-books`,
+            // providesTags: ['rentals']
+        }),
         uploadBooks: builder.mutation({
             query: ({formData}) => ({
                 url: `/books/upload`,
@@ -336,6 +340,21 @@ export const apiSlice = createApi({
             query: (categoryId) => `/book-category/${categoryId}`,
             providesTags: ['book-categories']
         }),
+        totalStats: builder.query({
+            query: () => `/statistics/total-revenue`,
+            invalidatesTags: ['students']
+        }),
+        notification: builder.query({
+            query: () => `/statistics/notification`,
+            providesTags: ['rentals', 'teachersRentals']
+        }),
+        notificationReport: builder.mutation({
+            query: () => ({
+                url: `/statistics/notification-report`,
+                method: 'POST',
+                responseHandler: (response) => response.blob()
+            })
+        })
 
         // GET STUDENTS BY CLASSID  TO GET: STUNT-ID,NAME CLASS-ID,REG-NBR,FINE
 
@@ -392,5 +411,9 @@ export const {
     useGetAllCategoriesQuery,
     useCreateBookCategoryMutation,
     useGetCategoryQuery,
-    useLostBooksQuery
+    useLostBooksQuery,
+    useTopBooksQuery,
+    useTotalStatsQuery,
+    useNotificationQuery,
+    useNotificationReportMutation
 } = apiSlice;

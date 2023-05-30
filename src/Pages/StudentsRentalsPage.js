@@ -81,14 +81,14 @@ let studentName="";
     const { rentalHistory:rawRentalHistory } = rentalsinfo;
     const rentalHistory = [];
     rawRentalHistory.forEach(rent => {
-      const rental = { ...rent, issueDate: rent.issueDate.split('T')[0], dueDate: rent.dueDate.split('T')[0] }
-      rentalHistory.push(rental);
+      const rental = { ...rent, issueDate: rent.issueDate.split('T')[0], dueDate: rent.dueDate.split('T')[0], returnDate: rent.returnDate ? rent.returnDate.split('T')[0] : '' }
+      rows.push(rental)
     })
     // const{rentals:rentalskey}=rentalsObj;
     // const{0:rentalsvalue}=rentalskey
     // const{rentalHistory}=rentalsvalue
-    console.log(rentalHistory);
-    rows = rentalHistory;
+    // console.log(rentalHistory);
+    // rows = rentalHistory;
     // console.log(data);
   }
 
@@ -160,11 +160,11 @@ let studentName="";
 
   const columns = [
     { field: "nameOfBook", headerName: "Book name", flex: 0.4 },
-    { field: "bookId", headerName: "ID", flex: 0.3 },
-    { field: "category", headerName: "category", flex: 0.3 },
+    { field: "bookId", headerName: "ID", flex: 0.2 },
+    { field: "categoryName", headerName: "category", flex: 0.3 },
     { field: "issueDate", headerName: "Issue date", flex: 0.4 },
     { field: "dueDate", headerName: "Due date", flex: 0.4 },
-    {field: "returnDate", headerName: "Return date", flex: 0.3},
+    { field: "returnDate", headerName: "Return date", flex: 0.3},
     {
       field: "Receive",
       headerName: "Receive",
@@ -185,7 +185,7 @@ let studentName="";
     {
       field: "actions",
       headerName: "Actions",
-      flex: 0.5,
+      flex: 0.3,
       renderCell: (params) => (
         <Stack direction="row" spacing={1}>
           {/* icons only */}

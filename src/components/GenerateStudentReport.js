@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useGenerateStudentReportMutation } from "../states/apiSlice";
 import Button from "@mui/material/Button";
 import { FileDownloadOutlined } from "@mui/icons-material";
+import {Box} from "@mui/material";
 const GenerateStudentReport = ({ studentId }) => {
   const [generateStudentReport, { data }] = useGenerateStudentReportMutation();
   const [isLoading, setIsLoading] = useState(false);
@@ -20,12 +21,15 @@ const GenerateStudentReport = ({ studentId }) => {
 
   return (
     <div>
-      <span
-        onClick={handleGenerate}
-        disabled={isLoading}
+      <Box
+          variant="contained"
+          component="label"
+          sx={{fontSize: "11px"}}
+          onClick={handleGenerate}
+          disabled={isLoading}
       >
         {isLoading ? (
-          "Generating Report..."
+            <Button disabled>Generating Report ...</Button>
         ) : (
           <Button
             variant="contained"
@@ -35,7 +39,7 @@ const GenerateStudentReport = ({ studentId }) => {
             download
           </Button>
         )}
-      </span>
+      </Box>
     </div>
   );
 };

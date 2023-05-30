@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useGenerateClassReportMutation } from "../states/apiSlice";
 import Button from "@mui/material/Button";
 import { FileDownloadOutlined } from "@mui/icons-material";
+import {Box} from "@mui/material";
 const GenerateClassReport = ({ ClassId }) => {
   const [generateClassReport, { data }] = useGenerateClassReportMutation();
   const [isLoading, setIsLoading] = useState(false);
@@ -20,7 +21,7 @@ const GenerateClassReport = ({ ClassId }) => {
 
   return (
     <div>
-      <span
+      <Box
         variant="contained"
         component="label"
         sx={{ fontSize: "11px" }}
@@ -28,7 +29,7 @@ const GenerateClassReport = ({ ClassId }) => {
         disabled={isLoading}
       >
         {isLoading ? (
-          "Generating Report..."
+            <Button disabled>Generating Report ...</Button>
         ) : (
           <Button
             variant="contained"
@@ -38,7 +39,7 @@ const GenerateClassReport = ({ ClassId }) => {
             download
           </Button>
         )}
-      </span>
+      </Box>
     </div>
   );
 };

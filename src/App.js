@@ -11,6 +11,8 @@ import Layout from "./layout/Layout";
 // import FileUploadStudents from "./components/FileUploadStudents";
 // import GenerateClassReport from "./components/GenerateClassReport";
 import GenerateStudentReport from "./components/GenerateStudentReport";
+import Notification from "./components/Notification";
+
 
 // import AddForm from './components/AddForm';
 import LoginPage from "./components/userAuthentication/LoginPage";
@@ -77,6 +79,7 @@ function App() {
                 <Route path='/addbookrental' element={<AddBookRentalPage/>}/>
                 <Route path="/monthly" element={<BooksList />} />
                 <Route path="/lost-books" element={<LostBooks />} />
+                <Route path="/notification" element={<Notification />} />
               </Route>
             </Routes>
           </ThemeProvider>
