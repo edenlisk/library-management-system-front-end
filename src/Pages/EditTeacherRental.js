@@ -29,28 +29,19 @@ const EditTeacherRentalPage = () => {
 
   const{data,isLoading,isSuccess,isError,error}=useGetSingleTeacherRentalQuery(rentalId);
 
-   
+
   const [rental, setRental] = useState({
     nameOfBook: "",
-    dueDate: null,
+    dueDate: "",
   
   });
   useEffect(() => {
     if (isSuccess) {
       const { data: info } = data;
-      const{rental:rentals}=info;
-      // console.log(rentals);
-     let rentalsData=[];
-     Object.keys(rentals).forEach(rent => {
-      // const rentz = { ...rent, issueDate: rent.issueDate.split('T')[0], dueDate: rent.dueDate.split('T')[0] }
-      // rentalsData.push(rentz);
-      console.log(rentals[rent]);
-    })
-      // console.log(rentals);
+      const { rental:rentall } = info;
       setRental({
-        nameOfBook: rentalsData.nameOfBook,
-    dueDate: rentalsData.dueDate,
-
+        nameOfBook: rentall.nameOfBook,
+        dueDate: '',
       });
     }
   }, [isSuccess]);
@@ -76,7 +67,7 @@ const EditTeacherRentalPage = () => {
   const handleEndDateChange = (newDate) => {
     setRental((prevState) => ({
       ...prevState,
-      dueDate: newDate.format("MM/DD/YYYY"),
+      dueDate: newDate.format("YYYY-MM-DD"),
     }));
   };
 
@@ -130,9 +121,9 @@ const EditTeacherRentalPage = () => {
         />
         <DatePicker
           disablePast
-          value={rental.dueDate || null}
+          value={rental.dueDate}
           onChange={handleEndDateChange}
-          format="MM/DD/YYYY"
+          format="YYYY-MM-DD"
           sx={{ minWidth: 230, alignSelf: "start", mb: 2 }}
         />
 
