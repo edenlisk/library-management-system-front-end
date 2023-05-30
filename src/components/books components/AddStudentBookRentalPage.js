@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import {
   Box,
   TextField,
@@ -17,13 +19,18 @@ import { DatePicker } from "@mui/x-date-pickers";
 import { SearchOutlined } from "@mui/icons-material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import BooksCard from "./BooksCard";
-import { useGetAllBooksQuery } from "../../states/apiSlice";
+import { useGetAllBooksQuery,useCreateRentalMutation } from "../../states/apiSlice";
 
-const AddBookRentalPage = () => {
+const AddStudentBookRentalPage = () => {
+
+  const { studentId } = useParams();
+  const academicYear = useSelector((state) => state.global.academicYear);
   
   const{data, isLoading, isSuccess, isError, error }=useGetAllBooksQuery();
+  const[createRental]=useCreateRentalMutation();
 
   const theme = useTheme();
+  const navigate=useNavigate();
   const isNonMobile = useMediaQuery("(min-width: 1000px)");
 
   {
@@ -43,6 +50,7 @@ const AddBookRentalPage = () => {
     issueDate: null,
     dueDate: null,
   });
+  const [rentBook,setRentBook]=useState(null);
 
   {
     /* STATE FOR HANDLING SELECT DROPDOWN VALUE SELECTED */
@@ -172,6 +180,10 @@ const AddBookRentalPage = () => {
       // issueDate: newDate.format("MM/DD/YYYY"),
       issueDate: newDate.format("YYYY-MM-DD"),
     }));
+    setRentBook((prevRentBook) => ({
+      ...prevRentBook,
+      issueDate:  newDate.format("YYYY-MM-DD"),
+    }));
   };
 
   {
@@ -183,21 +195,39 @@ const AddBookRentalPage = () => {
       // dueDate: newDate.format("MM/DD/YYYY"),
       dueDate: newDate.format("YYYY-MM-DD"),
     }));
+
+    setRentBook((prevRentBook) => ({
+      ...prevRentBook,
+      dueDate: newDate.format("YYYY-MM-DD"),
+    }));
   };
 
   {
     /*FUNCTION TO HANDLE ANY CHANGE IN THE RENTAL BOOK FORM EXCPET ISSUE AND DUE DATES */
   }
   const handleChange = (e) => {
-    setBook({ ...book, [e.target.name]: e.target.value });
+    setBook(
+      (prevBook) => ({
+        ...prevBook, [e.target.name]: e.target.value }));
+
+        setRentBook((prevRentBook)=>({
+          book_id:book.book_id,
+          ...prevRentBook,[e.target.name]: e.target.value,
+          
+        }));
+
   };
+
 
   {
     /* FUNCTION TO HANDLE FORM DATA SUBMISSION (BOOK)*/
   }
-  const handleSubmit = (event) => {
+  const handleSubmit = async(event) => {
     event.preventDefault();
+    const body={...rentBook};
+    await createRental({body,academicYear,studentId})
     console.log(book);
+    console.log(rentBook);
     setBook({
       bookName: "",
       author: "",
@@ -211,6 +241,7 @@ const AddBookRentalPage = () => {
       issueDate: null,
       dueDate: null,
     });
+    navigate(-1);
   };
 
   const levels = ["S1", "S2", "S3", "S4", "S5", "S6", "AllEvels"];
@@ -262,7 +293,7 @@ const AddBookRentalPage = () => {
         container
         spacing={2}
         sx={{
-          p: 4.5,
+          p: 4.5,mt:1,
           "& .MuiOutlinedInput-notchedOutline": {
             borderRadius: "55px",
           },
@@ -270,6 +301,7 @@ const AddBookRentalPage = () => {
         }}
         alignItems="center"
         backgroundColor={theme.palette.background.alt}
+        disableEqualOverflow
       >
         {/* GRID CONTAINING SEARCH AND SLECT COMPONENTS USING FOR FILTERING PURPOSES */}
         <Grid2
@@ -280,6 +312,7 @@ const AddBookRentalPage = () => {
           gap={2}
           justifyContent="start"
           alignItems="center"
+          disableEqualOverflow
         >
           <TextField
             variant="outlined"
@@ -336,7 +369,8 @@ const AddBookRentalPage = () => {
       {/* GRID CONTAINING SEARCH AND SLECT COMPONENTS USING FOR FILTERING PURPOSES */}
 
       {/* GRID CONTAINING THE 2 GRIDS FOR BOOK CARDS AND THE RENTAL BOOK FORM */}
-      <Grid2 container sx={{ p: 4.5 }} spacing={2}>
+      <Grid2 container sx={{ p: 4.5 }} spacing={2}
+      disableEqualOverflow>
         {/* GRID CONTAINING THE BOOK AVAILABLE CARDS USE WITH THE MAPING AFTER OR BEFORE FITLTER */}
         <Grid2 xs={12} md={6}>
           <Box
@@ -505,11 +539,11 @@ const AddBookRentalPage = () => {
               />
             </Grid2>
 
-            <Grid2 xs={12} container gap={2} display="flex" alignItems="center">
+            <Grid2 xs={12}  gap={2} display="flex" alignItems="center">
               <Button variant="contained" type="submit" onClick={handleSubmit}>
                 confirm & rent
               </Button>
-              <Button variant="contained" type="button">
+              <Button variant="contained" type="button" onClick={()=>navigate(-1)}>
                 cancel
               </Button>
             </Grid2>
@@ -522,4 +556,4 @@ const AddBookRentalPage = () => {
   );
 };
 
-export default AddBookRentalPage;
+export default AddStudentBookRentalPage;

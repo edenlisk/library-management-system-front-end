@@ -33,11 +33,12 @@ import EditTeacherPage from "./Pages/EditTeacherPage";
 import TeachersRentalsPage from "./Pages/TeachersRentalPage";
 import AddBook from "./components/books components/AddBook";
 import BooksPage from "./components/books components/BooksPage";
-import AddBookRentalPage from "./components/books components/AddBookRentalPage";
+import AddStudentBookRentalPage from "./components/books components/AddStudentBookRentalPage";
 import BooksList from "./components/books components/BooksList";
 import LostBooks from "./components/books components/LostBooks";
 import EditBookPage from "./components/books components/EditBookPage";
 import EditTeacherRentalPage from "./Pages/EditTeacherRental";
+import AddTeacherBookRentalPage from "./components/books components/AddTeacherBookRentalPage";
 function App() {
   const mode = useSelector((state) => state.global.mode);
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
@@ -76,7 +77,8 @@ function App() {
                 <Route path='/book' element={<AddBook/>}/>
                 <Route path='/edit-book/:bookId' element={<EditBookPage/>}/>
                 <Route path='/bookspage' element={<BooksPage/>}/>
-                <Route path='/addbookrental' element={<AddBookRentalPage/>}/>
+                <Route path='/add/student-rental/:studentId' element={<AddStudentBookRentalPage/>}/>
+                <Route path='/addteacher-rental/:teacherId' element={<AddTeacherBookRentalPage/>}/>
                 <Route path="/monthly" element={<BooksList />} />
                 <Route path="/lost-books" element={<LostBooks />} />
                 <Route path="/notification" element={<Notification />} />

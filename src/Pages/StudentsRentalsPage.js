@@ -13,8 +13,9 @@ import {
   ChevronRightOutlined,
   DeleteOutlined,
   ModeEditOutlined,
+  Add
 } from "@mui/icons-material";
-import {Box, Typography, IconButton, Stack, Tooltip, Button} from "@mui/material";
+import {Box, Typography, IconButton, Stack, Tooltip, Button, Toolbar} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import Customtoolbar from "../components/Customtoolbar";
@@ -108,54 +109,54 @@ let studentName="";
     dueDate: null,
   });
 
-  const handleModalOpen = () => {
-    setOpenModal(!openModal);
-  };
-  const handleModalClose = () => {
-    setOpenModal(!openModal);
-  };
+  // const handleModalOpen = () => {
+  //   setOpenModal(!openModal);
+  // };
+  // const handleModalClose = () => {
+  //   setOpenModal(!openModal);
+  // };
 
-  const handleChange = (e) => {
-    setRental({ ...rental, [e.target.name]: e.target.value });
-  };
+  // const handleChange = (e) => {
+  //   setRental({ ...rental, [e.target.name]: e.target.value });
+  // };
 
-  const handleStartDateChange = (newDate) => {
-    setRental((prevState) => ({
-      ...prevState,
-      // issueDate: newDate.format("MM/DD/YYYY"),
-      issueDate: newDate.format('YYYY-MM-DD'),
-    }));
-  };
+  // const handleStartDateChange = (newDate) => {
+  //   setRental((prevState) => ({
+  //     ...prevState,
+  //     // issueDate: newDate.format("MM/DD/YYYY"),
+  //     issueDate: newDate.format('YYYY-MM-DD'),
+  //   }));
+  // };
 
-  const handleEndDateChange = (newDate) => {
-    setRental((prevState) => ({
-      ...prevState,
-      // dueDate: newDate.format("MM/DD/YYYY"),
-      dueDate: newDate.format('YYYY-MM-DD'),
-    }));
-  };
+  // const handleEndDateChange = (newDate) => {
+  //   setRental((prevState) => ({
+  //     ...prevState,
+  //     // dueDate: newDate.format("MM/DD/YYYY"),
+  //     dueDate: newDate.format('YYYY-MM-DD'),
+  //   }));
+  // };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const body = { ...rental };
-    await createRental({ body, academicYear, studentId });
-    console.log(rental);
-    setRental({
-      nameOfBook: "",
-      bookId: "",
-      studentId: studentId,
-      academicYear: academicYear,
-      category: "",
-      issueDate: null,
-      dueDate: null,
-    });
-    setOpenModal(!openModal);
-  };
+  // const handleSubmit = async (event) => {
+  //   event.preventDefault();
+  //   const body = { ...rental };
+  //   await createRental({ body, academicYear, studentId });
+  //   console.log(rental);
+  //   setRental({
+  //     nameOfBook: "",
+  //     bookId: "",
+  //     studentId: studentId,
+  //     academicYear: academicYear,
+  //     category: "",
+  //     issueDate: null,
+  //     dueDate: null,
+  //   });
+  //   setOpenModal(!openModal);
+  // };
 
   const handleRowDelete = async (id) => {
     const rentalId = id;
     await deleteRental(rentalId);
-    console.log(typeof rentalId);
+    console.log(rentalId);
   };
 
   const columns = [
@@ -238,7 +239,7 @@ let studentName="";
         alignItems="center"
       >
         <Typography variant="h4">{ studentName }:{academicYear}</Typography>
-        <AddBookRental
+        {/* <AddBookRental
           rental={rental}
           format="YYYY-MM-DD"
           setRental={setRental}
@@ -249,7 +250,16 @@ let studentName="";
           openModal={openModal}
           handleModalOpen={handleModalOpen}
           handleModalClose={handleModalClose}
-        />
+        /> */}
+        <Link to={`/add/student-rental/${studentId}`}>
+         <Toolbar sx={{ display: "flex" }}>
+        <IconButton>
+          <Add />
+        </IconButton>
+        <Typography variant="h6">Add new book rental...</Typography>
+      </Toolbar>
+      </Link>
+
       </Grid2>
       <Grid2 xs={12} display="flex" justifyContent="start">
         <Box
