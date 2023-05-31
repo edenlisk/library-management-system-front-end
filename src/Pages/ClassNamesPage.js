@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { useGetClassesQuery, useCreateClassMutation } from "../states/apiSlice";
 import { useSelector } from "react-redux";
 import ClassNames from "../components/classTables/ClassNamescomponents";
 import Customtoolbar from "../components/Customtoolbar";
+import {toast} from "react-toastify";
 
 const ClassNamesPage = () => {
 // FOR GETTING ACADEMIC YEAR
@@ -12,8 +13,17 @@ const ClassNamesPage = () => {
   // FOR FETCHING
 
   const { data, isLoading, isSuccess, isError, error } = useGetClassesQuery(academicYear);
-  const [createClass] = useCreateClassMutation()
+  const [createClass, {isSuccess:isCreationSuccess, isError:isCreationError, error:creationError}] = useCreateClassMutation()
   // console.log(data);
+  useEffect(() => {
+    if (isCreationSuccess) {
+      toast.success("Class created successfully")
+    } else if (isCreationError) {
+      const { data:fullError } = creationError;
+      const {message} = fullError;
+      toast.error(message);
+    }
+  }, [isCreationError, isCreationSuccess]);
   let rows = [];
   if (isLoading) {
     console.log("loading");

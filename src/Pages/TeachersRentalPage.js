@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import {useTheme} from "@emotion/react";
 import {useNavigate, useParams, Link} from "react-router-dom";
@@ -26,6 +26,7 @@ import Customtoolbar from "../components/Customtoolbar";
 import AddTeacherBookRental from "../components/teachersComponents/AddTeacherBookRental";
 import Status from "../components/Status";
 import ReceiveBook from "../components/books components/ReceiveBook";
+import {toast} from "react-toastify";
 
 
 const TeachersRentalsPage = () => {
@@ -55,8 +56,29 @@ const TeachersRentalsPage = () => {
     const [selectedId, setSelectedId] = useState();
 
 
-    const [createRental] = useCreateTeacherRentalMutation();
-    const [deleteRental] = useDeleteTeacherRentalMutation();
+    const [createRental, {isSuccess:isCreateSuccess, isError:isCreateError, error:createError}] = useCreateTeacherRentalMutation();
+
+    useEffect(() => {
+        if (isCreateSuccess) {
+            toast.success("Rental created successfully")
+        } else if (isCreateError) {
+            const { data:fullError } = createError;
+            const {message} = fullError;
+            toast.error(message);
+        }
+    }, [isCreateError, isCreateSuccess]);
+
+    const [deleteRental, {isSuccess:isDeleteSuccess, isError:isDeleteError, error:deleteError}] = useDeleteTeacherRentalMutation();
+
+    useEffect(() => {
+        if (isDeleteSuccess) {
+            toast.success("Rental deleted successfully")
+        } else if (isDeleteError) {
+            const { data:fullError } = deleteError;
+            const {message} = fullError;
+            toast.error(message);
+        }
+    }, [isDeleteError, isDeleteSuccess]);
 
     const {data, isLoading, isSuccess, isError, error} = useGetTeacherRentalsQuery(teacherId);
 

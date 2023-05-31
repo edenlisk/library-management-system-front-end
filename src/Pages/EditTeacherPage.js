@@ -12,13 +12,14 @@ import {
 } from "@mui/material";
 import { LoginOutlined } from "@mui/icons-material";
 import { useUpdateTeacherMutation,useGetTeacherQuery} from "../states/apiSlice";
+import {toast} from "react-toastify";
 
 // TO ADD A BOOLEAN TO MAKE FIELDS RED WHEN THERE IS AN ERROR
 
 const EditTeacherPage = () => {
   const { teacherId } = useParams();
   const navigate=useNavigate();
-  const{data,isLoading,isSuccess,isError,error}=useGetTeacherQuery(teacherId);
+  const{data,isLoading,isSuccess}=useGetTeacherQuery(teacherId);
  
   const [user, setUser] = useState({ name: "" });
 
@@ -33,7 +34,18 @@ const EditTeacherPage = () => {
     }
   }, [isSuccess]);
 
-  const [updateTeacher] = useUpdateTeacherMutation();
+  const [updateTeacher, {isSuccess:isUpdateSuccess, isError:isUpdateError, error:updateError}] = useUpdateTeacherMutation();
+
+  useEffect(() => {
+    if (isUpdateSuccess) {
+      toast.success("Teacher updated successfully")
+    } else if (isUpdateError) {
+      const { data:fullError } = updateError;
+      const {message} = fullError;
+      toast.error(message);
+    }
+  }, [isUpdateError, isUpdateSuccess]);
+
   let  forminfo =[];
   // if (isSuccess) {
   //   const { data: info } = data;

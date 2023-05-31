@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { useSelector } from "react-redux";
 import { useTheme } from "@emotion/react";
 import { useNavigate, useParams, Link } from "react-router-dom";
@@ -23,6 +23,7 @@ import AddBookRental from "../components/students tables components/AddBookRenta
 import Status from "../components/Status";
 import ReceiveBook from "../components/books components/ReceiveBook";
 import dayjs from "dayjs";
+import {toast} from "react-toastify";
 
 const StudentsRentalsPage = () => {
   const { studentId } = useParams();
@@ -52,8 +53,27 @@ const StudentsRentalsPage = () => {
 
 
 
-  const [createRental] = useCreateRentalMutation();
-  const [deleteRental] = useDeleteRentalMutation();
+  const [createRental, {isSuccess:isCreateSuccess, isError:isCreateError, error:createError}] = useCreateRentalMutation();
+  useEffect(() => {
+    if (isCreateSuccess) {
+      toast.success("Rental created successfully!")
+    } else if (isCreateError) {
+      const { data:fullError } = createError;
+      const {message} = fullError;
+      toast.error(message);
+    }
+  }, [isCreateError, isCreateSuccess]);
+
+  const [deleteRental, {isSuccess:isDeleteSuccess, isError:isDeleteError, error:deleteError}] = useDeleteRentalMutation();
+  useEffect(() => {
+    if (isDeleteSuccess) {
+      toast.success("Rental deleted successfully")
+    } else if (isDeleteError) {
+      const { data:fullError } = deleteError;
+      const {message} = fullError;
+      toast.error(message);
+    }
+  }, [isDeleteError, isDeleteSuccess]);
 
   const { data, isLoading, isSuccess, isError, error } = useGetRentalsQuery({
     academicYear,
@@ -80,7 +100,6 @@ let studentName="";
   if (isSuccess) {
     const { data: rentalsinfo } = data;
     const { rentalHistory:rawRentalHistory } = rentalsinfo;
-    const rentalHistory = [];
     rawRentalHistory.forEach(rent => {
       const rental = { ...rent, issueDate: rent.issueDate.split('T')[0], dueDate: rent.dueDate.split('T')[0], returnDate: rent.returnDate ? rent.returnDate.split('T')[0] : '' }
       rows.push(rental)

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {
     Button,
     Dialog,
@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import {useTheme} from "@emotion/react";
 import {useUpdateRentalMutation, useUpdateTeacherRentalMutation } from "../../states/apiSlice";
+import {toast} from "react-toastify";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props}/>
@@ -17,8 +18,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 
 export default function ReceiveBook ({open, handleClose, book}) {
-    const [updateRental, { isSuccess:studentRentalSuccess }] = useUpdateRentalMutation();
-    const [updateTeacherRental, { isSuccess }] = useUpdateTeacherRentalMutation();
+    const [updateRental, { isSuccess:studentRentalSuccess, isError:studentRentalError, error:studentError }] = useUpdateRentalMutation();
+    const [updateTeacherRental, { isSuccess, isError, error }] = useUpdateTeacherRentalMutation();
     const theme = useTheme()
     const handleReceive = async (bookId) => {
         const body = { returned: true, returnDate: new Date().toISOString().split('T')[0] }
@@ -29,6 +30,15 @@ export default function ReceiveBook ({open, handleClose, book}) {
         }
         handleClose()
     }
+    useEffect(() => {
+        if (isSuccess || studentRentalSuccess) {
+            toast.success("Book received Successfully")
+        } else if (isError || studentRentalError) {
+            const { data:fullError } = error;
+            const {message} = fullError;
+            toast.error(message);
+        }
+    }, [isError, isSuccess, studentRentalSuccess, studentRentalError]);
     return (
         <div>
             {/*<Button variant="contained" onClick={handleClickOpen}>Open Dialog</Button>*/}

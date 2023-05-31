@@ -1,11 +1,21 @@
 import {useUploadBooksMutation} from "../../states/apiSlice";
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {Box, Button, Stack, Tooltip} from "@mui/material";
 import {UploadFile} from "@mui/icons-material";
+import {toast} from "react-toastify";
 
 
 const FileUploadBooks = () => {
-    const [uploadBooks, { isSuccess, isLoading }] = useUploadBooksMutation();
+    const [uploadBooks, { isSuccess, isLoading, isError, error }] = useUploadBooksMutation();
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success("Books uploaded successfully")
+        } else if (isError) {
+            const { data:fullError } = error;
+            const {message} = fullError;
+            toast.error(message);
+        }
+    }, [isError, isSuccess]);
     const [selectedFile, setSelectedFile] = useState(null);
 
     const [firstClick, setFirstClick] = useState(false);

@@ -12,6 +12,9 @@ import Layout from "./layout/Layout";
 // import GenerateClassReport from "./components/GenerateClassReport";
 import GenerateStudentReport from "./components/GenerateStudentReport";
 import Notification from "./components/Notification";
+import Settings from "./components/Settings";
+import {ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'
 
 
 // import AddForm from './components/AddForm';
@@ -48,16 +51,20 @@ function App() {
         <BrowserRouter>
           <ThemeProvider theme={theme}>
             <CssBaseline />
+            <ToastContainer
+                pauseOnHover
+                autoClose={3000}
+            />
             <Routes>
               <Route element={<Layout />}>
                 <Route
-                  path="/"
-                  element={<Navigate to="/dashboard" replace />}
+                    path="/"
+                    element={<Navigate to="/dashboard" replace />}
                 />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route
-                  path="/passwordrecover"
-                  element={<PasswordRecoverPage />}
+                    path="/passwordrecover"
+                    element={<PasswordRecoverPage />}
                 />
                 {/* <Route path="/classes" element={<ClassListPage />} /> */}
                 <Route path="/classes" element={<ClassNamesPage />} />
@@ -82,6 +89,7 @@ function App() {
                 <Route path="/monthly" element={<BooksList />} />
                 <Route path="/lost-books" element={<LostBooks />} />
                 <Route path="/notification" element={<Notification />} />
+                <Route path="/settings" element={<Settings />} />
               </Route>
             </Routes>
           </ThemeProvider>

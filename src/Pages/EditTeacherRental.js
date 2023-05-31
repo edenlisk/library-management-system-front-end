@@ -20,6 +20,7 @@ import {
 import { DatePicker } from "@mui/x-date-pickers";
 import { LoginOutlined } from "@mui/icons-material";
 import { useUpdateRentalMutation,useGetSingleTeacherRentalQuery } from "../states/apiSlice";
+import {toast} from "react-toastify";
 
 // TO ADD A BOOLEAN TO MAKE FIELDS RED WHEN THERE IS AN ERROR
 
@@ -49,7 +50,18 @@ const EditTeacherRentalPage = () => {
     }
   }, [isSuccess]);
 
-  const [updateRental] = useUpdateRentalMutation();
+  const [updateRental, {isSuccess:isUpdateSuccess, isError:isUpdateError, error:updateError}] = useUpdateRentalMutation();
+
+  useEffect(() => {
+    if (isUpdateSuccess) {
+      toast.success("Rental updated successfully")
+    } else if (isUpdateError) {
+      const { data:fullError } = updateError;
+      const {message} = fullError;
+      toast.error(message);
+    }
+  }, [isUpdateError, isUpdateSuccess]);
+
   let  forminfo =[];
 
   console.log(rental)

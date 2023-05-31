@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import {
   Box,
   Typography,
@@ -16,10 +16,11 @@ import {
 import { useNavigate } from "react-router-dom";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { useGetAllCategoriesQuery,useCreateBookMutation } from "../../states/apiSlice";
+import {toast} from "react-toastify";
 
 const AddBook = () => {
   const navigate = useNavigate();
-  const [createBook]=useCreateBookMutation();
+  const [createBook, {isSuccess, isError, error}]=useCreateBookMutation();
 //   const {data:catz, isLoading, isSuccess, isError, error }=useGetAllCategoriesQuery();
 //  if (isSuccess) {
   
@@ -30,6 +31,15 @@ const AddBook = () => {
     
   
 //   }
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("Book added successfully");
+    } else if (isError) {
+      const { data:fullError } = error;
+      const {message} = fullError;
+      toast.error(message);
+    }
+  }, [isError, isSuccess]);
 
   const [book, setBook] = useState({
     bookName: "",

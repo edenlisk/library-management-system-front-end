@@ -12,18 +12,28 @@ import {
 } from "@mui/material";
 import { LoginOutlined } from "@mui/icons-material";
 import { useUpdateStudentMutation,useGetOneStudentQuery } from "../states/apiSlice";
+import {toast} from "react-toastify";
 
 // TO ADD A BOOLEAN TO MAKE FIELDS RED WHEN THERE IS AN ERROR
 
 const EditStudentPage = () => {
   const { studentId } = useParams();
   const navigate=useNavigate();
-  const{data,isLoading,isSuccess,isError,error}=useGetOneStudentQuery(studentId);
+  const{data,isLoading,isSuccess}=useGetOneStudentQuery(studentId);
  
   const [user, setUser] = useState({ name: "", fine: 0 });
 
-  const [updateStudent] = useUpdateStudentMutation();
+  const [updateStudent, {isSuccess:isUpdateSuccess, isError:isUpdateError, error:updateError}] = useUpdateStudentMutation();
 
+  useEffect(() => {
+    if (isUpdateSuccess) {
+      toast.success("Student updated successfully")
+    } else if (isUpdateError) {
+      const { data:fullError } = updateError;
+      const {message} = fullError;
+      toast.error(message);
+    }
+  }, [isUpdateError, isUpdateSuccess]);
   // if (isSuccess) {
   //   const { data: info } = data;
   //   const{student}=info;

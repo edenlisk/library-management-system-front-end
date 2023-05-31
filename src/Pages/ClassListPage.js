@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { useSelector } from "react-redux";
 import { useParams, Link } from "react-router-dom";
 import {
@@ -29,6 +29,7 @@ import {
 } from "@mui/icons-material";
 import AddStudentForm from "../components/students tables components/AddStudentForm";
 import Customtoolbar from "../components/Customtoolbar";
+import {toast} from "react-toastify";
 
 
 const ClassListPage = () => {
@@ -36,9 +37,29 @@ const ClassListPage = () => {
 
   const { classId } = useParams();
 
-  const [createNewStudent] = useCreateStudentMutation();
+  const [createNewStudent, { isSuccess:isCreateSuccess, isError:isCreationError, error:creationError }] = useCreateStudentMutation();
 
-  const [deleteStudent] = useDeleteStudentMutation();
+  useEffect(() => {
+    if (isCreateSuccess) {
+      toast.success("Student created successfully!")
+    } else if (isCreationError) {
+      const { data:fullError } = creationError;
+      const {message} = fullError;
+      toast.error(message);
+    }
+  }, [isCreationError, isCreateSuccess]);
+
+  const [deleteStudent, { isSuccess:isDeleteSuccess, isError:isDeleteError, error:deletionError }] = useDeleteStudentMutation();
+
+  useEffect(() => {
+    if (isDeleteSuccess) {
+      toast.success("Student deleted successfully")
+    } else if (isDeleteError) {
+      const { data:fullError } = deletionError;
+      const {message} = fullError;
+      toast.error(message);
+    }
+  }, [isDeleteSuccess, isDeleteError]);
 
   const { data, isLoading, isSuccess, isError, error } = useGetStudentsQuery({
     academicYear,
