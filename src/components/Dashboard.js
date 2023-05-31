@@ -11,6 +11,7 @@ import {
     useTheme,
     useMediaQuery,
 } from "@mui/material";
+import { MyResponsivePie } from "./dashboard/Graphs";
 import TopBooks from "./dashboard/TopBooks";
 import {
     ChevronRightOutlined,
@@ -133,6 +134,13 @@ const Dashboard = () => {
             </FlexBetween>
             <Box>
                 <DashboardStats/>
+            </Box>
+            <Box
+                display="flex"
+                maxWidth="90%"
+                justifyContent="space-around"
+            >
+                <MyResponsivePie/>
             </Box>
             <Box
                 display="flex"
