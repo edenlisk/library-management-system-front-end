@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
+import dayjs from 'dayjs';
 import {
   FormHelperText,
   TextField,
@@ -17,7 +18,6 @@ import {
   Checkbox
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
-import dayjs from "dayjs";
 import { LoginOutlined } from "@mui/icons-material";
 import { useUpdateRentalMutation,useGetSingleTeacherRentalQuery } from "../states/apiSlice";
 
@@ -32,16 +32,19 @@ const EditTeacherRentalPage = () => {
 
   const [rental, setRental] = useState({
     nameOfBook: "",
-    dueDate: "",
+    dueDate: null,
   
   });
   useEffect(() => {
     if (isSuccess) {
       const { data: info } = data;
       const { rental:rentall } = info;
+
+         const formattedDueDate = new Date(rentall.dueDate.split("T")[0]);
+
       setRental({
         nameOfBook: rentall.nameOfBook,
-        dueDate: '',
+        dueDate: formattedDueDate,
       });
     }
   }, [isSuccess]);
@@ -49,7 +52,7 @@ const EditTeacherRentalPage = () => {
   const [updateRental] = useUpdateRentalMutation();
   let  forminfo =[];
 
-  
+  console.log(rental)
     // if (isSuccess) {
     //   const { data: info } = data;
     //   const{rental:rentals}=info;
@@ -67,7 +70,7 @@ const EditTeacherRentalPage = () => {
   const handleEndDateChange = (newDate) => {
     setRental((prevState) => ({
       ...prevState,
-      dueDate: newDate.format("YYYY-MM-DD"),
+      dueDate: newDate.format('YYYY-MM-DD'),
     }));
   };
 
@@ -75,7 +78,7 @@ const EditTeacherRentalPage = () => {
   // SUBMITS DATA IN THE INPUTS FIELDS
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const body = { ...rental };
+    const body = { ...rental};
     await updateRental({ body, rentalId });
     console.log(rental);
     setRental({
@@ -109,7 +112,7 @@ const EditTeacherRentalPage = () => {
         <TextField
           required
           fullWidth
-          defaultValue={rental.nameOfBook || ""}
+          value={rental.nameOfBook || ""}
           name="nameOfBook"
           // placeholder=" nameOfBook"
           // label="nameOfBook"
@@ -121,7 +124,7 @@ const EditTeacherRentalPage = () => {
         />
         <DatePicker
           disablePast
-          value={rental.dueDate}
+          value={ dayjs(rental.dueDate) || null }
           onChange={handleEndDateChange}
           format="YYYY-MM-DD"
           sx={{ minWidth: 230, alignSelf: "start", mb: 2 }}
