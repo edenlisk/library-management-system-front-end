@@ -1,10 +1,22 @@
-import React, { useState, useRef } from "react";
+import React, {useState, useRef, useEffect} from "react";
 import { Box, Button, TextField, Tooltip, Stack  } from "@mui/material";
 import { UploadFile } from "@mui/icons-material";
 import { useUploadClassesMutation } from "../states/apiSlice";
+import {toast} from "react-toastify";
 
 const FileUploadClasses = ({ academicYear }) => {
-  const [uploadClasses, { isSuccess, isLoading }] = useUploadClassesMutation();
+  const [uploadClasses, { isSuccess, isLoading, isError, error }] = useUploadClassesMutation();
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("Classes uploaded successfully")
+    } else if (isError) {
+      const { data:fullError } = error;
+      const {message} = fullError;
+      toast.error(message);
+    }
+  }, [isError, isSuccess]);
+
 
   const [selectedFile, setSelectedFile] = useState(null);
 

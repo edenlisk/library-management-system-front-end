@@ -1,39 +1,33 @@
-import React from 'react';
-import {
-    Box,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Typography
-} from "@mui/material";
-import {Bars} from 'react-loader-spinner'
-import {useTopBooksQuery} from "../../states/apiSlice";
+import React, {useEffect} from "react";
+import {Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography} from "@mui/material";
+import {Bars} from "react-loader-spinner";
+import { useLastCreatedQuery } from "../../states/apiSlice";
 
-
-const TopBooks = () => {
-    const {data, isSuccess, isLoading} = useTopBooksQuery();
+const LastCreated = () => {
+    const { data, isLoading, isSuccess } = useLastCreatedQuery();
     let rows = [];
     if (isSuccess) {
-        const {data: books} = data;
-        const {topBooks} = books;
-        rows = topBooks;
+        const { data:lastCreated } = data;
+        const { rentals } = lastCreated;
+        rows = rentals;
     }
 
     return (
-        <div>
+        <div style={{margin: '3rem 0'}}>
             <div style={{display: 'flex', justifyContent: 'center', margin: '1rem 0'}}>
-                <Typography variant="h3">Top Books</Typography>
+                <Typography variant="h3">Last 10 Created Rentals</Typography>
             </div>
             <TableContainer>
                 <Table size="small">
                     <TableHead>
                         <TableRow>
                             <TableCell>#</TableCell>
-                            <TableCell>Name of Book</TableCell>
-                            <TableCell>Number of rentals</TableCell>
+                            <TableCell>BookId</TableCell>
+                            <TableCell>Borrower</TableCell>
+                            <TableCell>Name of book</TableCell>
+                            <TableCell>Category</TableCell>
+                            <TableCell>Issue date</TableCell>
+                            <TableCell>Due date</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -56,10 +50,14 @@ const TopBooks = () => {
                                 :
                                 rows.map((book, index) => {
                                     return (
-                                        <TableRow key={book._id} hover>
+                                        <TableRow key={index} hover>
                                             <TableCell><Typography fontWeight="bold">{index + 1}</Typography></TableCell>
-                                            <TableCell><Typography variant="h5">{book.bookName}</Typography></TableCell>
-                                            <TableCell sx={{textAlign: 'center'}}><Typography variant="h5">{book.numberOfRentals}</Typography></TableCell>
+                                            <TableCell><Typography fontWeight="bold">{book.bookId}</Typography></TableCell>
+                                            <TableCell><Typography variant="h5">{book.studentName}</Typography></TableCell>
+                                            <TableCell><Typography variant="h5">{book.nameOfBook}</Typography></TableCell>
+                                            <TableCell><Typography variant="h5">{book.categoryName}</Typography></TableCell>
+                                            <TableCell><Typography variant="h5">{book.issueDate}</Typography></TableCell>
+                                            <TableCell><Typography variant="h5">{book.dueDate}</Typography></TableCell>
                                         </TableRow>
                                     )
                                 })
@@ -72,5 +70,4 @@ const TopBooks = () => {
     )
 }
 
-
-export default TopBooks;
+export default LastCreated;

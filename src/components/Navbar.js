@@ -5,7 +5,7 @@ import {
   Menu as MenuIcon,
   Search,
   SettingsOutlined,
-  ArrowDropDownOutlined,
+  ArrowDropDownOutlined, NotificationsNone,
 } from "@mui/icons-material";
 import FlexBetween from "./FlexBetween";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,17 +19,24 @@ import {
   Select,
   InputLabel,
   FormControl,
-  MenuItem,
+  MenuItem, Icon, Badge,
 } from "@mui/material";
 import { setAcademicYear } from "../states/slice";
-import { useGetAcademicYearsQuery } from "../states/apiSlice";
+import {useGetAcademicYearsQuery, useNotificationQuery} from "../states/apiSlice";
+import {useNavigate} from "react-router-dom";
 
 const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const theme = useTheme();
   // FETCH ACADEMIC YEARS
   const { data: years, isSuccess: isDone } = useGetAcademicYearsQuery();
-  console.log(years);
+  let notificationNumber = 0;
+  const { data, isSuccess } = useNotificationQuery();
+  if (isSuccess) {
+    const {result} = data;
+    notificationNumber = result
+  }
 
   const [selectedAcademicYear, setSelectedAcademicYear] = useState(() => {
     if (isDone) {
@@ -97,6 +104,13 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
         </FlexBetween>
         {/* RIGHT SIDE */}
         <FlexBetween gap="1.5rem">
+          <IconButton
+              onClick={() => navigate('/notification')}
+          >
+            <Badge badgeContent={notificationNumber} color="secondary">
+              <NotificationsNone sx={{fontSize: '24px'}}/>
+            </Badge>
+          </IconButton>
           <IconButton onClick={() => dispatch(setMode())}>
             {theme.palette.mode === "dark" ? (
               <DarkModeOutlined sx={{ fontSize: "25px" }} />

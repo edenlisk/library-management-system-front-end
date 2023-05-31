@@ -17,12 +17,23 @@ import { useNavigate } from "react-router-dom";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { useGetBookQuery, useUpdateBookMutation } from "../../states/apiSlice";
 import { useParams } from "react-router-dom";
+import {toast} from "react-toastify";
 
 const EditBookPage = () => {
     const{bookId}=useParams();
   const navigate = useNavigate();
-  const [updateBook]=useUpdateBookMutation();
-  const {data:info, isLoading, isSuccess, isError, error }=useGetBookQuery(bookId);
+  const [updateBook, {isSuccess, isError, error}]=useUpdateBookMutation();
+  const {data:info, isLoading }=useGetBookQuery(bookId);
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("Book updated successfully")
+    } else if (isError) {
+      const { data:fullError } = error;
+      const {message} = fullError;
+      toast.error(message);
+    }
+  }, [isError, isSuccess]);
   let singleBk=[];
 
   const [book, setBook] = useState({

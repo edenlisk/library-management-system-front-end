@@ -12,7 +12,7 @@ export const apiSlice = createApi({
             return headers;
         }
     }),
-    tagTypes: ["classes", "students", "rentals", "academicYear", "classreport", "statistics", "teachers", "teachersRentals", "books", 'books-categories'],
+    tagTypes: ["classes", "students", "rentals", "academicYear", "classreport", "statistics", "teachers", "teachersRentals", "books", 'books-categories', 'settings'],
     endpoints: (builder) => ({
         // GET CLASSES
         getClasses: builder.query({
@@ -354,6 +354,17 @@ export const apiSlice = createApi({
                 method: 'POST',
                 responseHandler: (response) => response.blob()
             })
+        }),
+        getSettings: builder.query({
+            query: () => `/settings`,
+            providesTags: ['settings']
+        }),
+        updateSettings: builder.mutation({
+            query: ({body}) => ({
+                url: `/settings`,
+                method: 'PATCH',
+                body
+            })
         })
 
         // GET STUDENTS BY CLASSID  TO GET: STUNT-ID,NAME CLASS-ID,REG-NBR,FINE
@@ -415,5 +426,8 @@ export const {
     useTopBooksQuery,
     useTotalStatsQuery,
     useNotificationQuery,
-    useNotificationReportMutation
+    useNotificationReportMutation,
+    useGetSettingsQuery,
+    useUpdateSettingsMutation,
+    useLastCreatedQuery
 } = apiSlice;

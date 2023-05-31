@@ -26,6 +26,7 @@ import {useTopStudentsQuery} from '../states/apiSlice';
 import MyResponsiveLine from './Datachart';
 import TopStudents from "./dashboard/TopStudents";
 import DashboardStats from "./dashboard/DashboardStats";
+import LastCreated from "./dashboard/LastCreated";
 
 const Dashboard = () => {
     const theme = useTheme();
@@ -140,6 +141,12 @@ const Dashboard = () => {
             >
                 <TopBooks/>
                 <TopStudents/>
+            </Box>
+            <Box
+                display="flex"
+                justifyContent={"start"}
+            >
+                <LastCreated />
             </Box>
 
       {/*      <Box*/}

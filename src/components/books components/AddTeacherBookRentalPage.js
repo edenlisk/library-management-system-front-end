@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import {
@@ -20,14 +20,25 @@ import { SearchOutlined } from "@mui/icons-material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import BooksCard from "./BooksCard";
 import { useGetAllBooksQuery,useCreateTeacherRentalMutation } from "../../states/apiSlice";
+import {toast} from "react-toastify";
 
 const AddTeacherBookRentalPage = () => {
 
   const { teacherId } = useParams();
   const academicYear = useSelector((state) => state.global.academicYear);
   
-  const{data, isLoading, isSuccess, isError, error }=useGetAllBooksQuery();
-  const[createTeacherRental]=useCreateTeacherRentalMutation();
+  const{data, isLoading, isSuccess }=useGetAllBooksQuery();
+  const[createTeacherRental, {isSuccess:isCreateSuccess, isError:isCreateError, error:createError}]=useCreateTeacherRentalMutation();
+
+  useEffect(() => {
+    if (isCreateSuccess) {
+      toast.success("Rental created successfully")
+    } else if (isCreateError) {
+      const { data:fullError } = createError;
+      const {message} = fullError;
+      toast.error(message);
+    }
+  }, [isCreateError, isCreateSuccess]);
 
   const theme = useTheme();
   const navigate=useNavigate();
