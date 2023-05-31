@@ -11,7 +11,6 @@ const DashboardStats = () => {
     if (isSuccess) {
         const {data: totals} = data;
         statistics = totals;
-        console.log(statistics);
     }
 
     return (

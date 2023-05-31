@@ -94,7 +94,7 @@ const Settings = () => {
                         label="Inactivity Days"
                         type="number"
                         variant="standard"
-                        helperText="Number of days given to lost books"
+                        helperText="Number of days given to lost books to be returned"
                         value={settings.inactivityDays}
                         onChange={handleChange}
                     />

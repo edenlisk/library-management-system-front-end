@@ -158,18 +158,39 @@ const AddStudentBookRentalPage = () => {
   //   },
   // ];
 
+  const [search, setSearch] = useState('');
+
   const [filteredProducts, setFilteredProducts] = useState(rows);
 
-  const filteredObject = rows.filter(
+  let filteredObject = rows.filter(
     (filteredrowz) =>
       filteredrowz.academicLevel
         .toLowerCase()
         .includes(selectedValue.academicLevel.toLowerCase()) &&
       filteredrowz.categoryName
         .toLowerCase()
-        .includes(selectedValue.category.toLowerCase())
+        .includes(selectedValue.category.toLowerCase()) &&
+        (filteredrowz.bookName
+            .toLowerCase()
+            .includes(search.toLowerCase()) ||
+        filteredrowz.academicLevel
+                .toLowerCase()
+                .includes(search.toLowerCase()) ||
+        filteredrowz.categoryName
+                .toLowerCase()
+                .includes(search.toLowerCase())
+        )
   );
+  // filteredObject = filteredObject.filter(book =>
+  //     book.bookName.toLowerCase().includes(search.toLowerCase()) ||
+  //     book.academicLevel.toLowerCase().includes(search.toLowerCase()) ||
+  //     book.category.toLowerCase().includes(search.toLowerCase())
+  // )
 
+  const handleSearch = (event) => {
+    setSelectedvalue(prevState => ({...prevState, academicLevel: '', category: ''}))
+    setSearch(event.target.value)
+  }
   {
     /* STATE FOR CHECKING IF THERE IS FILTER*/
   }
@@ -338,6 +359,8 @@ const AddStudentBookRentalPage = () => {
             variant="outlined"
             label="Search Book"
             sx={{ width: "80%" }}
+            value={search}
+            onChange={handleSearch}
             // endAdornment={
             //   <InputAdornment position="end">
             //     <IconButton>
@@ -384,6 +407,17 @@ const AddStudentBookRentalPage = () => {
               ))}
             </Select>
           </FormControl>
+          <Button
+              sx={{textTransform: 'none'}}
+              color="secondary"
+              variant="contained"
+              onClick={() => {
+                setSearch('');
+                setSelectedvalue(prevState => ({...prevState, academicLevel: '', category: ''}))
+              }}
+          >
+            Reset
+          </Button>
         </Grid2>
       </Grid2>
       {/* GRID CONTAINING SEARCH AND SLECT COMPONENTS USING FOR FILTERING PURPOSES */}

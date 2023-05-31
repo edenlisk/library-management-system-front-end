@@ -22,18 +22,18 @@ import {toast} from "react-toastify";
 const EditBookPage = () => {
     const{bookId}=useParams();
   const navigate = useNavigate();
-  const [updateBook, {isSuccess, isError, error}]=useUpdateBookMutation();
-  const {data:info, isLoading }=useGetBookQuery(bookId);
+  const [updateBook, {isSuccess:isUpdateSuccess, isError:isUpdateError, error:updateError}]=useUpdateBookMutation();
+  const {data:info, isLoading, isSuccess }=useGetBookQuery(bookId);
 
   useEffect(() => {
-    if (isSuccess) {
-      toast.success("Book updated successfully")
-    } else if (isError) {
-      const { data:fullError } = error;
+    if (isUpdateSuccess) {
+      toast.success("Book updated successfully");
+    } else if (isUpdateError) {
+      const { data:fullError } = updateError;
       const {message} = fullError;
       toast.error(message);
     }
-  }, [isError, isSuccess]);
+  }, [isUpdateError, isUpdateSuccess, updateError]);
   let singleBk=[];
 
   const [book, setBook] = useState({
@@ -134,6 +134,7 @@ const EditBookPage = () => {
               type="text"
               variant="outlined"
               value={book.edition || ""}
+              disabled
               onChange={handleChange}
             />
           </Grid2>
@@ -199,6 +200,7 @@ const EditBookPage = () => {
                 id="categoryName"
                 type="text"
                 variant="outlined"
+                disabled
                 value={book.categoryName || ""}
                 onChange={handleChange}
               />
@@ -216,6 +218,7 @@ const EditBookPage = () => {
                 variant="outlined"
                 value={book.language || ""}
                 onChange={handleChange}
+                disabled
               />
           </Grid2>
 
