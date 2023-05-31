@@ -264,13 +264,12 @@ const TeachersRentalsPage = () => {
                     handleModalOpen={handleModalOpen}
                     handleModalClose={handleModalClose}
                 /> */}
-                 <Link to={`/add/teacher-rental/${teacherId}`}>
-         <Toolbar sx={{ display: "flex" }}>
-        <IconButton>
+                 <Link to={`/add/teacher-rental/${teacherId}`} underline="none"  >
+         <Button  size="small" sx={{ display: "flex",border:"solid 1.5px",textTransform:"none",
+      color:"inherit",padding:"8px" }}>
           <Add />
-        </IconButton>
-        <Typography variant="h6">Add new book rental...</Typography>
-      </Toolbar>
+           Add new book rental...
+      </Button >
       </Link>
             </Grid2>
             <Grid2 xs={12} display="flex" justifyContent="start">

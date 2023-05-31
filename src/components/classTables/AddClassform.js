@@ -14,8 +14,8 @@ import {
   Toolbar,
   Button,
 } from "@mui/material";
-import { CloseOutlined } from "@mui/icons-material";
-import AddIcon from "@mui/icons-material/Add";
+import { CloseOutlined,Add } from "@mui/icons-material";
+
 // COMPONENT TO ADD A NEW STUDENT USING POP UP MODAL
 const AddClassForm = ({ newClass, setNewClass, handleChange, onSubmit }) => {
   const theme = useTheme();
@@ -32,12 +32,11 @@ const AddClassForm = ({ newClass, setNewClass, handleChange, onSubmit }) => {
 
   return (
     <>
-      <Toolbar sx={{ display: "flex" }} onClick={handleOpen}>
-        <IconButton>
-          <AddIcon />
-        </IconButton>
-        <Typography variant="h6">Add new class...</Typography>
-      </Toolbar>
+      <Button size="small" sx={{ display: "flex",border:"solid 1.5px",textTransform:"none",
+      color:"inherit",padding:"8px" }} onClick={handleOpen}>
+          <Add />
+          Add new class...
+      </Button>
 
       <Modal
         open={open}

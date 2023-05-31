@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import {
@@ -16,33 +16,38 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
-import { SearchOutlined } from "@mui/icons-material";
+import { SearchOutlined, ChevronLeft } from "@mui/icons-material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import BooksCard from "./BooksCard";
-import { useGetAllBooksQuery,useCreateRentalMutation } from "../../states/apiSlice";
-import {toast} from "react-toastify";
+import {
+  useGetAllBooksQuery,
+  useCreateRentalMutation,
+} from "../../states/apiSlice";
+import { toast } from "react-toastify";
 
 const AddStudentBookRentalPage = () => {
-
   const { studentId } = useParams();
+  const theme = useTheme();
+  const navigate = useNavigate();
+  const isNonMobile = useMediaQuery("(min-width: 1000px)");
+
   const academicYear = useSelector((state) => state.global.academicYear);
-  
-  const{data, isLoading, isSuccess }=useGetAllBooksQuery();
-  const[createRental, {isSuccess:isCreateSuccess, isError:isCreateError, error:createError}]=useCreateRentalMutation();
+
+  const { data, isLoading, isSuccess } = useGetAllBooksQuery();
+  const [
+    createRental,
+    { isSuccess: isCreateSuccess, isError: isCreateError, error: createError },
+  ] = useCreateRentalMutation();
 
   useEffect(() => {
     if (isCreateSuccess) {
-      toast.success("Rental created successfully")
+      toast.success("Rental created successfully");
     } else if (isCreateError) {
-      const { data:fullError } = createError;
-      const {message} = fullError;
+      const { data: fullError } = createError;
+      const { message } = fullError;
       toast.error(message);
     }
   }, [isCreateError, isCreateSuccess]);
-
-  const theme = useTheme();
-  const navigate=useNavigate();
-  const isNonMobile = useMediaQuery("(min-width: 1000px)");
 
   {
     /* STATE FOR HANDLING BOOK SUBMITION ON BACKEND AND WHERE BOOK DATA ARE ASSED FROM BOOK-CARD */
@@ -61,7 +66,7 @@ const AddStudentBookRentalPage = () => {
     issueDate: null,
     dueDate: null,
   });
-  const [rentBook,setRentBook]=useState(null);
+  const [rentBook, setRentBook] = useState(null);
 
   {
     /* STATE FOR HANDLING SELECT DROPDOWN VALUE SELECTED */
@@ -75,7 +80,7 @@ const AddStudentBookRentalPage = () => {
     /* STATE FOR HANDLING THE FILTERED ARRAY OBJECT BASING ON THE VALUE ON THE SELECTED  VALUE IN SELECT COMPONENTS*/
   }
 
-  let rows=[];
+  let rows = [];
 
   if (isSuccess) {
     const { data: allBooks } = data;
@@ -193,7 +198,7 @@ const AddStudentBookRentalPage = () => {
     }));
     setRentBook((prevRentBook) => ({
       ...prevRentBook,
-      issueDate:  newDate.format("YYYY-MM-DD"),
+      issueDate: newDate.format("YYYY-MM-DD"),
     }));
   };
 
@@ -217,26 +222,25 @@ const AddStudentBookRentalPage = () => {
     /*FUNCTION TO HANDLE ANY CHANGE IN THE RENTAL BOOK FORM EXCPET ISSUE AND DUE DATES */
   }
   const handleChange = (e) => {
-    setBook(
-      (prevBook) => ({
-        ...prevBook, [e.target.name]: e.target.value }));
+    setBook((prevBook) => ({
+      ...prevBook,
+      [e.target.name]: e.target.value,
+    }));
 
-        setRentBook((prevRentBook)=>({
-          book_id:book.book_id,
-          ...prevRentBook,[e.target.name]: e.target.value,
-          
-        }));
-
+    setRentBook((prevRentBook) => ({
+      book_id: book.book_id,
+      ...prevRentBook,
+      [e.target.name]: e.target.value,
+    }));
   };
-
 
   {
     /* FUNCTION TO HANDLE FORM DATA SUBMISSION (BOOK)*/
   }
-  const handleSubmit = async(event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const body={...rentBook};
-    await createRental({body,academicYear,studentId})
+    const body = { ...rentBook };
+    await createRental({ body, academicYear, studentId });
     console.log(book);
     console.log(rentBook);
     setBook({
@@ -299,16 +303,20 @@ const AddStudentBookRentalPage = () => {
   };
   return (
     <>
+    <Box  sx={{ padding:'4px 8px 4px 33px' }} >
+      <ChevronLeft onClick={() => navigate(-1)} />
+    </Box>
       {/* FILTERING CONTAINER */}
       <Grid2
         container
         spacing={2}
         sx={{
-          p: 4.5,mt:1,
+          padding: '8px 8px 8px 36px',
+          mt: 0.2,
           "& .MuiOutlinedInput-notchedOutline": {
             borderRadius: "55px",
           },
-          boxShadow: "1.5px 1.5px 10px #ccc",
+          boxShadow: "0.5px 0px 7px #ccc",
         }}
         alignItems="center"
         backgroundColor={theme.palette.background.alt}
@@ -321,6 +329,7 @@ const AddStudentBookRentalPage = () => {
           lg={6}
           display="flex"
           gap={2}
+          sx={{p:0}}
           justifyContent="start"
           alignItems="center"
           disableEqualOverflow
@@ -380,12 +389,10 @@ const AddStudentBookRentalPage = () => {
       {/* GRID CONTAINING SEARCH AND SLECT COMPONENTS USING FOR FILTERING PURPOSES */}
 
       {/* GRID CONTAINING THE 2 GRIDS FOR BOOK CARDS AND THE RENTAL BOOK FORM */}
-      <Grid2 container sx={{ p: 4.5 }} spacing={2}
-      disableEqualOverflow>
+      <Grid2 container sx={{ p: 4.5 }} spacing={2} disableEqualOverflow>
         {/* GRID CONTAINING THE BOOK AVAILABLE CARDS USE WITH THE MAPING AFTER OR BEFORE FITLTER */}
-        <Grid2 xs={12} md={6}>
+        <Grid2 xs={12} md={6} sx={{ height: '100vh', overflow: 'auto' }}>
           <Box
-            mt="20px"
             display="grid"
             gridTemplateColumns="repeat(3, minmax(0, 1fr))"
             justifyContent="space-between"
@@ -393,6 +400,7 @@ const AddStudentBookRentalPage = () => {
             columnGap="1.33%"
             sx={{
               "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
+              padding:'0px 5.5px 0px 0px'
             }}
           >
             {/* {rows.map(({ bookName, author, category, academicLevel,language, id }) => (
@@ -408,7 +416,14 @@ const AddStudentBookRentalPage = () => {
               />
             ))} */}
             {filteredObject.map(
-              ({ bookName, author, categoryName, academicLevel, language, _id }) => (
+              ({
+                bookName,
+                author,
+                categoryName,
+                academicLevel,
+                language,
+                _id,
+              }) => (
                 <BooksCard
                   bookName={bookName}
                   author={author}
@@ -439,6 +454,7 @@ const AddStudentBookRentalPage = () => {
                 id="bookName"
                 type="text"
                 variant="outlined"
+                disabled
                 value={book.bookName || ""}
                 onChange={handleChange}
               />
@@ -455,6 +471,7 @@ const AddStudentBookRentalPage = () => {
                 id="author"
                 type="text"
                 variant="outlined"
+                disabled
                 value={book.author || ""}
                 onChange={handleChange}
               />
@@ -471,6 +488,7 @@ const AddStudentBookRentalPage = () => {
                 id="edition"
                 type="text"
                 variant="outlined"
+                disabled
                 value={book.edition || ""}
                 onChange={handleChange}
               />
@@ -530,6 +548,7 @@ const AddStudentBookRentalPage = () => {
                 id="language"
                 type="text"
                 variant="outlined"
+                disabled
                 value={book.language || ""}
                 onChange={handleChange}
               />
@@ -545,16 +564,21 @@ const AddStudentBookRentalPage = () => {
                 id="categoryName"
                 type="text"
                 variant="outlined"
+                disabled
                 value={book.categoryName || ""}
                 onChange={handleChange}
               />
             </Grid2>
 
-            <Grid2 xs={12}  gap={2} display="flex" alignItems="center">
+            <Grid2 xs={12} gap={2} display="flex" alignItems="center">
               <Button variant="contained" type="submit" onClick={handleSubmit}>
                 confirm & rent
               </Button>
-              <Button variant="contained" type="button" onClick={()=>navigate(-1)}>
+              <Button
+                variant="contained"
+                type="button"
+                onClick={() => navigate(-1)}
+              >
                 cancel
               </Button>
             </Grid2>

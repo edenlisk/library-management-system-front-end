@@ -270,13 +270,12 @@ let studentName="";
           handleModalOpen={handleModalOpen}
           handleModalClose={handleModalClose}
         /> */}
-        <Link to={`/add/student-rental/${studentId}`}>
-         <Toolbar sx={{ display: "flex" }}>
-        <IconButton>
+        <Link to={`/add/student-rental/${studentId}`} sx={{ textDecoration: 'none' }}>
+         <Button size="small" sx={{ display: "flex",border:"solid 1.5px",textTransform:"none",
+      color:"inherit",padding:"8px" }}>
           <Add />
-        </IconButton>
-        <Typography variant="h6">Add new book rental...</Typography>
-      </Toolbar>
+        Add new book rental...
+      </Button>
       </Link>
 
       </Grid2>

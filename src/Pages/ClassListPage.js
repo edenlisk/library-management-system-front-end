@@ -71,12 +71,14 @@ const ClassListPage = () => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
   const [selectedId, setSelectedId] = useState(null);
+  const [selectedName, setSelectedName] = useState("");
   // TO BE TAKEN IN THE STUDENT TABLE PAGE WILL NOT STAY IN HERE
 
   // TO HANDLE ROW DELETION
 
-  const handleClickOpenDeleteModal = (id) => {
+  const handleClickOpenDeleteModal = (id,name) => {
     setSelectedId(id);
+    setSelectedName(name);
     setOpenDeleteModal(!openDeleteModal);
   };
 
@@ -165,7 +167,7 @@ const ClassListPage = () => {
                   aria-label="delete"
                   variant="contained"
                   size="small"
-                  onClick={() => handleClickOpenDeleteModal(params.row._id)}
+                  onClick={() => handleClickOpenDeleteModal(params.row._id,params.row.name)}
                 >
                   <DeleteOutlined sx={{ fontSize: 21 }} />
                 </IconButton>
@@ -310,7 +312,7 @@ const ClassListPage = () => {
                 variant="h3"
                 sx={{ textAlign: "center", mb: 3, mt: 3 }}
               >
-                {`Sure you want to delete data in row ${selectedId}`}
+                {`Sure you want to delete student ${selectedName}`}
               </Typography>
               <Box display="flex" gap={2} sx={{ alignSelf: "center" }}>
                 <Button

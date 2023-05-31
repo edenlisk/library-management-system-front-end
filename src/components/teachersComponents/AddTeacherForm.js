@@ -23,12 +23,11 @@ const AddteacherForm = ({newTeacher,handleChange,onSubmit,open,handleOpen,handle
 
   return (
     <>
-      <Toolbar sx={{ display: "flex" }} onClick={handleOpen}>
-        <IconButton>
+      <Button size="small" sx={{ display: "flex",border:"solid 1.5px",textTransform:"none",
+      color:"inherit",padding:"8px" }} onClick={handleOpen}>
           <Add />
-        </IconButton>
-        <Typography variant="h6">Add new teacher...</Typography>
-      </Toolbar>
+        Add new teacher...
+      </Button>
 
       <Modal
         open={open}
