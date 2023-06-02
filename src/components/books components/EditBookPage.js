@@ -80,7 +80,8 @@ const EditBookPage = () => {
   const categories=["Mathematics","Physics","Chemistry","Biology","Computer Science","Geography","Economics","Entrepreneurship","History",
   "Kinyarwanda","Kiswahili","English", "Literature","French","Novel","Others"];
   return (
-    <Box component="form" sx={{ p: 4.5, pt:2 }}>
+    <Box component="form" sx={{ p: 4.5, pt:2 }}
+    display="flex" flexDirection="column" gap="20px">
     <ChevronLeft  onClick={() => navigate(-1)} />
       <Grid2 container spacing={2}>
         <Grid2
@@ -148,8 +149,9 @@ const EditBookPage = () => {
               sx={{ width: "80%" }}
               name="numberOfBooks"
               id="numberOfBooks"
-              type="number"
+              type="text"
               variant="outlined"
+              inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
               value={book.numberOfBooks || ""}
               onChange={handleChange}
             />

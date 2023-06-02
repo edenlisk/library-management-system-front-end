@@ -14,6 +14,7 @@ import {
   Toolbar,
   Button,
 } from "@mui/material";
+import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { DatePicker } from "@mui/x-date-pickers";
 import { CloseOutlined,Add } from "@mui/icons-material";
 
@@ -131,25 +132,30 @@ const RentalForm = ({ rental,format, handleChange, onSubmit,handleStartDateChang
                 onChange={handleEndDateChange}
                 format={format} />
               </Box>
-              <Box display="flex" gap={2} sx={{ alignSelf: "start" }}>
+              <Grid2 container justifyContent="start" alignSelf="start" width="100%">
+                <Grid2 xs={6}>
                 <Button
                   variant="contained"
                   size="medium"
                   type="submit"
-                  sx={{ alignSelf: "start" }}
+                  sx={{ alignSelf: "start", width: "90%" }}
                 >
                   Add Rental
                 </Button>
+                </Grid2>
+                <Grid2 xs={6}>
                 <Button
                   variant="contained"
                   size="medium"
                   type="button"
                   onClick={handleModalClose}
-                  sx={{ alignSelf: "start" }}
+                  sx={{ alignSelf: "start" , width: "90%"}}
                 >
                   cancel
                 </Button>
-              </Box>
+                </Grid2>
+                </Grid2>
+               
             </Box>
           </Box>
         </Fade>

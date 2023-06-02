@@ -13,11 +13,13 @@ import {
   MenuItem,
   Toolbar,
   Button,
+  CircularProgress
 } from "@mui/material";
+import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { CloseOutlined,Add } from "@mui/icons-material";
 
 // COMPONENT TO ADD A NEW STUDENT USING POP UP MODAL
-const AddStudentForm = ({newStudent,handleChange,onSubmit,open,handleOpen,handleClose}) => {
+const AddStudentForm = ({newStudent,handleChange,onSubmit,open,handleOpen,handleClose,isSending}) => {
   const theme = useTheme();
  
 
@@ -81,25 +83,39 @@ const AddStudentForm = ({newStudent,handleChange,onSubmit,open,handleOpen,handle
                 sx={{ mb: 2 }}
                 onChange={handleChange}
               />
-              <Box display="flex" gap={2} sx={{ alignSelf: "start" }}>
-                <Button
+              <Grid2 container justifyContent="start" alignSelf="start" width="100%">
+                <Grid2 xs={6}>
+                {isSending?<Button
                   variant="contained"
                   size="medium"
                   type="submit"
-                  sx={{ mb: 2, width: "200px", alignSelf: "start" }}
+                  disabled
+                  startIcon={<CircularProgress size={20}/>}
+                  sx={{ mb: 2, width: "90%", alignSelf: "start" }}
+                >
+                Adding  
+                </Button>:<Button
+                  variant="contained"
+                  size="medium"
+                  type="submit"
+                  sx={{ mb: 2, width: "90%", alignSelf: "start" }}
                 >
                   Add student
-                </Button>
+                </Button>}
+                </Grid2>
+                <Grid2 xs={6}>
                 <Button
                   variant="contained"
                   size="medium"
                   type="button"
                   onClick={handleClose}
-                  sx={{ mb: 2, width: "200px", alignSelf: "start" }}
+                  sx={{ mb: 2, width: "90%", alignSelf: "start" }}
                 >
                   cancel
                 </Button>
-              </Box>
+                </Grid2>
+              </Grid2>
+
             </Box>
           </Box>
         </Fade>

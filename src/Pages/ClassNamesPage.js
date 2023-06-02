@@ -13,7 +13,7 @@ const ClassNamesPage = () => {
   // FOR FETCHING
 
   const { data, isLoading, isSuccess, isError, error } = useGetClassesQuery(academicYear);
-  const [createClass, {isSuccess:isCreationSuccess, isError:isCreationError, error:creationError}] = useCreateClassMutation()
+  const [createClass, {isSuccess:isCreationSuccess, isError:isCreationError, error:creationError,isLoading:isSending}] = useCreateClassMutation()
   // console.log(data);
   useEffect(() => {
     if (isCreationSuccess) {
@@ -37,11 +37,19 @@ const ClassNamesPage = () => {
     rows = allclasses;
     console.log(rows);
   }
+  const [open, setOpen] = useState(false);
 
   const [newClass, setNewClass] = useState({
     name: "",
     category: "",
   });
+
+  const handleOpen = () => {
+    setOpen(!open);
+  };
+  const handleClose = () => {
+    setOpen(!open);
+  };
 
   const handleChange = (e) => {
     setNewClass({ ...newClass, [e.target.name]: e.target.value });
@@ -50,6 +58,9 @@ const ClassNamesPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     await createClass({...newClass,academicYear});
+    setOpen(!open);
+    
+
     console.log(newClass);
     setNewClass({ name: "", category: "" });
   };
@@ -66,8 +77,12 @@ const ClassNamesPage = () => {
           Toolbar: () => <Customtoolbar academicYear={academicYear} />,
         }}
         className={` ${academicYear}`}
+        open={open}
+        handleOpen={handleOpen}
+        handleClose={handleClose}
         newClass={newClass}
         setNewClass={setNewClass}
+        isSending={isSending}
         handleChange={handleChange}
         onSubmit={handleSubmit}
         handleRowDelete={handleRowDelete}

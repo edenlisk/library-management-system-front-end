@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Box, Button, useTheme } from "@mui/material";
 import Customtoolbar from "../Customtoolbar";
+import { Add } from "@mui/icons-material";
 import { useGetAllBooksQuery } from "../../states/apiSlice";
 import AlertDialogSlide from "./ShowBook";
 import BooksToolbar from "./BooksToolbar";
 import { Link } from "react-router-dom";
+import AddBook from "./AddBook";
 
 const BooksList = () => {
   const theme = useTheme();
@@ -13,9 +15,16 @@ const BooksList = () => {
   const [bookId, setBookId] = useState("");
 
   const [open, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
+
+  
   const handleClickOpen = () => {
     setOpen(true);
   };
+  const handleModalOpen=()=>{
+    setIsOpen(!isOpen);
+  }
   const handleShow = (id) => {
     setBookId(id);
     handleClickOpen();
@@ -78,7 +87,12 @@ const BooksList = () => {
     rows = books;
   }
   return (
-    <Box sx={{ p: 4.5, width: "100%" }}>
+    <Box sx={{ p: 4.5, width: "100%", display: "flex",flexDirection:"column" }}>
+       <Button size="small" sx={{ display: "flex",border:"solid 1.5px",textTransform:"none",
+      color:"inherit",padding:"8px",alignSelf:"end" }} onClick={handleModalOpen}>
+          <Add />
+        Add new book...
+      </Button>
       <DataGrid
         sx={{
           "& .MuiDataGrid-columnHeaders": {
@@ -98,6 +112,8 @@ const BooksList = () => {
           Toolbar: () => <BooksToolbar />,
         }}
       />
+      <AddBook isOpen={isOpen}
+      setIsOpen={setIsOpen}/>
       {bookId ? (
         <AlertDialogSlide
           handleClose={handleClose}

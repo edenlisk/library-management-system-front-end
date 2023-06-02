@@ -18,6 +18,7 @@ import {
   Tooltip,
   Stack,
   Button,
+  CircularProgress 
 } from "@mui/material";
 import Status from "../components/Status";
 import {
@@ -36,7 +37,7 @@ const TeacherListPage = () => {
 
   const { classId } = useParams();
 
-  const [createNewTeacher, {isSuccess:isCreateSuccess, isError:isCreateError, error:createError}] =useCreateTeacherMutation();
+  const [createNewTeacher, {isSuccess:isCreateSuccess, isError:isCreateError, error:createError,isLoading:isSending}] =useCreateTeacherMutation();
 
   useEffect(() => {
     if (isCreateSuccess) {
@@ -47,7 +48,7 @@ const TeacherListPage = () => {
       toast.error(message);
     }
   }, [isCreateError, isCreateSuccess]);
-  const [deleteTeacher, {isSuccess:isDeleteSuccess, isError:isDeleteError, error:deleteError}] = useDeleteTeacherMutation();
+  const [deleteTeacher, {isSuccess:isDeleteSuccess, isError:isDeleteError, error:deleteError,isLoading:isDeleting}] = useDeleteTeacherMutation();
   useEffect(() => {
     if (isDeleteSuccess) {
       toast.success("Teacher deleted successfully")
@@ -65,12 +66,14 @@ const TeacherListPage = () => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
   const [selectedId, setSelectedId] = useState(null);
+  const [selectedTeacher, setSelectedTeacher] = useState("");
   // TO BE TAKEN IN THE STUDENT TABLE PAGE WILL NOT STAY IN HERE
 
   // TO HANDLE ROW DELETION
 
-  const handleClickOpenDeleteModal = (id) => {
+  const handleClickOpenDeleteModal = (id,name) => {
     setSelectedId(id);
+    setSelectedTeacher(name);
     setOpenDeleteModal(!openDeleteModal);
   };
 
@@ -159,7 +162,7 @@ const TeacherListPage = () => {
                   aria-label="delete"
                   variant="contained"
                   size="small"
-                  onClick={() => handleClickOpenDeleteModal(params.row._id)}
+                  onClick={() => handleClickOpenDeleteModal(params.row._id,params.row.name)}
                 >
                   <DeleteOutlined sx={{ fontSize: 21 }} />
                 </IconButton>
@@ -220,16 +223,14 @@ const TeacherListPage = () => {
       }}
     >
       {/* INLINE NAME AND FORM */}
-      <Grid2 container spacing={2} flexDirection="column">
+      <Grid2 container spacing={2} flexDirection="column" p="10px 10px 10px ">
         <Grid2
           xs={12}
           display="flex"
-          justifyContent="space-between"
+          justifyContent="end"
           alignItems="center"
+          
         >
-          <Typography variant="h3" sx={{ mb: 2 }}>
-            {className}
-          </Typography>
 
           <AddteacherForm
             newTeacher={newTeacher}
@@ -239,6 +240,7 @@ const TeacherListPage = () => {
             open={open}
             handleOpen={handleOpen}
             handleClose={handleClose}
+            isSending={isSending}
           />
         </Grid2>
       </Grid2>
@@ -304,18 +306,27 @@ const TeacherListPage = () => {
                 variant="h3"
                 sx={{ textAlign: "center", mb: 3, mt: 3 }}
               >
-                {`Sure you want to delete data in row ${selectedId}`}
+                {`Sure you want to delete data in row ${selectedTeacher}`}
               </Typography>
               <Box display="flex" gap={2} sx={{ alignSelf: "center" }}>
-                <Button
+               {isDeleting? <Button
+                  variant="contained"
+                  size="medium"
+                  type="button"
+                  disabled
+                  startIcon={ <CircularProgress size={20}/>}
+                  sx={{ mb: 2, width: "200px", alignSelf: "start" }}
+                >
+                deleting
+                </Button>:<Button
                   variant="contained"
                   size="medium"
                   type="button"
                   sx={{ mb: 2, width: "200px", alignSelf: "start" }}
                   onClick={handleRowDelete}
                 >
-                  Delete
-                </Button>
+                 delete
+                </Button>}
                 <Button
                   variant="contained"
                   size="medium"
