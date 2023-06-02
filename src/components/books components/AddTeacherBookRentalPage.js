@@ -40,6 +40,9 @@ const AddTeacherBookRentalPage = () => {
     { isSuccess: isCreateSuccess, isError: isCreateError, error: createError ,isLoading:isSending },
   ] = useCreateTeacherRentalMutation();
 
+  const [search, setSearch] = useState('');
+
+
   useEffect(() => {
     if (isCreateSuccess) {
       toast.success("Rental created successfully");
@@ -78,6 +81,10 @@ const AddTeacherBookRentalPage = () => {
     academicLevel: "",
     category: "",
   });
+  const handleSearch = (event) => {
+    setSelectedvalue(prevState => ({...prevState, academicLevel: '', category: ''}))
+    setSearch(event.target.value)
+  }
 
   {
     /* STATE FOR HANDLING THE FILTERED ARRAY OBJECT BASING ON THE VALUE ON THE SELECTED  VALUE IN SELECT COMPONENTS*/
@@ -163,14 +170,24 @@ const AddTeacherBookRentalPage = () => {
 
   const [filteredProducts, setFilteredProducts] = useState(rows);
 
-  const filteredObject = rows.filter(
-    (filteredrowz) =>
-      filteredrowz.academicLevel
-        .toLowerCase()
-        .includes(selectedValue.academicLevel.toLowerCase()) &&
-      filteredrowz.categoryName
-        .toLowerCase()
-        .includes(selectedValue.category.toLowerCase())
+  let filteredObject = rows.filter(
+      (filteredrowz) =>
+          filteredrowz.academicLevel
+              .toLowerCase()
+              .includes(selectedValue.academicLevel.toLowerCase()) &&
+          filteredrowz.categoryName
+              .toLowerCase()
+              .includes(selectedValue.category.toLowerCase()) &&
+          (filteredrowz.bookName
+                  .toLowerCase()
+                  .includes(search.toLowerCase()) ||
+              filteredrowz.academicLevel
+                  .toLowerCase()
+                  .includes(search.toLowerCase()) ||
+              filteredrowz.categoryName
+                  .toLowerCase()
+                  .includes(search.toLowerCase())
+          )
   );
 
   {
@@ -345,6 +362,8 @@ const AddTeacherBookRentalPage = () => {
             variant="outlined"
             label="Search Book"
             sx={{ width: "80%" }}
+            value={search}
+            onChange={handleSearch}
             // endAdornment={
             //   <InputAdornment position="end">
             //     <IconButton>
@@ -391,6 +410,17 @@ const AddTeacherBookRentalPage = () => {
               ))}
             </Select>
           </FormControl>
+          <Button
+              sx={{textTransform: 'none'}}
+              color="secondary"
+              variant="contained"
+              onClick={() => {
+                setSearch('');
+                setSelectedvalue(prevState => ({...prevState, academicLevel: '', category: ''}))
+              }}
+          >
+            Reset
+          </Button>
         </Grid2>
       </Grid2>
       {/* GRID CONTAINING SEARCH AND SLECT COMPONENTS USING FOR FILTERING PURPOSES */}

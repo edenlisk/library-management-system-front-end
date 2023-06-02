@@ -14,17 +14,33 @@ import {
     Box,
 } from "@mui/material";
 import {LoginOutlined, Visibility, VisibilityOff} from "@mui/icons-material";
+import {RotatingLines} from "react-loader-spinner";
+import {toast} from "react-toastify";
 // TO ADD A BOOLEAN TO MAKE FIELDS RED WHEN THERE IS AN ERROR
 
 const LoginPage = () => {
     const [login, {data, isSuccess, isLoading, isError, error}] = useLoginMutation();
     const navigate = useNavigate();
-    const token = useSelector(state => state.auth.token);
+    const token = localStorage.getItem("token");
+    const userData = localStorage.getItem("profile");
     useEffect(() => {
         if (token) {
+            dispatch(setAuthToken(token))
+            dispatch(setUserData(userData));
             navigate('/dashboard')
         }
     }, [navigate, token]);
+
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success("Logged in successfully")
+        } else if (isError) {
+            const {data:fullError} = error;
+            const {message} = fullError;
+            toast.error(message)
+        }
+    }, [isError, isSuccess, error]);
+
     // const userDataStore = useSelector(state => state.auth.userData);
     const dispatch = useDispatch();
     const [showPassword, setShowPassword] = useState(false);
@@ -85,6 +101,8 @@ const LoginPage = () => {
             const {token, data} = userData;
             dispatch(setAuthToken(token));
             dispatch(setUserData(data.user));
+            localStorage.setItem("token", token);
+            localStorage.setItem("profile", JSON.stringify(data.user));
             navigate('/dashboard')
         }
 
@@ -167,13 +185,20 @@ const LoginPage = () => {
                     <FormHelperText id="password">{loginErrors.password}</FormHelperText>
                 </FormControl>
                 <Button
+                    disabled={!!isLoading}
                     variant="contained"
                     size="medium"
                     type="submit"
                     sx={{mb: 2, width: "100px", alignSelf: "start"}}
                     endIcon={<LoginOutlined/>}
                 >
-                    Login
+                    {isLoading ? <RotatingLines
+                        strokeColor="#FFE3A3"
+                        strokeWidth="3"
+                        animationDuration="0.75"
+                        width="25"
+                        visible={true}
+                    />  : `Login` }
                 </Button>
                 <Typography
                     variant="p"

@@ -41,9 +41,10 @@ import {
     BookOutlined
 } from "@mui/icons-material";
 import {useEffect, useState} from "react";
-import {useLocation, useNavigate} from "react-router-dom";
+import {useLocation, useNavigate, Navigate} from "react-router-dom";
 import FlexBetween from "./FlexBetween";
 import {useSelector, useDispatch} from "react-redux";
+import {toast} from "react-toastify";
 
 const navItems = [
     {
@@ -117,8 +118,11 @@ const Sidebar = ({
 
     const [logout, {data, isLoading, isSuccess, isError, error}] = useLogoutMutation();
     const dispatch = useDispatch();
-    const token = useSelector(state => state.auth.token);
-    const userData = useSelector(state => state.auth.userData);
+    // const token = useSelector(state => state.auth.token);
+    // const userData = useSelector(state => state.auth.userData);
+    const token = localStorage.getItem("token");
+    const rawUserData = localStorage.getItem("profile");
+    const userData = JSON.parse(rawUserData);
 
     useEffect(() => {
         return () => {
@@ -138,12 +142,22 @@ const Sidebar = ({
         setAnchorEl(null);
     };
 
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success("You are logged out");
+        } else if (isError) {
+            toast.error("something went wrong")
+        }
+    }, [isSuccess, isError, error]);
+
     const handleLogout = async () => {
         const response = await logout();
         if (response) {
+            localStorage.removeItem("token");
+            localStorage.removeItem("profile");
             dispatch(setUserData(null));
             dispatch(setAuthToken(null));
-            navigate('/');
+            navigate('/login');
         }
         handleClose();
     }
@@ -256,7 +270,7 @@ const Sidebar = ({
                                         width="40px"
                                         sx={{objectFit: "cover"}}
                                     >
-                                        {userData ? userData.username.charAt(0).toUpperCase() : 'LDK'}
+                                        {userData?.username ? userData.username.charAt(0).toUpperCase() : 'LDK'}
                                     </Avatar>
                                     <Box textAlign="left">
                                         <Typography
@@ -264,7 +278,7 @@ const Sidebar = ({
                                             fontSize="0.9rem"
                                             sx={{color: theme.palette.secondary[100]}}
                                         >
-                                            {userData ? userData.username : `librarian`}
+                                            {userData? userData.username : `librarian`}
                                         </Typography>
                                         <Typography
                                             fontWeight="bold"
@@ -310,7 +324,7 @@ const Sidebar = ({
                 )}
             </Box>
             :
-            <div/>
+            <Navigate to="/login" replace/>
     );
 };
 

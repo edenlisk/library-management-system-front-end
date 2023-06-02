@@ -25,6 +25,7 @@ const Notification = () => {
                         <TableRow>
                             <TableCell>#</TableCell>
                             <TableCell>Borrower</TableCell>
+                            <TableCell>Class</TableCell>
                             <TableCell>Book Id</TableCell>
                             <TableCell>Name of book</TableCell>
                             <TableCell>Issue date</TableCell>
@@ -56,6 +57,7 @@ const Notification = () => {
                                                 fontWeight="bold">{index + 1}</Typography></TableCell>
                                             <TableCell><Typography
                                                 variant="h5">{rent.rentalFor ? rent.rentalFor : rent.model.charAt(0).toUpperCase() + rent.model.slice(1)}</Typography></TableCell>
+                                            <TableCell><Typography variant="h5">{rent.className}</Typography></TableCell>
                                             <TableCell><Typography variant="h5">{rent.bookId}</Typography></TableCell>
                                             <TableCell><Typography
                                                 variant="h5">{rent.nameOfBook.charAt(0).toUpperCase() + rent.nameOfBook.slice(1)}</Typography></TableCell>

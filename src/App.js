@@ -43,6 +43,8 @@ import EditBookPage from "./components/books components/EditBookPage";
 import EditTeacherRentalPage from "./Pages/EditTeacherRental";
 import AddTeacherBookRentalPage from "./components/books components/AddTeacherBookRentalPage";
 import RequireAuth from "./components/userAuthentication/RequireAuth";
+import ManageLibrarians from "./components/userAuthentication/ManageLibrarians";
+import AllRentals from "./components/AllRentals";
 
 function App() {
     const mode = useSelector((state) => state.global.mode);
@@ -84,7 +86,7 @@ function App() {
                                     <Route path="/teachers/teachers-rentals/:teacherId" element={<TeachersRentalsPage/>}/>
                                     <Route path="/edit/teachers-rental/:rentalId" element={<EditTeacherRentalPage/>}/>
                                     <Route path="/daily" element={<TeacherListPage/>}/>
-                                    <Route path='/breakdown' element={<GenerateStudentReport/>}/>
+                                    <Route path='/breakdown' element={<AllRentals />}/>
                                     <Route path='/book' element={<AddBook/>}/>
                                     <Route path='/edit-book/:bookId' element={<EditBookPage/>}/>
                                     <Route path='/bookspage' element={<BooksPage/>}/>
@@ -94,6 +96,7 @@ function App() {
                                     <Route path="/lost-books" element={<LostBooks/>}/>
                                     <Route path="/notification" element={<Notification/>}/>
                                     <Route path="/settings" element={<Settings/>}/>
+                                    <Route path="/admin" element={<ManageLibrarians/>}/>
                                 </Route>
                             </Route>
                         </Routes>

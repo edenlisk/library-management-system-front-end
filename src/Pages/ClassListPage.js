@@ -108,7 +108,6 @@ const ClassListPage = () => {
   if (isSuccess) {
     const { data: students } = data;
     const { result } = students;
-    console.log(result);
     rows = result;
   }
   const [open, setOpen] = useState(false);

@@ -11,7 +11,7 @@ import {
     useTheme,
     useMediaQuery,
 } from "@mui/material";
-import { MyResponsivePie } from "./dashboard/Graphs";
+import { MyResponsivePie, MyResponsiveLine } from "./dashboard/Graphs";
 import TopBooks from "./dashboard/TopBooks";
 import {
     ChevronRightOutlined,
@@ -24,7 +24,7 @@ import {DataGrid} from "@mui/x-data-grid";
 import Header from './Header';
 import FlexBetween from "./FlexBetween";
 import {useTopStudentsQuery} from '../states/apiSlice';
-import MyResponsiveLine from './Datachart';
+// import MyResponsiveLine from './Datachart';
 import TopStudents from "./dashboard/TopStudents";
 import DashboardStats from "./dashboard/DashboardStats";
 import LastCreated from "./dashboard/LastCreated";
@@ -137,10 +137,29 @@ const Dashboard = () => {
             </Box>
             <Box
                 display="flex"
-                maxWidth="90%"
                 justifyContent="space-around"
+                flexDirection="column"
             >
-                <MyResponsivePie/>
+                <Box
+                    display="flex"
+                    maxWidth="40%"
+                    height="400px"
+                    justifyContent="center"
+                    flexDirection="column"
+                    alignItems="center"
+                    alignSelf="end"
+                >
+                    <Typography>Previous week stats</Typography>
+                    <MyResponsivePie/>
+                </Box>
+                <Box
+                    height="500px"
+                    m="2rem 0"
+                    width="90%"
+                >
+                    <Typography>Overall Statistics</Typography>
+                    <MyResponsiveLine />
+                </Box>
             </Box>
             <Box
                 display="flex"

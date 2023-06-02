@@ -12,7 +12,7 @@ export const apiSlice = createApi({
             return headers;
         }
     }),
-    tagTypes: ["classes", "students", "rentals", "academicYear", "classreport", "statistics", "teachers", "teachersRentals", "books", 'books-categories', 'settings'],
+    tagTypes: ["classes", "students", "rentals", "librarians", "academicYear", "classreport", "statistics", "teachers", "teachersRentals", "books", 'books-categories', 'settings'],
     endpoints: (builder) => ({
         // GET CLASSES
         getClasses: builder.query({
@@ -150,14 +150,14 @@ export const apiSlice = createApi({
                 method: 'POST',
                 body
             }),
-            invalidatesTags: ['rentals', 'students']
+            invalidatesTags: ['rentals', 'students', "books", "statistics"]
         }),
         deleteRental: builder.mutation({
             query: (rentalId) => ({
                 url: `/rentals/${rentalId}`,
                 method: 'DELETE'
             }),
-            invalidatesTags: ['rentals', 'students']
+            invalidatesTags: ['rentals', 'students', "books", "statistics"]
         }),
         // body: { nameOfBook, bookId, dueDate, category ,status}
         updateRental: builder.mutation({
@@ -166,7 +166,7 @@ export const apiSlice = createApi({
                 method: 'PATCH',
                 body
             }),
-            invalidatesTags: ['rentals', 'teachersRentals']
+            invalidatesTags: ['rentals', 'teachersRentals', 'statistics', "books"]
         }),
         lostBooks: builder.query({
             query: () => `/rentals/inactive-rentals`,
@@ -184,13 +184,34 @@ export const apiSlice = createApi({
                 url: '/librarians/signup',
                 method: 'POST',
                 body
-            })
+            }),
+            invalidatesTags: ['librarians']
         }),
         logout: builder.mutation({
             query: () => ({
                 url: '/librarians/logout',
                 method: 'POST'
-            })
+            }),
+            invalidatesTags: ['librarians']
+        }),
+        getLibrarians: builder.query({
+            query: () => `/librarians`,
+            providesTags: ['librarians']
+        }),
+        deleteLibrarian: builder.mutation({
+           query: (librarianId) => ({
+               url: `/librarians/delete/${librarianId}`,
+               method: 'DELETE'
+           }),
+            invalidatesTags: ['librarians']
+        }),
+        updateLibrarian: builder.mutation({
+           query: ({body, librarianId}) => ({
+               url: `/librarians/${librarianId}`,
+               method: 'PATCH',
+               body
+           }),
+            invalidatesTags: ['librarians']
         }),
         adminLogin: builder.mutation({
             query: () => ({
@@ -212,7 +233,7 @@ export const apiSlice = createApi({
         }),
         lastCreated: builder.query({
             query: () => `/statistics/last-created`,
-            providesTags: ['statistics']
+            providesTags: ['statistics', 'rentals', 'teachersRentals', 'books', 'students']
         }),
         getTeachers: builder.query({
             query: () => `/teachers`,
@@ -228,7 +249,7 @@ export const apiSlice = createApi({
                 method: 'PATCH',
                 body
             }),
-            invalidatesTags: ['teachers']
+            invalidatesTags: ['teachers', "books", "teachersRentals", "statistics"]
         }),
         createTeacher: builder.mutation({
             query: ({body}) => ({
@@ -243,7 +264,7 @@ export const apiSlice = createApi({
                 url: `/teachers/${teacherId}`,
                 method: 'DELETE'
             }),
-            invalidatesTags: ['teachers', "teachersRentals"]
+            invalidatesTags: ['teachers', "teachersRentals", "books", "statistics"]
         }),
         getTeacherRentals: builder.query({
             query: (teacherId) => ({
@@ -267,7 +288,7 @@ export const apiSlice = createApi({
                 method: 'POST',
                 body
             }),
-            invalidatesTags: ["teachersRentals", 'books']
+            invalidatesTags: ["teachersRentals", 'books', "statistics", "rentals", "teachers"]
         }),
         updateTeacherRental: builder.mutation({
             query: ({body, rentalId}) => ({
@@ -275,14 +296,14 @@ export const apiSlice = createApi({
                 method: 'PATCH',
                 body
             }),
-            invalidatesTags: ['teachersRentals', 'rentals']
+            invalidatesTags: ['teachersRentals', 'rentals', "statistics", "books"]
         }),
         deleteTeacherRental: builder.mutation({
             query: (rentalId) => ({
                 url: `/teachers-rental/${rentalId}`,
                 method: 'DELETE'
             }),
-            invalidatesTags: ['teachersRentals', 'books']
+            invalidatesTags: ['teachersRentals', 'books', "statistics", "teachers"]
         }),
         weeklyStats: builder.query({
             query: () => `/statistics/weekly-stats`,
@@ -298,7 +319,7 @@ export const apiSlice = createApi({
                 method: 'POST',
                 body
             }),
-            invalidatesTags: ['books', 'books-categories']
+            invalidatesTags: ['books', 'books-categories', 'statistics']
         }),
         getBook: builder.query({
             query: (bookId) => `/books/${bookId}`,
@@ -310,11 +331,11 @@ export const apiSlice = createApi({
                 method: 'PATCH',
                 body
             }),
-            invalidatesTags: ['books', 'books-categories']
+            invalidatesTags: ['books', 'books-categories', "statistics"]
         }),
         topBooks: builder.query({
             query: () => `/statistics/top-books`,
-            // providesTags: ['rentals']
+            providesTags: ['rentals', 'statistics']
         }),
         uploadBooks: builder.mutation({
             query: ({formData}) => ({
@@ -322,11 +343,11 @@ export const apiSlice = createApi({
                 method: 'POST',
                 body: formData
             }),
-            invalidatesTags: ['books', 'books-categories']
+            invalidatesTags: ['books', 'books-categories', "statistics"]
         }),
         getAllCategories: builder.query({
             query: () => `/book-category`,
-            providesTags: ['books-categories']
+            providesTags: ['books-categories', 'statistics', 'books']
         }),
         createBookCategory: builder.mutation({
             query: (categoryName) => ({
@@ -334,7 +355,7 @@ export const apiSlice = createApi({
                 method: 'POST',
                 body: {categoryName}
             }),
-            invalidatesTags: ['book-categories']
+            invalidatesTags: ['book-categories', 'statistics', 'books']
         }),
         getCategory: builder.query({
             query: (categoryId) => `/book-category/${categoryId}`,
@@ -342,11 +363,11 @@ export const apiSlice = createApi({
         }),
         totalStats: builder.query({
             query: () => `/statistics/total-revenue`,
-            invalidatesTags: ['students']
+            providesTags: ['students', 'rentals', "teachersRentals", 'statistics', 'books']
         }),
         notification: builder.query({
             query: () => `/statistics/notification`,
-            providesTags: ['rentals', 'teachersRentals']
+            providesTags: ['rentals', 'teachersRentals', 'books', 'statistics']
         }),
         notificationReport: builder.mutation({
             query: () => ({
@@ -364,7 +385,16 @@ export const apiSlice = createApi({
                 url: `/settings`,
                 method: 'PATCH',
                 body
-            })
+            }),
+            invalidatesTags: ['settings']
+        }),
+        overallStats: builder.query({
+            query: () => `/statistics/stats-categories`,
+            providesTags: ['statistics', 'rentals', 'teachersRentals', 'books']
+        }),
+        issuedBooks: builder.query({
+            query: () => `/statistics/all-rentals`,
+            providesTags: ['statistics', 'rentals', 'teachersRentals', 'books']
         })
 
         // GET STUDENTS BY CLASSID  TO GET: STUNT-ID,NAME CLASS-ID,REG-NBR,FINE
@@ -429,5 +459,10 @@ export const {
     useNotificationReportMutation,
     useGetSettingsQuery,
     useUpdateSettingsMutation,
-    useLastCreatedQuery
+    useLastCreatedQuery,
+    useOverallStatsQuery,
+    useUpdateLibrarianMutation,
+    useDeleteLibrarianMutation,
+    useGetLibrariansQuery,
+    useIssuedBooksQuery
 } = apiSlice;

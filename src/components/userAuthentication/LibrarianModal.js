@@ -20,37 +20,10 @@ import {
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 
-const LibrarianModal = ({openModal,setOpenModal,user,handleOpenModal,handleSubmit,handleChange}) => {
+const LibrarianModal = ({openModal,handleCloseModal, isLoading, user,handleOpenModal,handleSubmit,handleChange}) => {
   const theme = useTheme();
   const [showPassword, setShowPassword] = useState(false);
-  // const [openModal, setOpenModal] = useState(true);
 
-  // const [user, setUser] = useState({
-  //   name:"",
-  //   userName:"",
-  //   email:"",
-  //   password:"",
-  //   confirmPassword:"",
-  // });
-
-  // const handleOpenModal = () => {
-  //   setOpenModal(!openModal);
-  // };
-
-
-  // const handleChange = (e) => {
-  //   setUser({ ...user, [e.target.name]: e.target.value });
-  // };
-
-  // const handleSubmit =  (event) => {
-  //   event.preventDefault();
-   
-  //   console.log(user);
-  // };
-
-  const handleCloseModal = () => {
-    setOpenModal(!openModal);
-  };
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -106,11 +79,11 @@ const LibrarianModal = ({openModal,setOpenModal,user,handleOpenModal,handleSubmi
             <TextField
               label="User Name"
               sx={{ width: "80%" }}
-              name="userName"
-              id="UserName"
+              name="username"
+              id="Username"
               type="text"
               variant="outlined"
-              value={user.userName}
+              value={user.username}
               onChange={handleChange}
             />
           </Grid2>
@@ -178,10 +151,10 @@ const LibrarianModal = ({openModal,setOpenModal,user,handleOpenModal,handleSubmi
         >
           <InputLabel htmlFor="confirmPassword">Confirm Password</InputLabel>
           <OutlinedInput
-            id="confirmPassword"
-            name="confirmPassword"
+            id="passwordConfirm"
+            name="passwordConfirm"
             type={showPassword ? "text" : "password"}
-            value={user.confirmPassword}
+            value={user.passwordConfirm}
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
@@ -199,9 +172,13 @@ const LibrarianModal = ({openModal,setOpenModal,user,handleOpenModal,handleSubmi
         </FormControl>
           </Grid2>
 
-          <Grid2 container gap={2} display="flex">
-            <Button variant="contained" type="submit"   >
-              Add 
+          <Grid2 container gap={2} display="flex" justifyContent="center" xs={12}>
+            <Button
+                variant="contained"
+                type="submit"
+                disabled={isLoading}
+            >
+              {isLoading ? "Adding" : "Add"}
             </Button>
             <Button variant="contained" type="button" onClick={handleCloseModal}>
               cancel

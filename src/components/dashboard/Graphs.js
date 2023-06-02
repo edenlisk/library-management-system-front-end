@@ -1,44 +1,25 @@
-import React from "react";
-import { ResponsiveLine } from '@nivo/line'
-import { ResponsivePie } from '@nivo/pie'
+import React, {useEffect, useState} from "react";
+import {ResponsiveLine} from '@nivo/line';
+import {ResponsivePie} from '@nivo/pie';
+import {useWeeklyStatsQuery, useOverallStatsQuery} from "../../states/apiSlice";
+import {Box} from "@mui/material";
+import {Bars} from "react-loader-spinner";
+import {toast} from "react-toastify";
 
-
-const data = [
-    {
-        id: "returned",
-        label: "Returned",
-        value: 94,
-        color: "hsl(142, 70%, 50%)"
-    },
-    {
-        id: "issued",
-        label: "Issued",
-        value: 143,
-        color: "hsl(194,70%,50%)"
-    },
-    // {
-    //     "id": "python",
-    //     "label": "python",
-    //     "value": 579,
-    //     "color": "hsl(101, 70%, 50%)"
-    // },
-    // {
-    //     "id": "elixir",
-    //     "label": "elixir",
-    //     "value": 426,
-    //     "color": "hsl(8, 70%, 50%)"
-    // },
-    // {
-    //     "id": "css",
-    //     "label": "css",
-    //     "value": 48,
-    //     "color": "hsl(342, 70%, 50%)"
-    // }
-]
 
 export const MyResponsivePie = () => {
+    const {data: rows, isSuccess, isLoading} = useWeeklyStatsQuery();
+    const [data, setData] = useState([]);
+    useEffect(() => {
+        if (isSuccess) {
+            const {data: weeklyStats} = rows;
+            const {response} = weeklyStats;
+            setData(response);
+            console.log(response)
+        }
+    }, [isSuccess, data]);
 
-    const data = [
+    const datum = [
         {
             id: "returned",
             label: "Returned",
@@ -53,209 +34,176 @@ export const MyResponsivePie = () => {
         }
     ]
 
+
     return (
-        <ResponsivePie
-            width={400}
-            height={300}
-            data={data}
-            margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
-            innerRadius={0.5}
-            padAngle={0.7}
-            cornerRadius={3}
-            colors={{ scheme: 'category10' }}
-            activeOuterRadiusOffset={8}
-            borderWidth={1}
-            borderColor={{
-                from: 'color',
-                modifiers: [
-                    [
-                        'darker',
-                        0.2
+        isLoading ?
+            <Box>
+                <Bars
+                    height="180"
+                    width="120"
+                    color="#FFE3A3"
+                    ariaLabel="bars-loading"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                    visible={true}
+                />
+            </Box>
+            :
+            <ResponsivePie
+                width={400}
+                height={300}
+                data={data}
+                margin={{top: 40, right: 40, bottom: 80, left: 60}}
+                innerRadius={0.5}
+                padAngle={0.7}
+                cornerRadius={3}
+                colors={{scheme: 'category10'}}
+                activeOuterRadiusOffset={8}
+                borderWidth={1}
+                borderColor={{
+                    from: 'color',
+                    modifiers: [
+                        [
+                            'darker',
+                            0.2
+                        ]
                     ]
-                ]
-            }}
-            arcLinkLabelsSkipAngle={10}
-            arcLinkLabelsTextColor="#333333"
-            arcLinkLabelsThickness={2}
-            arcLinkLabelsColor={{ from: 'color' }}
-            arcLabelsSkipAngle={10}
-            arcLabelsTextColor={{
-                from: 'color',
-                modifiers: [
-                    [
-                        'darker',
-                        2
+                }}
+                arcLinkLabelsSkipAngle={10}
+                arcLinkLabelsTextColor="#333333"
+                arcLinkLabelsThickness={2}
+                arcLinkLabelsColor={{from: 'color'}}
+                arcLabelsSkipAngle={10}
+                arcLabelsTextColor={{
+                    from: 'color',
+                    modifiers: [
+                        [
+                            'darker',
+                            2
+                        ]
                     ]
-                ]
-            }}
-            defs={[
-                {
-                    id: 'dots',
-                    type: 'patternDots',
-                    background: 'inherit',
-                    color: 'rgba(255, 255, 255, 0.3)',
-                    size: 4,
-                    padding: 1,
-                    stagger: true
-                },
-                {
-                    id: 'lines',
-                    type: 'patternLines',
-                    background: 'inherit',
-                    color: 'rgba(255, 255, 255, 0.3)',
-                    rotation: -45,
-                    lineWidth: 6,
-                    spacing: 10
-                }
-            ]}
-            fill={[
-                {
-                    match: {
-                        id: 'ruby'
+                }}
+                defs={[
+                    {
+                        id: 'dots',
+                        type: 'patternDots',
+                        background: 'inherit',
+                        color: 'rgba(255, 255, 255, 0.3)',
+                        size: 4,
+                        padding: 1,
+                        stagger: true
                     },
-                    id: 'dots'
-                },
-                {
-                    match: {
-                        id: 'c'
+                    {
+                        id: 'lines',
+                        type: 'patternLines',
+                        background: 'inherit',
+                        color: 'rgba(255, 255, 255, 0.3)',
+                        rotation: -45,
+                        lineWidth: 6,
+                        spacing: 10
+                    }
+                ]}
+                fill={[
+                    {
+                        match: {
+                            id: 'ruby'
+                        },
+                        id: 'dots'
                     },
-                    id: 'dots'
-                },
-                {
-                    match: {
-                        id: 'go'
+                    {
+                        match: {
+                            id: 'c'
+                        },
+                        id: 'dots'
                     },
-                    id: 'dots'
-                },
-                {
-                    match: {
-                        id: 'python'
+                    {
+                        match: {
+                            id: 'go'
+                        },
+                        id: 'dots'
                     },
-                    id: 'dots'
-                },
-                {
-                    match: {
-                        id: 'scala'
+                    {
+                        match: {
+                            id: 'python'
+                        },
+                        id: 'dots'
                     },
-                    id: 'lines'
-                },
-                {
-                    match: {
-                        id: 'lisp'
+                    {
+                        match: {
+                            id: 'scala'
+                        },
+                        id: 'lines'
                     },
-                    id: 'lines'
-                },
-                {
-                    match: {
-                        id: 'elixir'
+                    {
+                        match: {
+                            id: 'lisp'
+                        },
+                        id: 'lines'
                     },
-                    id: 'lines'
-                },
-                {
-                    match: {
-                        id: 'javascript'
+                    {
+                        match: {
+                            id: 'elixir'
+                        },
+                        id: 'lines'
                     },
-                    id: 'lines'
-                }
-            ]}
-            legends={[
-                {
-                    anchor: 'bottom',
-                    direction: 'row',
-                    justify: false,
-                    translateX: 0,
-                    translateY: 56,
-                    itemsSpacing: 0,
-                    itemWidth: 100,
-                    itemHeight: 10,
-                    itemTextColor: '#999',
-                    itemDirection: 'left-to-right',
-                    itemOpacity: 1,
-                    symbolSize: 18,
-                    symbolShape: 'circle',
-                    effects: [
-                        {
-                            on: 'hover',
-                            style: {
-                                itemTextColor: '#000'
+                    {
+                        match: {
+                            id: 'javascript'
+                        },
+                        id: 'lines'
+                    }
+                ]}
+                legends={[
+                    {
+                        anchor: 'bottom',
+                        direction: 'row',
+                        justify: false,
+                        translateX: 0,
+                        translateY: 56,
+                        itemsSpacing: 0,
+                        itemWidth: 100,
+                        itemHeight: 10,
+                        itemTextColor: '#999',
+                        itemDirection: 'left-to-right',
+                        itemOpacity: 1,
+                        symbolSize: 18,
+                        symbolShape: 'circle',
+                        effects: [
+                            {
+                                on: 'hover',
+                                style: {
+                                    itemTextColor: '#000'
+                                }
                             }
-                        }
-                    ]
-                }
-            ]}
-        />
+                        ]
+                    }
+                ]}
+            />
     )
 }
 
 
 export const MyResponsiveLine = () => {
-    const data = [
-        {
-            "id": "Senior Two",
-            "data": [
-                {
-                    "x": "mathematics",
-                    "y": 0
-                },
-                {
-                    "x": "biology",
-                    "y": 0
-                }
-            ]
-        },
-        {
-            "id": "Senior Three",
-            "data": [
-                {
-                    "x": "biology",
-                    "y": 0
-                },
-                {
-                    "x": "mathematics",
-                    "y": 1
-                }
-            ]
-        },
-        {
-            "id": "Senior Four",
-            "data": [
-                {
-                    "x": "biology",
-                    "y": 1
-                }
-            ]
-        },
-        {
-            "id": "Senior One",
-            "data": [
-                {
-                    "x": "mathematics",
-                    "y": 0
-                },
-                {
-                    "x": "biology",
-                    "y": 0
-                }
-            ]
-        },
-        {
-            "id": "Other",
-            "data": [
-                {
-                    "x": "novel",
-                    "y": 3
-                }
-            ]
+    const {data:rows, isSuccess, isLoading, isError, error} = useOverallStatsQuery();
+    const [data, setData] = useState([]);
+    useEffect(() => {
+        if (isSuccess) {
+            const {data} = rows;
+            const {numberOfRentalsByCategory} = data;
+            setData(numberOfRentalsByCategory)
+        } else if (isError) {
+            const {data:fullError} = error;
+            const {message} = fullError;
+            toast.error(message)
         }
-    ]
-
+    }, [isSuccess, data, isError, error]);
 
     return (
         <ResponsiveLine
             data={data}
             curve="monotoneX"
-            margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
-            xScale={{ type: 'point' }}
+            margin={{top: 50, right: 10, bottom: 100, left: 60}}
+            xScale={{type: 'point'}}
             yScale={{
                 type: 'linear',
                 min: 'auto',
@@ -282,26 +230,27 @@ export const MyResponsiveLine = () => {
                 legendOffset: -40,
                 legendPosition: 'middle'
             }}
-            colors={{ scheme: 'category10' }}
+            colors={{scheme: 'category10'}}
             pointSize={10}
-            pointColor={{ theme: 'background' }}
+            pointColor={{theme: 'background'}}
             pointBorderWidth={2}
-            pointBorderColor={{ from: 'serieColor' }}
+            pointBorderColor={{from: 'serieColor'}}
             pointLabelYOffset={-12}
             useMesh={true}
             enableSlices="x"
-            height={400}
-            width={1000}
+            height={500}
+            width={900}
             legends={[
                 {
-                    anchor: 'bottom-right',
-                    direction: 'column',
+                    padding: 30,
+                    anchor: 'bottom',
+                    direction: 'row',
                     justify: false,
-                    translateX: 100,
-                    translateY: 0,
+                    translateX: 0,
+                    translateY: 90,
                     itemsSpacing: 0,
                     itemDirection: 'left-to-right',
-                    itemWidth: 80,
+                    itemWidth: 100,
                     itemHeight: 20,
                     itemOpacity: 0.75,
                     symbolSize: 12,
