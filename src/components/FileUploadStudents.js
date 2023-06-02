@@ -1,5 +1,5 @@
 import React, {useState, useRef, useEffect} from "react";
-import { Box, Button, TextField, Tooltip,Stack } from "@mui/material";
+import { Box, Button, TextField, Tooltip,Stack,CircularProgress } from "@mui/material";
 import { UploadFile } from "@mui/icons-material";
 import { useUploadStudentsMutation } from "../states/apiSlice";
 import {toast} from "react-toastify";
@@ -53,7 +53,10 @@ const FileUploadStudents = ({ classId }) => {
           }
         >
           {isLoading ? (
-            "Uploading"
+            <Button disabled
+            variant="contained"
+            startIcon={ <CircularProgress size={20}/> }
+            >Uploading</Button>
           ) : (
             // TO CHANGE THE BUTTON ON FILE CHANGE
             <Button

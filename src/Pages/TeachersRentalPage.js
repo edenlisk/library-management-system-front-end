@@ -17,9 +17,10 @@ import {
     ChevronRightOutlined,
     DeleteOutlined,
     ModeEditOutlined,
-    Add
+    Add,
+    CloseOutlined
 } from "@mui/icons-material";
-import {Box, Typography, IconButton, Stack, Tooltip, Button, Toolbar} from "@mui/material";
+import {Box, Typography, IconButton, Stack, Tooltip, Button, Toolbar,Fade,Modal,CircularProgress} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import {DataGrid} from "@mui/x-data-grid";
 import Customtoolbar from "../components/Customtoolbar";
@@ -32,6 +33,8 @@ import {toast} from "react-toastify";
 const TeachersRentalsPage = () => {
     const {teacherId} = useParams();
     const theme = useTheme();
+    const navigate = useNavigate();
+    const academicYear = useSelector((state) => state.global.academicYear);
 
     const [book, setBook] = useState(null);
 
@@ -49,11 +52,6 @@ const TeachersRentalsPage = () => {
         setBook(null);
     };
 
-    const navigate = useNavigate();
-
-    const academicYear = useSelector((state) => state.global.academicYear);
-
-    const [selectedId, setSelectedId] = useState();
 
 
     const [createRental, {isSuccess:isCreateSuccess, isError:isCreateError, error:createError}] = useCreateTeacherRentalMutation();
@@ -68,7 +66,7 @@ const TeachersRentalsPage = () => {
         }
     }, [isCreateError, isCreateSuccess]);
 
-    const [deleteRental, {isSuccess:isDeleteSuccess, isError:isDeleteError, error:deleteError}] = useDeleteTeacherRentalMutation();
+    const [deleteRental, {isSuccess:isDeleteSuccess, isError:isDeleteError, error:deleteError,isLoading:isDeleting}] = useDeleteTeacherRentalMutation();
 
     useEffect(() => {
         if (isDeleteSuccess) {
@@ -110,6 +108,11 @@ const TeachersRentalsPage = () => {
     const [returned, setReturned] = useState(false);
 
     const [openModal, setOpenModal] = useState(false);
+
+    const [selectedId,setSelectedId]=useState(null);
+    const [selectedBkId,setSelectedBkId]=useState(null);
+    const [selectedName,setSelectedName]=useState("");
+    const [openDeleteModal,setOpenDeleteModal]=useState(false);
 
 
     // const [rental, setRental] = useState({
@@ -164,11 +167,25 @@ const TeachersRentalsPage = () => {
     //     setOpenModal(!openModal);
     // };
 
-    const handleRowDelete = async (id) => {
-        const rentalId = id;
+
+
+    const handleClickOpenDeleteModal = (id,name,bkName) => {
+        setSelectedId(id);
+        setSelectedName(name);
+        setSelectedBkId(bkName);
+        setOpenDeleteModal(!openDeleteModal);
+      };
+
+      const handleRowDelete = async () => {
+        const rentalId = selectedId;
         await deleteRental(rentalId);
+        setOpenDeleteModal(!openDeleteModal)
         console.log(typeof rentalId);
     };
+
+      const handleCloseDeleteModal = () => {
+        setOpenDeleteModal(!openDeleteModal);
+      };
 
     const columns = [
         {field: "nameOfBook", headerName: "Book name", flex: 0.4},
@@ -206,7 +223,7 @@ const TeachersRentalsPage = () => {
                     <Tooltip title="Delete" placement="top" arrow>
                         <IconButton
                             aria-label="delete"
-                            onClick={() => handleRowDelete(params.id)}
+                            onClick={() => handleClickOpenDeleteModal(params.row._id,params.row.nameOfBook,params.row.bookId)}
                         >
                             <DeleteOutlined sx={{fontSize: 20}}/>
                         </IconButton>
@@ -263,14 +280,13 @@ const TeachersRentalsPage = () => {
                     openModal={openModal}
                     handleModalOpen={handleModalOpen}
                     handleModalClose={handleModalClose}
-                /> */}
-                 <Link to={`/add/teacher-rental/${teacherId}`} underline="none"  >
+                /> */} 
          <Button  size="small" sx={{ display: "flex",border:"solid 1.5px",textTransform:"none",
-      color:"inherit",padding:"8px" }}>
+      color:"inherit",padding:"8px" }} onClick={()=>navigate(`/add/teacher-rental/${teacherId}`)}>
           <Add />
            Add new book rental...
       </Button >
-      </Link>
+
             </Grid2>
             <Grid2 xs={12} display="flex" justifyContent="start">
                 <Box
@@ -293,6 +309,7 @@ const TeachersRentalsPage = () => {
                         }}
                         columns={columns}
                         rows={rows}
+                        loading={isLoading ||!rows}
                         getRowId={(row) => row._id}
                         disableColumnFilter
                         disableColumnSelector
@@ -315,7 +332,72 @@ const TeachersRentalsPage = () => {
                         pageSizeOptions={[8, 16, 24]}
                         item="true"
                     />
-                </Box>
+                </Box> 
+                <Modal
+        open={openDeleteModal}
+        aria-labelledby="add-modal-title"
+        aria-describedby="add-modal-description"
+        sx={{
+          "& .MuiBackdrop-root-MuiModal-backdrop": {
+            backgroundColor: `red`,
+            opacity: "0.1px",
+          },
+        }}
+      >
+        <Fade in={openDeleteModal}>
+          <Box maxWidth={700} height="100%" margin="auto" padding={3}>
+            <Box
+              display="flex"
+              flexDirection="column"
+              justifyContent="top"
+              alignItems="center"
+              height="40%"
+              sx={{ p: "10px 10px" }}
+              backgroundColor={theme.palette.primary[900]}
+            >
+              <CloseOutlined
+                sx={{ alignSelf: "end" }}
+                onClick={handleCloseDeleteModal}
+              />
+              <Typography
+                variant="h3"
+                sx={{ textAlign: "center", mb: 3, mt: 3 }}
+              >
+                {`Sure you want to delete rental ${selectedName} with the ID: ${selectedBkId}`}
+              </Typography>
+              <Box display="flex" gap={2} sx={{ alignSelf: "center" }}>
+                {isDeleting?<Button
+                  variant="contained"
+                  size="medium"
+                  type="button"
+                  disabled
+                  startIcon={<CircularProgress size={20}/>}
+                  sx={{ mb: 2, width: "200px", alignSelf: "start" }}
+                >
+                 deleting
+                </Button>:<Button
+                  variant="contained"
+                  size="medium"
+                  type="button"
+                  sx={{ mb: 2, width: "200px", alignSelf: "start" }}
+                  onClick={handleRowDelete}
+                >
+              delete
+                </Button>}
+                <Button
+                  variant="contained"
+                  size="medium"
+                  type="button"
+                  sx={{ mb: 2, width: "200px", alignSelf: "start" }}
+                  onClick={handleCloseDeleteModal}
+                >
+                  cancel
+                </Button>
+              </Box>
+            </Box>
+          </Box>
+        </Fade>
+      </Modal>
                 {book ? <ReceiveBook book={book} open={open} handleClose={handleClose}/> : <div/>}
             </Grid2>
         </Grid2>

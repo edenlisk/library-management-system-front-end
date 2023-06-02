@@ -19,6 +19,7 @@ import {
   Tooltip,
   Stack,
   Button,
+  CircularProgress
 } from "@mui/material";
 import Status from "../components/Status";
 import {
@@ -37,7 +38,7 @@ const ClassListPage = () => {
 
   const { classId } = useParams();
 
-  const [createNewStudent, { isSuccess:isCreateSuccess, isError:isCreationError, error:creationError }] = useCreateStudentMutation();
+  const [createNewStudent, { isSuccess:isCreateSuccess, isError:isCreationError, error:creationError,isLoading:isSending }] = useCreateStudentMutation();
 
   useEffect(() => {
     if (isCreateSuccess) {
@@ -49,7 +50,7 @@ const ClassListPage = () => {
     }
   }, [isCreationError, isCreateSuccess]);
 
-  const [deleteStudent, { isSuccess:isDeleteSuccess, isError:isDeleteError, error:deletionError }] = useDeleteStudentMutation();
+  const [deleteStudent, { isSuccess:isDeleteSuccess, isError:isDeleteError, error:deletionError,isLoading:isDeleting }] = useDeleteStudentMutation();
 
   useEffect(() => {
     if (isDeleteSuccess) {
@@ -130,8 +131,8 @@ const ClassListPage = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    handleClose();
     await createNewStudent({ ...newStudent, academicYear, classId });
+    setOpen(!open);
     console.log(newStudent);
     setNewStudent({ name: "", registrationNumber: "", academicLevel: "" });
   };
@@ -245,6 +246,7 @@ const ClassListPage = () => {
             onSubmit={handleSubmit}
             handleChange={handleChange}
             open={open}
+            isSending={isSending}
             handleOpen={handleOpen}
             handleClose={handleClose}
           />
@@ -315,15 +317,24 @@ const ClassListPage = () => {
                 {`Sure you want to delete student ${selectedName}`}
               </Typography>
               <Box display="flex" gap={2} sx={{ alignSelf: "center" }}>
-                <Button
+                {isDeleting?<Button
+                  variant="contained"
+                  size="medium"
+                  type="button"
+                  disabled
+                  startIcon={<CircularProgress size={20}/>}
+                  sx={{ mb: 2, width: "200px", alignSelf: "start" }}
+                >
+                 deleting
+                </Button>:<Button
                   variant="contained"
                   size="medium"
                   type="button"
                   sx={{ mb: 2, width: "200px", alignSelf: "start" }}
                   onClick={handleRowDelete}
                 >
-                  Delete
-                </Button>
+                 delete
+                </Button>}
                 <Button
                   variant="contained"
                   size="medium"

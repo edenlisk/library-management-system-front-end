@@ -42,6 +42,8 @@ import LostBooks from "./components/books components/LostBooks";
 import EditBookPage from "./components/books components/EditBookPage";
 import EditTeacherRentalPage from "./Pages/EditTeacherRental";
 import AddTeacherBookRentalPage from "./components/books components/AddTeacherBookRentalPage";
+import Tests from "./components/Tests";
+import LibrarianModal from "./components/LibrarianModal";
 function App() {
   const mode = useSelector((state) => state.global.mode);
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
@@ -81,7 +83,7 @@ function App() {
                 <Route path="/edit/teachers-rental/:rentalId" element={<EditTeacherRentalPage />} />
                 <Route path="/daily" element={<TeacherListPage/>} />
                 <Route path='/breakdown' element={<GenerateStudentReport/>}/>
-                <Route path='/book' element={<AddBook/>}/>
+                {/* <Route path='/book' element={<AddBook/>}/> */}
                 <Route path='/edit-book/:bookId' element={<EditBookPage/>}/>
                 <Route path='/bookspage' element={<BooksPage/>}/>
                 <Route path='/add/student-rental/:studentId' element={<AddStudentBookRentalPage/>}/>
@@ -90,6 +92,7 @@ function App() {
                 <Route path="/lost-books" element={<LostBooks />} />
                 <Route path="/notification" element={<Notification />} />
                 <Route path="/settings" element={<Settings />} />
+                <Route path="/load-button" element={<LibrarianModal/>} />
               </Route>
             </Routes>
           </ThemeProvider>

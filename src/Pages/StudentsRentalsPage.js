@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import { useSelector } from "react-redux";
 import { useTheme } from "@emotion/react";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { useNavigate, useParams, Link ,NavLink} from "react-router-dom";
 import {
   useCreateRentalMutation,
   useDeleteRentalMutation,
@@ -13,9 +13,10 @@ import {
   ChevronRightOutlined,
   DeleteOutlined,
   ModeEditOutlined,
-  Add
+  Add,
+  CloseOutlined
 } from "@mui/icons-material";
-import {Box, Typography, IconButton, Stack, Tooltip, Button, Toolbar} from "@mui/material";
+import {Box, Typography, IconButton, Stack, Tooltip, Button, Toolbar,Fade,Modal, CircularProgress} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import Customtoolbar from "../components/Customtoolbar";
@@ -49,7 +50,6 @@ const StudentsRentalsPage = () => {
 
   const academicYear = useSelector((state) => state.global.academicYear);
 
-  const [selectedId, setSelectedId] = useState();
 
 
 
@@ -64,7 +64,7 @@ const StudentsRentalsPage = () => {
     }
   }, [isCreateError, isCreateSuccess]);
 
-  const [deleteRental, {isSuccess:isDeleteSuccess, isError:isDeleteError, error:deleteError}] = useDeleteRentalMutation();
+  const [deleteRental, {isSuccess:isDeleteSuccess, isError:isDeleteError, error:deleteError,isLoading:isDeleting}] = useDeleteRentalMutation();
   useEffect(() => {
     if (isDeleteSuccess) {
       toast.success("Rental deleted successfully")
@@ -81,6 +81,11 @@ const StudentsRentalsPage = () => {
   });
 
   const{data:studentInfo,isSuccess:isDone}=useGetOneStudentQuery(studentId);
+
+  const [selectedId,setSelectedId]=useState(null);
+  const [selectedBkId,setSelectedBkId]=useState(null);
+  const [selectedName,setSelectedName]=useState("");
+  const [openDeleteModal,setOpenDeleteModal]=useState(false);
 
 let studentName="";
   if (isDone) {
@@ -128,54 +133,22 @@ let studentName="";
     dueDate: null,
   });
 
-  // const handleModalOpen = () => {
-  //   setOpenModal(!openModal);
-  // };
-  // const handleModalClose = () => {
-  //   setOpenModal(!openModal);
-  // };
+  const handleClickOpenDeleteModal = (id,name,bkName) => {
+    setSelectedId(id);
+    setSelectedName(name);
+    setSelectedBkId(bkName);
+    setOpenDeleteModal(!openDeleteModal);
+  };
 
-  // const handleChange = (e) => {
-  //   setRental({ ...rental, [e.target.name]: e.target.value });
-  // };
-
-  // const handleStartDateChange = (newDate) => {
-  //   setRental((prevState) => ({
-  //     ...prevState,
-  //     // issueDate: newDate.format("MM/DD/YYYY"),
-  //     issueDate: newDate.format('YYYY-MM-DD'),
-  //   }));
-  // };
-
-  // const handleEndDateChange = (newDate) => {
-  //   setRental((prevState) => ({
-  //     ...prevState,
-  //     // dueDate: newDate.format("MM/DD/YYYY"),
-  //     dueDate: newDate.format('YYYY-MM-DD'),
-  //   }));
-  // };
-
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault();
-  //   const body = { ...rental };
-  //   await createRental({ body, academicYear, studentId });
-  //   console.log(rental);
-  //   setRental({
-  //     nameOfBook: "",
-  //     bookId: "",
-  //     studentId: studentId,
-  //     academicYear: academicYear,
-  //     category: "",
-  //     issueDate: null,
-  //     dueDate: null,
-  //   });
-  //   setOpenModal(!openModal);
-  // };
-
-  const handleRowDelete = async (id) => {
-    const rentalId = id;
+  const handleRowDelete = async () => {
+    const rentalId = selectedId;
     await deleteRental(rentalId);
+    setOpenDeleteModal(!openDeleteModal);
     console.log(rentalId);
+  };
+
+  const handleCloseDeleteModal = () => {
+    setOpenDeleteModal(!openDeleteModal);
   };
 
   const columns = [
@@ -212,7 +185,7 @@ let studentName="";
           <Tooltip title="Delete" placement="top" arrow>
             <IconButton
               aria-label="delete"
-              onClick={() => handleRowDelete(params.id)}
+              onClick={() => handleClickOpenDeleteModal(params.row._id,params.row.nameOfBook,params.row.bookId)}
             >
               <DeleteOutlined sx={{ fontSize: 20 }} />
             </IconButton>
@@ -258,25 +231,14 @@ let studentName="";
         alignItems="center"
       >
         <Typography variant="h4">{ studentName }:{academicYear}</Typography>
-        {/* <AddBookRental
-          rental={rental}
-          format="YYYY-MM-DD"
-          setRental={setRental}
-          handleChange={handleChange}
-          onSubmit={handleSubmit}
-          handleStartDateChange={handleStartDateChange}
-          handleEndDateChange={handleEndDateChange}
-          openModal={openModal}
-          handleModalOpen={handleModalOpen}
-          handleModalClose={handleModalClose}
-        /> */}
-        <Link to={`/add/student-rental/${studentId}`} sx={{ textDecoration: 'none' }}>
+        
          <Button size="small" sx={{ display: "flex",border:"solid 1.5px",textTransform:"none",
-      color:"inherit",padding:"8px" }}>
+      color:"inherit",padding:"8px" }} onClick={()=>navigate(`/add/student-rental/${studentId}`)}>
           <Add />
         Add new book rental...
+
       </Button>
-      </Link>
+      
 
       </Grid2>
       <Grid2 xs={12} display="flex" justifyContent="start">
@@ -323,6 +285,72 @@ let studentName="";
             pageSizeOptions={[8, 16, 24]}
             item="true"
           />
+           <Modal
+        open={openDeleteModal}
+        aria-labelledby="add-modal-title"
+        aria-describedby="add-modal-description"
+        sx={{
+          "& .MuiBackdrop-root-MuiModal-backdrop": {
+            backgroundColor: `red`,
+            opacity: "0.1px",
+          },
+        }}
+      >
+        <Fade in={openDeleteModal}>
+          <Box maxWidth={700} height="100%" margin="auto" padding={3}>
+            <Box
+              display="flex"
+              flexDirection="column"
+              justifyContent="top"
+              alignItems="center"
+              height="40%"
+              sx={{ p: "10px 10px" }}
+              backgroundColor={theme.palette.primary[900]}
+            >
+              <CloseOutlined
+                sx={{ alignSelf: "end" }}
+                onClick={handleCloseDeleteModal}
+              />
+              <Typography
+                variant="h3"
+                sx={{ textAlign: "center", mb: 3, mt: 3 }}
+              >
+                {`Sure you want to delete rental ${selectedName} with the ID: ${selectedBkId}`}
+              </Typography>
+              <Box display="flex" gap={2} sx={{ alignSelf: "center" }}>
+               {isDeleting? <Button
+                  variant="contained"
+                  size="medium"
+                  type="button"
+                  disabled
+                  startIcon={<CircularProgress size={20}/>}
+                  sx={{ mb: 2, width: "200px", alignSelf: "start" }}
+
+                >
+                deleting
+                </Button>:<Button
+                  variant="contained"
+                  size="medium"
+                  type="button"
+                  sx={{ mb: 2, width: "200px", alignSelf: "start" }}
+                  onClick={handleRowDelete}
+                >
+                 delete
+                </Button>}
+                <Button
+                  variant="contained"
+                  size="medium"
+                  type="button"
+                  sx={{ mb: 2, width: "200px", alignSelf: "start" }}
+                  onClick={handleCloseDeleteModal}
+                >
+                  cancel
+                </Button>
+              </Box>
+            </Box>
+          </Box>
+        </Fade>
+      </Modal>
           {book ? <ReceiveBook book={book} handleClose={handleClose} open={open} /> : <div/> }
         </Box>
       </Grid2>

@@ -8,9 +8,13 @@ import {
   Select,
   InputLabel,
   Button,
+  Modal,
+  useTheme,
+  Fade,
+  CircularProgress
 } from "@mui/material";
 import {
-  ChevronLeft,
+  CloseOutlined
 
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
@@ -18,9 +22,10 @@ import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { useGetAllCategoriesQuery,useCreateBookMutation } from "../../states/apiSlice";
 import {toast} from "react-toastify";
 
-const AddBook = () => {
+const AddBook = ({isOpen,setIsOpen}) => {
   const navigate = useNavigate();
-  const [createBook, {isSuccess, isError, error}]=useCreateBookMutation();
+  const theme = useTheme();
+  const [createBook, {isSuccess, isError, error,isLoading:isSending}]=useCreateBookMutation();
 //   const {data:catz, isLoading, isSuccess, isError, error }=useGetAllCategoriesQuery();
 //  if (isSuccess) {
   
@@ -50,6 +55,18 @@ const AddBook = () => {
     categoryName: "",
     language: "",
   });
+  
+  const handleModalClose = () => {
+    setBook({bookName: "",
+    author: "",
+    edition: "",
+    numberOfBooks: "",
+    academicLevel: "",
+    categoryName: "",
+    language: "",});
+    setIsOpen(!isOpen);
+
+  };
 
   const handleChange = (e) => {
     setBook({ ...book, [e.target.name]: e.target.value });
@@ -57,9 +74,9 @@ const AddBook = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const body=book;
+    const body={...book};
     await createBook(body);
-    navigate("/bookspage")
+    setIsOpen(!isOpen);
     console.log(book);
     // setBook({bookName:"",author:"",edition:"",numberOfBooks:"",academicLevel:"",category:"",language:""});
   };
@@ -69,8 +86,18 @@ const AddBook = () => {
   const categories=["Mathematics","Physics","Chemistry","Biology","Computer Science","Geography","Economics","Entrepreneurship","History",
   "Kinyarwanda","Kiswahili","English", "Literature","French","Novel","Others"];
   return (
-    <Box component="form" sx={{ p: 4.5, pt:2 }}>
-    <ChevronLeft  onClick={() => navigate(-1)} />
+    
+    <Modal
+    open={isOpen}
+    aria-labelledby="add-modal-title"
+    aria-describedby="add-modal-description"
+  >
+    <Fade in={isOpen}>
+      <Box padding="5px 20px 0 20px" display='flex' justifyContent="center">
+      <Box component="form" sx={{ p: 4.5, pt:2 ,width:"70%",display:"flex",flexDirection:"column",alignItems:"center", gap:"20px"}} 
+     backgroundColor={theme.palette.primary[900]}
+     onSubmit={handleSubmit}>
+    <CloseOutlined sx={{alignSelf:"end",padding:"0px 0px 3px 3px"}} onClick={handleModalClose}/>
       <Grid2 container spacing={2}>
         <Grid2
           xs={12}
@@ -79,10 +106,10 @@ const AddBook = () => {
           justifyContent="start"
           alignItems="center"
         >
-          <Grid2 xs={12} md={2}>
+          <Grid2 xs={4} md={2}>
             <Typography variant="p">Book Name</Typography>
           </Grid2>
-          <Grid2 xs={12} md={10}>
+          <Grid2 xs={8} md={10}>
             <TextField
               label="Book"
               sx={{ width: "80%" }}
@@ -95,10 +122,10 @@ const AddBook = () => {
             />
           </Grid2>
 
-          <Grid2 xs={12} md={2}>
+          <Grid2 xs={4} md={2}>
             <Typography variant="p">Author</Typography>
           </Grid2>
-          <Grid2 xs={12} md={10}>
+          <Grid2 xs={8} md={10}>
             <TextField
               label="Author"
               sx={{ width: "80%" }}
@@ -111,10 +138,10 @@ const AddBook = () => {
             />
           </Grid2>
 
-          <Grid2 xs={12} md={2}>
+          <Grid2 xs={4} md={2}>
             <Typography variant="p">Edition</Typography>
           </Grid2>
-          <Grid2 xs={12} md={10}>
+          <Grid2 xs={8} md={10}>
             <TextField
               label="Edition"
               sx={{ width: "80%" }}
@@ -127,26 +154,27 @@ const AddBook = () => {
             />
           </Grid2>
 
-          <Grid2 xs={12} md={2}>
+          <Grid2 xs={4} md={2}>
             <Typography variant="p">Number of books</Typography>
           </Grid2>
-          <Grid2 xs={12} md={10}>
+          <Grid2 xs={8} md={10}>
             <TextField
               label="Number of books"
               sx={{ width: "80%" }}
               name="numberOfBooks"
               id="numberOfBooks"
-              type="number"
+              type="text"
               variant="outlined"
+              inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
               value={book.numberOfBooks}
               onChange={handleChange}
             />
           </Grid2>
 
-          <Grid2 xs={12} md={2}>
+          <Grid2 xs={4} md={2}>
             <Typography variant="p">Academic Level</Typography>
           </Grid2>
-          <Grid2 xs={12} md={10}>
+          <Grid2 xs={8} md={10}>
             <FormControl variant="outlined" sx={{ width: "80%" }}>
               <InputLabel id="academicLevel">Academic Level </InputLabel>
               <Select
@@ -167,10 +195,10 @@ const AddBook = () => {
             </FormControl>
           </Grid2>
 
-          <Grid2 xs={12} md={2}>
+          <Grid2 xs={4} md={2}>
             <Typography variant="p">Category</Typography>
           </Grid2>
-          <Grid2 xs={12} md={10}>
+          <Grid2 xs={8} md={10}>
             <FormControl variant="outlined" sx={{ width: "80%" }}>
               <InputLabel id="categoryName">Book Category</InputLabel>
               <Select
@@ -191,10 +219,10 @@ const AddBook = () => {
               </Select>
             </FormControl>
           </Grid2>
-          <Grid2 xs={12} md={2}>
+          <Grid2 xs={4} md={2}>
             <Typography variant="p">Language</Typography>
           </Grid2>
-          <Grid2 xs={12} md={10}>
+          <Grid2 xs={8} md={10}>
             <FormControl variant="outlined" sx={{ width: "80%" }}>
               <InputLabel id="Language">Language</InputLabel>
               <Select
@@ -217,16 +245,25 @@ const AddBook = () => {
           </Grid2>
 
           <Grid2 container gap={2} display="flex">
-            <Button variant="contained" type="submit" onClick={handleSubmit}>
+           {isSending?<Button variant="contained" type="submit"
+             disabled
+             startIcon={ <CircularProgress size={20}/> } >
+             Adding
+            </Button> :<Button variant="contained" type="submit"
+               >
               Add book
-            </Button>
-            <Button variant="contained" type="button">
+            </Button>}
+            <Button variant="contained" type="button" onClick={handleModalClose}>
               cancel
             </Button>
           </Grid2>
         </Grid2>
       </Grid2>
     </Box>
+      </Box>
+    
+    </Fade>
+      </Modal>
   );
 };
 

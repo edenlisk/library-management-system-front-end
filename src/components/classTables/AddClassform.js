@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   IconButton,
   Modal,
@@ -13,22 +13,18 @@ import {
   MenuItem,
   Toolbar,
   Button,
+  CircularProgress
 } from "@mui/material";
+import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { CloseOutlined,Add } from "@mui/icons-material";
 
 // COMPONENT TO ADD A NEW STUDENT USING POP UP MODAL
-const AddClassForm = ({ newClass, setNewClass, handleChange, onSubmit }) => {
+const AddClassForm = ({ newClass, setNewClass, handleChange, onSubmit,isSending,open,handleOpen,handleClose }) => {
   const theme = useTheme();
-  const [open, setOpen] = useState(false);
 
   //  TODO:ADD FORM VALIDATION PREVENTING SUBMITION OF EMPTY INPUT OBJECT
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
+
 
   return (
     <>
@@ -108,25 +104,41 @@ const AddClassForm = ({ newClass, setNewClass, handleChange, onSubmit }) => {
                   <MenuItem value="A-Level">A-Level</MenuItem>
                 </Select>
               </FormControl>
-              <Box display="flex" gap={2} sx={{ alignSelf: "start" }}>
-                <Button
+               <Grid2 container justifyContent="start" alignSelf="start" width="100%">
+                <Grid2 xs={6}>
+                {isSending?<Button
                   variant="contained"
                   size="medium"
                   type="submit"
-                  sx={{ mb: 2, width: "200px", alignSelf: "start" }}
+                  disabled
+                  startIcon={<CircularProgress size={20}/>}
+                  sx={{ mb: 2, width: "90%", alignSelf: "start" }}
+                >
+                   Adding
+                </Button>:<Button
+                  variant="contained"
+                  size="medium"
+                  type="submit"
+
+                  sx={{ mb: 2, width: "90%", alignSelf: "start" }}
                 >
                   Add class
-                </Button>
+                </Button>}
+                </Grid2>
+                <Grid2 xs={6}>
                 <Button
                   variant="contained"
                   size="medium"
                   type="button"
                   onClick={handleClose}
-                  sx={{ mb: 2, width: "200px", alignSelf: "start" }}
+                  sx={{ mb: 2, width: "90%", alignSelf: "start" }}
                 >
                   cancel
                 </Button>
-              </Box>
+                </Grid2>
+                </Grid2>
+               
+              
             </Box>
           </Box>
         </Fade>

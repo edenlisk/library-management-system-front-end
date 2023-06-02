@@ -13,11 +13,13 @@ import {
   MenuItem,
   Toolbar,
   Button,
+  CircularProgress
 } from "@mui/material";
+import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { CloseOutlined,Add } from "@mui/icons-material";
 
 // COMPONENT TO ADD A NEW STUDENT USING POP UP MODAL
-const AddteacherForm = ({newTeacher,handleChange,onSubmit,open,handleOpen,handleClose}) => {
+const AddteacherForm = ({newTeacher,handleChange,onSubmit,open,handleOpen,handleClose,isSending}) => {
   const theme = useTheme();
  
 
@@ -100,25 +102,42 @@ const AddteacherForm = ({newTeacher,handleChange,onSubmit,open,handleOpen,handle
                   <MenuItem value="A-Level">A-Level</MenuItem>
                 </Select>
               </FormControl> */}
-              <Box display="flex" gap={2} sx={{ alignSelf: "start" }}>
-                <Button
+               <Grid2 container justifyContent="start" alignSelf="start" width="100%">
+                <Grid2 xs={6}>
+                {isSending?<Button
                   variant="contained"
                   size="medium"
                   type="submit"
-                  sx={{ mb: 2, width: "200px", alignSelf: "start" }}
+                  disabled
+                  startIcon={<CircularProgress size={20}/>}
+                  sx={{ mb: 2, width: "90%", alignSelf: "start" }}
                 >
-                  Add teacher
-                </Button>
+                Adding
+                </Button>:<Button
+                  variant="contained"
+                  size="medium"
+                  type="submit"
+
+                  sx={{ mb: 2, width: "90%", alignSelf: "start" }}
+                >
+                Add teacher
+                </Button>}
+                </Grid2>
+                <Grid2 xs={6}>
+                  
                 <Button
                   variant="contained"
                   size="medium"
                   type="button"
                   onClick={handleClose}
-                  sx={{ mb: 2, width: "200px", alignSelf: "start" }}
+                  sx={{ mb: 2, width: "90%", alignSelf: "start" }}
                 >
                   cancel
                 </Button>
-              </Box>
+                </Grid2>
+                </Grid2>
+              
+
             </Box>
           </Box>
         </Fade>

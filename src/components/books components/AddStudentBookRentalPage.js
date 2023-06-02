@@ -14,6 +14,7 @@ import {
   Typography,
   useTheme,
   useMediaQuery,
+  CircularProgress
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import { SearchOutlined, ChevronLeft } from "@mui/icons-material";
@@ -36,7 +37,7 @@ const AddStudentBookRentalPage = () => {
   const { data, isLoading, isSuccess } = useGetAllBooksQuery();
   const [
     createRental,
-    { isSuccess: isCreateSuccess, isError: isCreateError, error: createError },
+    { isSuccess: isCreateSuccess, isError: isCreateError, error: createError,isLoading:isSending },
   ] = useCreateRentalMutation();
 
   useEffect(() => {
@@ -502,8 +503,9 @@ const AddStudentBookRentalPage = () => {
                 sx={{ width: "80%" }}
                 name="bookId"
                 id="bookId"
-                type="number"
+                type="text"
                 variant="outlined"
+                inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
                 value={book.bookId || ""}
                 onChange={handleChange}
               />
@@ -571,9 +573,9 @@ const AddStudentBookRentalPage = () => {
             </Grid2>
 
             <Grid2 xs={12} gap={2} display="flex" alignItems="center">
-              <Button variant="contained" type="submit" onClick={handleSubmit}>
+             {isSending? (<Button variant="contained" disabled={isSending}startIcon={<CircularProgress size={20}/> }>Renting</Button>) : (<Button variant="contained" type="submit" onClick={handleSubmit}>
                 confirm & rent
-              </Button>
+              </Button>)}
               <Button
                 variant="contained"
                 type="button"

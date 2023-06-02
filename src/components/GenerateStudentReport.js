@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import { useGenerateStudentReportMutation } from "../states/apiSlice";
-import Button from "@mui/material/Button";
 import { FileDownloadOutlined } from "@mui/icons-material";
-import {Box} from "@mui/material";
+import {Box,Button,CircularProgress} from "@mui/material";
+
 const GenerateStudentReport = ({ studentId }) => {
-  const [generateStudentReport, { data }] = useGenerateStudentReportMutation();
-  const [isLoading, setIsLoading] = useState(false);
+  const [generateStudentReport, { data,isLoading }] = useGenerateStudentReportMutation();
+
 
   const handleGenerate = async () => {
-    setIsLoading(true);
     const response = await generateStudentReport(`${studentId}`);
 
     const url = window.URL.createObjectURL(
@@ -16,7 +15,6 @@ const GenerateStudentReport = ({ studentId }) => {
     );
     window.open(url);
 
-    setIsLoading(false);
   };
 
   return (
@@ -29,7 +27,10 @@ const GenerateStudentReport = ({ studentId }) => {
           disabled={isLoading}
       >
         {isLoading ? (
-            <Button disabled>Generating Report ...</Button>
+            <Button disabled
+            variant="contained"
+            startIcon={ <CircularProgress size={20}/> }
+            >Generating Report</Button>
         ) : (
           <Button
             variant="contained"

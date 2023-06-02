@@ -9,6 +9,7 @@ import {
   IconButton,
   Button,
   Box,
+  CircularProgress
 } from "@mui/material";
 import { LoginOutlined } from "@mui/icons-material";
 import { useUpdateStudentMutation,useGetOneStudentQuery } from "../states/apiSlice";
@@ -23,7 +24,7 @@ const EditStudentPage = () => {
  
   const [user, setUser] = useState({ name: "", fine: 0 });
 
-  const [updateStudent, {isSuccess:isUpdateSuccess, isError:isUpdateError, error:updateError}] = useUpdateStudentMutation();
+  const [updateStudent, {isSuccess:isUpdateSuccess, isError:isUpdateError, error:updateError, isLoading:isSending}] = useUpdateStudentMutation();
 
   useEffect(() => {
     if (isUpdateSuccess) {
@@ -99,12 +100,11 @@ const EditStudentPage = () => {
 
         />
         <TextField
-          required
           fullWidth
           value={user.fine || "" }
           name="fine"
           label="fine"
-          type="number"
+          type="text"
           id="fine"
           variant="outlined"
           onChange={handleChange}
@@ -112,15 +112,23 @@ const EditStudentPage = () => {
 
         />
 
-        <Button
+       {isSending? <Button
+          variant="contained"
+          size="medium"
+          type="submit"
+          disabled
+          sx={{ mb: 2, width: "100px", alignSelf: "start" }}
+          endIcon={ <CircularProgress size={20}/>}
+        >
+          Updating
+        </Button>:<Button
           variant="contained"
           size="medium"
           type="submit"
           sx={{ mb: 2, width: "100px", alignSelf: "start" }}
-          endIcon={<LoginOutlined />}
         >
-          save
-        </Button>
+          Update
+        </Button>}
       </Box>
     </Box>
   );

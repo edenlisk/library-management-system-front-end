@@ -23,7 +23,11 @@ const ClassNames = ({
   handleChange,
   setNewClass,
   loading,
+  isSending,
   handleRowDelete,
+  handleOpen,
+  handleClose,
+  open
 }) => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
@@ -144,8 +148,12 @@ const ClassNames = ({
           </Typography>
 
           <AddClassForm
+          open={open}
+          handleOpen={handleOpen}
+          handleClose={handleClose}
             newClass={newClass}
             setNewClass={setNewClass}
+            isSending={isSending}
             onSubmit={onSubmit}
             handleChange={handleChange}
           />
@@ -178,59 +186,7 @@ const ClassNames = ({
           item="true"
         />
       </div>
-      {/* DELETE CONFIRMATION MODAL */}
-      {/* <Modal
-        open={openDeleteModal}
-        aria-labelledby="add-modal-title"
-        aria-describedby="add-modal-description"
-      >
-        <Fade in={openDeleteModal}>
-          <Box maxWidth={700} height="100%" margin="auto" padding={3}>
-            <Box
-              component="form"
-              display="flex"
-              flexDirection="column"
-              justifyContent="top"
-              alignItems="center"
-              height="40%"
-              sx={{ p: "10px 10px" }}
-              backgroundColor={theme.palette.primary[900]}
-              onSubmit={onSubmit}
-            >
-              <CloseOutlined
-                sx={{ alignSelf: "end" }}
-                onClick={handleCloseDeleteModal}
-              />
-              <Typography
-                variant="h3"
-                sx={{ textAlign: "center", mb: 3, mt: 3 }}
-              >
-                {`Sure you want to delete data in row ${selectedId}`}
-              </Typography>
-              <Box display="flex" gap={2} sx={{ alignSelf: "center" }}>
-                <Button
-                  variant="contained"
-                  size="medium"
-                  type="button"
-                  sx={{ mb: 2, width: "200px", alignSelf: "start" }}
-                  onClick={handleRowDelete}
-                >
-                  Delete
-                </Button>
-                <Button
-                  variant="contained"
-                  size="medium"
-                  type="button"
-                  sx={{ mb: 2, width: "200px", alignSelf: "start" }}
-                  onClick={handleCloseDeleteModal}
-                >
-                  cancel
-                </Button>
-              </Box>
-            </Box>
-          </Box>
-        </Fade>
-      </Modal> */}
+     
     </Box>
   );
 };
