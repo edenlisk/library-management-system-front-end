@@ -26,10 +26,16 @@ import {useGetAcademicYearsQuery, useNotificationQuery} from "../states/apiSlice
 import {useNavigate} from "react-router-dom";
 
 const Navbar = ({isSidebarOpen, setIsSidebarOpen}) => {
-    const token = useSelector(state => state.auth.token);
+    const token =  localStorage.getItem('token');
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const theme = useTheme();
+    useEffect(() => {
+        if (!token) {
+            navigate('/login')
+        }
+    }, [token, navigate])
+    // useSelector(state => state.auth.token) ||
     // FETCH ACADEMIC YEARS
     const {data: years, isSuccess: isDone} = useGetAcademicYearsQuery();
     let notificationNumber = 0;
@@ -39,15 +45,15 @@ const Navbar = ({isSidebarOpen, setIsSidebarOpen}) => {
         notificationNumber = result
     }
 
-    const [selectedAcademicYear, setSelectedAcademicYear] = useState(() => {
+    const [selectedAcademicYear, setSelectedAcademicYear] = useState('');
+
+    useEffect(() => {
         if (isDone) {
-            const {data: academicYears} = years;
+            const {data:academicYears} = years;
             const {schoolYears} = academicYears;
-            return schoolYears[0].academicYear;
-            // setSelectedAcademicYear(schoolYears[0].academicYear);
+            setSelectedAcademicYear(schoolYears[0].academicYear)
         }
-        return "";
-    });
+    }, [isDone, years])
     //  DISPATCH TO DISPATCH FOR SETTING YEAR
 
     useEffect(() => {
@@ -108,7 +114,7 @@ const Navbar = ({isSidebarOpen, setIsSidebarOpen}) => {
                         <IconButton
                             onClick={() => navigate('/notification')}
                         >
-                            <Badge badgeContent={notificationNumber} color="secondary">
+                            <Badge badgeContent={notificationNumber ? notificationNumber : "0"} color="secondary">
                                 <NotificationsNone sx={{fontSize: '24px'}}/>
                             </Badge>
                         </IconButton>

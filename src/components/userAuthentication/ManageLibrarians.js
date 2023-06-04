@@ -8,9 +8,11 @@ import {Add} from "@mui/icons-material";
 import LibrarianModal from "./LibrarianModal";
 import {toast} from "react-toastify";
 import EditLibrarian from "./EditLibrarian";
+import {useNavigate} from 'react-router-dom';
 
 
 const ManageLibrarians = () => {
+    const navigate = useNavigate()
     const [signup, {
         isLoading: isCreating,
         isSuccess: isCreateSuccess,
@@ -156,6 +158,9 @@ const ManageLibrarians = () => {
         setOpen(!open);
     }
 
+    const handleAssigningPermissions = (name, id) => {
+        navigate(`/permissions/${name}/${id}`);
+    }
 
     return (
         <>
@@ -179,6 +184,7 @@ const ManageLibrarians = () => {
                             <TableCell align="center">Email</TableCell>
                             <TableCell align="center">Status</TableCell>
                             <TableCell align="center">Suspend</TableCell>
+                            <TableCell align="center">Permissions</TableCell>
                             <TableCell align="center">Edit</TableCell>
                             <TableCell align="center">Delete</TableCell>
                         </TableRow>
@@ -201,6 +207,15 @@ const ManageLibrarians = () => {
                                         color={lib.active === true ? "warning" : "success"} size="small"
                                         variant="contained"
                                         onClick={() => handleSuspend(lib)}>{lib.active === true ? "Suspend" : "Activate"}</Button></TableCell>
+                                    <TableCell align="center">
+                                        <Button
+                                            variant="contained"
+                                            color="primary"
+                                            onClick={() => handleAssigningPermissions(lib.username, lib._id)}
+                                        >
+                                            Assign
+                                        </Button>
+                                    </TableCell>
                                     <TableCell align="center"><Button color="info" variant="contained" size="small"
                                                                       onClick={() => {
                                                                           setLibrarian(lib)
