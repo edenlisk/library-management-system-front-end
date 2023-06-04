@@ -45,6 +45,7 @@ const RentalForm = ({ rental,format, handleChange, onSubmit,handleStartDateChang
               flexDirection="column"
               justifyContent="top"
               alignItems="center"
+              borderRadius="12px"
               height="90%"
               sx={{ p: "10px 10px" }}
               backgroundColor={theme.palette.primary[500]}
@@ -121,7 +122,7 @@ const RentalForm = ({ rental,format, handleChange, onSubmit,handleStartDateChang
               </Box>
 
               <Box display="flex" gap={2} sx={{ alignSelf: "start", mb: 2 }}>
-                {/* to add date pickers isued and due dates */}
+
                 <DatePicker disablePast disableFuture
                 required
                 value={rental.issueDate}
