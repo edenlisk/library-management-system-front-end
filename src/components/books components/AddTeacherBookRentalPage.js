@@ -14,7 +14,7 @@ import {
   Typography,
   useTheme,
   useMediaQuery,
-  CircularProgress
+  CircularProgress,
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import { SearchOutlined, ChevronLeft } from "@mui/icons-material";
@@ -23,6 +23,7 @@ import BooksCard from "./BooksCard";
 import {
   useGetAllBooksQuery,
   useCreateTeacherRentalMutation,
+  useGetAllCategoriesQuery,
 } from "../../states/apiSlice";
 import { toast } from "react-toastify";
 
@@ -37,11 +38,51 @@ const AddTeacherBookRentalPage = () => {
   const { data, isLoading, isSuccess } = useGetAllBooksQuery();
   const [
     createTeacherRental,
-    { isSuccess: isCreateSuccess, isError: isCreateError, error: createError ,isLoading:isSending },
+    {
+      isSuccess: isCreateSuccess,
+      isError: isCreateError,
+      error: createError,
+      isLoading: isSending,
+    },
   ] = useCreateTeacherRentalMutation();
+  const { data: catz, isSuccess: isbookcatz } = useGetAllCategoriesQuery();
 
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
 
+  const [book, setBook] = useState({
+    bookName: "",
+    author: "",
+    edition: "",
+    numberOfBooks: "",
+    academicLevel: "",
+    categoryName: "",
+    language: "",
+    rentalFor: "",
+    bookIds: "",
+    teacherId: teacherId,
+    book_id: null,
+    issueDate: null,
+    dueDate: null,
+  });
+
+  const [selectedValue, setSelectedvalue] = useState({
+    academicLevel: "",
+    category: "",
+  });
+
+  const [rentBook, setRentBook] = useState(null);
+
+  const [filteredProducts, setFilteredProducts] = useState(rows);
+
+  const [isFiltered, setIsFiltered] = useState(false);
+
+  let categrz = [];
+  if (isbookcatz) {
+    const { data } = catz;
+    const { categories: catgz } = data;
+    categrz = catgz;
+    console.log(catgz);
+  }
 
   useEffect(() => {
     if (isCreateSuccess) {
@@ -53,42 +94,14 @@ const AddTeacherBookRentalPage = () => {
     }
   }, [isCreateError, isCreateSuccess]);
 
-  {
-    /* STATE FOR HANDLING BOOK SUBMITION ON BACKEND AND WHERE BOOK DATA ARE ASSED FROM BOOK-CARD */
-  }
-  const [book, setBook] = useState({
-    bookName: "",
-    author: "",
-    edition: "",
-    numberOfBooks: "",
-    academicLevel: "",
-    // categoryName: "",
-    categoryName: "",
-    language: "",
-    rentalFor: "",
-    bookIds: "",
-    teacherId: teacherId,
-    book_id: null,
-    issueDate: null,
-    dueDate: null,
-  });
-  const [rentBook, setRentBook] = useState(null);
-
-  {
-    /* STATE FOR HANDLING SELECT DROPDOWN VALUE SELECTED */
-  }
-  const [selectedValue, setSelectedvalue] = useState({
-    academicLevel: "",
-    category: "",
-  });
   const handleSearch = (event) => {
-    setSelectedvalue(prevState => ({...prevState, academicLevel: '', category: ''}))
-    setSearch(event.target.value)
-  }
-
-  {
-    /* STATE FOR HANDLING THE FILTERED ARRAY OBJECT BASING ON THE VALUE ON THE SELECTED  VALUE IN SELECT COMPONENTS*/
-  }
+    setSelectedvalue((prevState) => ({
+      ...prevState,
+      academicLevel: "",
+      category: "",
+    }));
+    setSearch(event.target.value);
+  };
 
   let rows = [];
 
@@ -99,106 +112,21 @@ const AddTeacherBookRentalPage = () => {
     rows = books;
   }
 
-  // const rows = [
-  //   {
-  //     bookName: "The Great Gatsby",
-  //     author: "F. Scott Fitzgerald",
-  //     category: "Novel",
-  //     academicLevel: "S5",
-  //     totalBooks: "20",
-  //     availableBook: "12",
-  //     language: "English",
-  //     edition: "Kindle Edition",
-  //     id: 1,
-  //   },
-  //   {
-  //     bookName: "To Kill a Mockingbird",
-  //     author: "Harper Lee",
-  //     category: "Action",
-  //     academicLevel: "S6",
-  //     totalBooks: "10",
-  //     availableBook: "4",
-  //     language: "French",
-  //     edition: "French Edition 1998",
-  //     id: 2,
-  //   },
-  //   {
-  //     bookName: "The Lord of the Rings",
-  //     author: "J. R. R. Tolkien",
-  //     category: "Fantasy",
-  //     academicLevel: "S4",
-  //     totalBooks: "11",
-  //     availableBook: "8",
-  //     language: "English",
-  //     edition: "The Rings of Power 1954",
-  //     id: 3,
-  //   },
-  //   {
-  //     bookName: "Animal Farm",
-  //     author: "George Orwell",
-  //     category: "History",
-  //     academicLevel: "S2",
-  //     totalBooks: "10",
-  //     availableBook: "2",
-  //     language: "Danish",
-  //     edition: "A Fairy Story 1944",
-  //     id: 4,
-  //   },
-  //   {
-  //     bookName: "Pride and Prejudice",
-  //     author: "Jane Austen",
-  //     category: "Romance",
-  //     academicLevel: "S2",
-  //     totalBooks: "30",
-  //     availableBook: "12",
-  //     language: "Spanish",
-  //     edition: "Deluxe edition(Spanish) 1813",
-  //     id: 5,
-  //   },
-  //   {
-  //     bookName: "Beloved",
-  //     author: "Toni Morrison",
-  //     category: "Novel",
-  //     academicLevel: "S1",
-  //     totalBooks: "15",
-  //     availableBook: "7",
-  //     language: "English",
-  //     edition: "Paperback 1987",
-  //     id: 6,
-  //   },
-  // ];
-
-  const [filteredProducts, setFilteredProducts] = useState(rows);
-
   let filteredObject = rows.filter(
-      (filteredrowz) =>
-          filteredrowz.academicLevel
-              .toLowerCase()
-              .includes(selectedValue.academicLevel.toLowerCase()) &&
-          filteredrowz.categoryName
-              .toLowerCase()
-              .includes(selectedValue.category.toLowerCase()) &&
-          (filteredrowz.bookName
-                  .toLowerCase()
-                  .includes(search.toLowerCase()) ||
-              filteredrowz.academicLevel
-                  .toLowerCase()
-                  .includes(search.toLowerCase()) ||
-              filteredrowz.categoryName
-                  .toLowerCase()
-                  .includes(search.toLowerCase())
-          )
+    (filteredrowz) =>
+      filteredrowz.academicLevel
+        .toLowerCase()
+        .includes(selectedValue.academicLevel.toLowerCase()) &&
+      filteredrowz.categoryName
+        .toLowerCase()
+        .includes(selectedValue.category.toLowerCase()) &&
+      (filteredrowz.bookName.toLowerCase().includes(search.toLowerCase()) ||
+        filteredrowz.academicLevel
+          .toLowerCase()
+          .includes(search.toLowerCase()) ||
+        filteredrowz.categoryName.toLowerCase().includes(search.toLowerCase()))
   );
 
-  {
-    /* STATE FOR CHECKING IF THERE IS FILTER*/
-  }
-
-  const [isFiltered, setIsFiltered] = useState(false);
-
-  {
-    /* FUNCTION HANDLING FILTERING IN THE SELECT COMPONENT */
-  }
   const handleFilter = (event) => {
     setSelectedvalue({
       ...selectedValue,
@@ -207,13 +135,9 @@ const AddTeacherBookRentalPage = () => {
     console.log(event.target.value);
   };
 
-  {
-    /* FUNCTION TO HANDLE ISUED DATE ON THE RENT BOOK FORM */
-  }
   const handleStartDateChange = (newDate) => {
     setBook((prevState) => ({
       ...prevState,
-      // issueDate: newDate.format("MM/DD/YYYY"),
       issueDate: newDate.format("YYYY-MM-DD"),
     }));
     setRentBook((prevRentBook) => ({
@@ -222,13 +146,9 @@ const AddTeacherBookRentalPage = () => {
     }));
   };
 
-  {
-    /* FUNCTION TO HANDLE ISUED DATE ON THE RENT BOOK FORM*/
-  }
   const handleEndDateChange = (newDate) => {
     setBook((prevState) => ({
       ...prevState,
-      // dueDate: newDate.format("MM/DD/YYYY"),
       dueDate: newDate.format("YYYY-MM-DD"),
     }));
 
@@ -238,9 +158,6 @@ const AddTeacherBookRentalPage = () => {
     }));
   };
 
-  {
-    /*FUNCTION TO HANDLE ANY CHANGE IN THE RENTAL BOOK FORM EXCPET ISSUE AND DUE DATES */
-  }
   const handleChange = (e) => {
     setBook((prevBook) => ({
       ...prevBook,
@@ -255,9 +172,6 @@ const AddTeacherBookRentalPage = () => {
     }));
   };
 
-  {
-    /* FUNCTION TO HANDLE FORM DATA SUBMISSION (BOOK)*/
-  }
   const handleSubmit = async (event) => {
     event.preventDefault();
     const body = { ...rentBook, bookIds: rentBook.bookIds.split(",") };
@@ -283,31 +197,6 @@ const AddTeacherBookRentalPage = () => {
 
   const levels = ["S1", "S2", "S3", "S4", "S5", "S6", "AllEvels"];
 
-  const categories = [
-    "Mathematics",
-    "Physics",
-    "Chemistry",
-    "Biology",
-    "Computer Science",
-    "Geography",
-    "Economics",
-    "Entrepreneurship",
-    "History",
-    "Kinyarwanda",
-    "Kiswahili",
-    "English",
-    "Literature",
-    "French",
-    "Novel",
-    "Romance",
-    "Fantasy",
-    "Action",
-    "Others",
-  ];
-
-  {
-    /* FUNCTION TO HANDLE CARD CLICK TO PASS IN THE BOOK CARD DATA TO THE RENTAL BOOK FORM*/
-  }
   const cardClick = (id) => {
     const clickedBook = rows.find((book) => book._id === id);
     if (clickedBook) {
@@ -325,20 +214,19 @@ const AddTeacherBookRentalPage = () => {
   };
   return (
     <>
-    <Box  sx={{ padding:'4px 8px 4px 33px' }} >
-      <ChevronLeft onClick={() => navigate(-1)} />
-    </Box>
-      
-      {/* FILTERING CONTAINER */}
+      <Box sx={{ padding: "4px 8px 4px 33px" }}>
+        <ChevronLeft onClick={() => navigate(-1)} />
+      </Box>
+
       <Grid2
         container
         spacing={2}
         sx={{
-          padding: '8px 8px 8px 36px',
+          padding: "8px 8px 8px 36px",
           mt: 1,
-          
+
           "& .MuiOutlinedInput-notchedOutline": {
-            borderRadius: "55px",
+            borderRadius: "12px",
           },
           boxShadow: "1.5px 1.5px 10px #ccc",
         }}
@@ -346,7 +234,6 @@ const AddTeacherBookRentalPage = () => {
         backgroundColor={theme.palette.background.alt}
         disableEqualOverflow
       >
-        {/* GRID CONTAINING SEARCH AND SLECT COMPONENT,S USING FOR FILTERING PURPOSES */}
         <Grid2
           xs={12}
           md={8}
@@ -355,7 +242,7 @@ const AddTeacherBookRentalPage = () => {
           gap={2}
           justifyContent="start"
           alignItems="center"
-          sx={{p:0}}
+          sx={{ p: 0 }}
           disableEqualOverflow
         >
           <TextField
@@ -401,35 +288,34 @@ const AddTeacherBookRentalPage = () => {
               label="Book Category"
               value={selectedValue.category || ""}
               onChange={handleFilter}
-              // onChange={handleChange}
             >
-              {categories.map((categoriez) => (
-                <MenuItem key={categoriez} value={categoriez}>
-                  {categoriez}
+              {categrz.map(({ _id, categoryName }) => (
+                <MenuItem key={_id} value={categoryName}>
+                  {categoryName}
                 </MenuItem>
               ))}
             </Select>
           </FormControl>
           <Button
-              sx={{textTransform: 'none'}}
-              color="secondary"
-              variant="contained"
-              onClick={() => {
-                setSearch('');
-                setSelectedvalue(prevState => ({...prevState, academicLevel: '', category: ''}))
-              }}
+            sx={{ textTransform: "none" }}
+            color="secondary"
+            variant="contained"
+            onClick={() => {
+              setSearch("");
+              setSelectedvalue((prevState) => ({
+                ...prevState,
+                academicLevel: "",
+                category: "",
+              }));
+            }}
           >
             Reset
           </Button>
         </Grid2>
       </Grid2>
-      {/* GRID CONTAINING SEARCH AND SLECT COMPONENTS USING FOR FILTERING PURPOSES */}
 
-      {/* GRID CONTAINING THE 2 GRIDS FOR BOOK CARDS AND THE RENTAL BOOK FORM */}
       <Grid2 container sx={{ p: 4.5 }} spacing={2} disableEqualOverflow>
-        {/* GRID CONTAINING THE BOOK AVAILABLE CARDS USE WITH THE MAPING AFTER OR BEFORE FITLTER */}
-        <Grid2 xs={12} md={6}
-        sx={{ height: '100vh', overflow: 'auto' }}>
+        <Grid2 xs={12} md={6} sx={{ height: "100vh", overflow: "auto" }}>
           <Box
             display="grid"
             gridTemplateColumns="repeat(3, minmax(0, 1fr))"
@@ -438,22 +324,9 @@ const AddTeacherBookRentalPage = () => {
             columnGap="1.33%"
             sx={{
               "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
-              padding:'0px 5.5px 0px 0px'
-              
+              padding: "0px 5.5px 0px 0px",
             }}
           >
-            {/* {rows.map(({ bookName, author, category, academicLevel,language, id }) => (
-              <BooksCard
-                bookName={bookName}
-                author={author}
-                category={category}
-                academicLevel={academicLevel}
-                language={language}
-                id={id}
-                cardClick={() => cardClick(id)}
-                key={id}
-              />
-            ))} */}
             {filteredObject.map(
               ({
                 bookName,
@@ -477,9 +350,7 @@ const AddTeacherBookRentalPage = () => {
             )}
           </Box>
         </Grid2>
-        {/* GRID CONTAINING THE BOOK AVAILABLE CARDS USE WITH THE MAPING AFTER OR BEFORE FITLTER */}
 
-        {/* GRID CONTAINING PRE FILLING RENTAL BOOK FORM  */}
         <Grid2 xs={12} md={6} spacing={2}>
           <Grid2 container component="form" spacing={2} columns={12}>
             <Grid2 xs={12} md={3}>
@@ -493,7 +364,7 @@ const AddTeacherBookRentalPage = () => {
                 id="bookName"
                 type="text"
                 variant="outlined"
-                readOnly
+                disabled
                 value={book.bookName || ""}
                 onChange={handleChange}
               />
@@ -626,9 +497,23 @@ const AddTeacherBookRentalPage = () => {
             </Grid2>
 
             <Grid2 xs={12} gap={2} display="flex" alignItems="center">
-            {isSending? (<Button variant="contained" disabled={isSending}startIcon={<CircularProgress size={20}/> }>Renting</Button>) : (<Button variant="contained" type="submit" onClick={handleSubmit}>
-                confirm & rent
-              </Button>)}
+              {isSending ? (
+                <Button
+                  variant="contained"
+                  disabled={isSending}
+                  startIcon={<CircularProgress size={20} />}
+                >
+                  Renting
+                </Button>
+              ) : (
+                <Button
+                  variant="contained"
+                  type="submit"
+                  onClick={handleSubmit}
+                >
+                  confirm & rent
+                </Button>
+              )}
               <Button
                 variant="contained"
                 type="button"
@@ -639,9 +524,7 @@ const AddTeacherBookRentalPage = () => {
             </Grid2>
           </Grid2>
         </Grid2>
-        {/* GRID CONTAINING PRE FILLING RENTAL BOOK FORM */}
       </Grid2>
-      {/* GRID CONTAINING THE 2 GRIDS FOR BOOK CARDS AND THE RENTAL BOOK FORM */}
     </>
   );
 };

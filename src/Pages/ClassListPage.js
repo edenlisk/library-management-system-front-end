@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams, Link } from "react-router-dom";
 import {
@@ -19,7 +19,7 @@ import {
   Tooltip,
   Stack,
   Button,
-  CircularProgress
+  CircularProgress,
 } from "@mui/material";
 import Status from "../components/Status";
 import {
@@ -30,54 +30,93 @@ import {
 } from "@mui/icons-material";
 import AddStudentForm from "../components/students tables components/AddStudentForm";
 import Customtoolbar from "../components/Customtoolbar";
-import {toast} from "react-toastify";
-
+import { toast } from "react-toastify";
 
 const ClassListPage = () => {
   const academicYear = useSelector((state) => state.global.academicYear);
 
   const { classId } = useParams();
 
-  const [createNewStudent, { isSuccess:isCreateSuccess, isError:isCreationError, error:creationError,isLoading:isSending }] = useCreateStudentMutation();
+  const [
+    createNewStudent,
+    {
+      isSuccess: isCreateSuccess,
+      isError: isCreationError,
+      error: creationError,
+      isLoading: isSending,
+    },
+  ] = useCreateStudentMutation();
 
-  useEffect(() => {
-    if (isCreateSuccess) {
-      toast.success("Student created successfully!")
-    } else if (isCreationError) {
-      const { data:fullError } = creationError;
-      const {message} = fullError;
-      toast.error(message);
-    }
-  }, [isCreationError, isCreateSuccess]);
-
-  const [deleteStudent, { isSuccess:isDeleteSuccess, isError:isDeleteError, error:deletionError,isLoading:isDeleting }] = useDeleteStudentMutation();
-
-  useEffect(() => {
-    if (isDeleteSuccess) {
-      toast.success("Student deleted successfully")
-    } else if (isDeleteError) {
-      const { data:fullError } = deletionError;
-      const {message} = fullError;
-      toast.error(message);
-    }
-  }, [isDeleteSuccess, isDeleteError]);
+  const [
+    deleteStudent,
+    {
+      isSuccess: isDeleteSuccess,
+      isError: isDeleteError,
+      error: deletionError,
+      isLoading: isDeleting,
+    },
+  ] = useDeleteStudentMutation();
 
   const { data, isLoading, isSuccess, isError, error } = useGetStudentsQuery({
     academicYear,
     classId,
   });
-  const{data:classInfo,isSuccess:isDone}=useGetOneClassQuery(classId);
 
+  const { data: classInfo, isSuccess: isDone } = useGetOneClassQuery(classId);
 
+  const [newStudent, setNewStudent] = useState({
+    name: "",
+    registrationNumber: "",
+    academicLevel: "",
+  });
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-
   const [selectedId, setSelectedId] = useState(null);
   const [selectedName, setSelectedName] = useState("");
-  // TO BE TAKEN IN THE STUDENT TABLE PAGE WILL NOT STAY IN HERE
+  const [open, setOpen] = useState(false);
 
-  // TO HANDLE ROW DELETION
+  useEffect(() => {
+    if (isCreateSuccess) {
+      toast.success("Student created successfully!");
+    } else if (isCreationError) {
+      const { data: fullError } = creationError;
+      const { message } = fullError;
+      toast.error(message);
+    }
+  }, [isCreationError, isCreateSuccess]);
 
-  const handleClickOpenDeleteModal = (id,name) => {
+  useEffect(() => {
+    if (isDeleteSuccess) {
+      toast.success("Student deleted successfully");
+    } else if (isDeleteError) {
+      const { data: fullError } = deletionError;
+      const { message } = fullError;
+      toast.error(message);
+    }
+  }, [isDeleteSuccess, isDeleteError]);
+
+  let className = "";
+  if (isDone) {
+    const { data: classData } = classInfo;
+    const { selectedClass } = classData;
+    console.log(classInfo);
+    className = selectedClass.name;
+  }
+
+  let rows = [];
+
+  if (isSuccess) {
+    const { data: students } = data;
+    const { result } = students;
+    rows = result;
+  }
+
+  const handleOpen = () => {
+    setOpen(!open);
+  };
+  const handleClose = () => {
+    setOpen(!open);
+  };
+  const handleClickOpenDeleteModal = (id, name) => {
     setSelectedId(id);
     setSelectedName(name);
     setOpenDeleteModal(!openDeleteModal);
@@ -86,43 +125,6 @@ const ClassListPage = () => {
   const handleCloseDeleteModal = () => {
     setOpenDeleteModal(!openDeleteModal);
   };
-  // FETCHING STUDENTS LIST
-
-  // ADDING NEW STUDENT
-
-  let className="";
-  if (isDone) {
-    const { data:classData } = classInfo;
-    const { selectedClass} = classData;
-    console.log(classInfo);
-    className=selectedClass.name;
-  }
-
-  let rows = [];
-  if (isLoading) {
-    console.log("loading");
-  }
-  if (isError) {
-    console.log(`the api provided error: ${error}`);
-  }
-  if (isSuccess) {
-    const { data: students } = data;
-    const { result } = students;
-    rows = result;
-  }
-  const [open, setOpen] = useState(false);
-
-  const handleOpen = () => {
-    setOpen(!open);
-  };
-  const handleClose = () => {
-    setOpen(!open);
-  };
-  const [newStudent, setNewStudent] = useState({
-    name: "",
-    registrationNumber: "",
-    academicLevel: "",
-  });
 
   const handleChange = (e) => {
     setNewStudent({ ...newStudent, [e.target.name]: e.target.value });
@@ -135,6 +137,7 @@ const ClassListPage = () => {
     console.log(newStudent);
     setNewStudent({ name: "", registrationNumber: "", academicLevel: "" });
   };
+
   const handleRowDelete = async () => {
     const studentId = selectedId;
     await deleteStudent({ academicYear, classId, studentId });
@@ -167,7 +170,9 @@ const ClassListPage = () => {
                   aria-label="delete"
                   variant="contained"
                   size="small"
-                  onClick={() => handleClickOpenDeleteModal(params.row._id,params.row.name)}
+                  onClick={() =>
+                    handleClickOpenDeleteModal(params.row._id, params.row.name)
+                  }
                 >
                   <DeleteOutlined sx={{ fontSize: 21 }} />
                 </IconButton>
@@ -182,7 +187,6 @@ const ClassListPage = () => {
                     <ModeEditOutlined sx={{ fontSize: 21 }} />
                   </IconButton>
                 </Tooltip>
-                {/* TO DELETE LATER */}
               </Link>
               <Link to={`/rentals/${params.row._id}`}>
                 <Tooltip title="Details" placement="top" arrow>
@@ -200,12 +204,6 @@ const ClassListPage = () => {
         );
       },
     },
-    // {
-    //   field: "status",
-    //   headerName: "Status",
-    //   flex: 0.3,
-    //   renderCell: (params) => <Status />,
-    // },
   ];
 
   // glitch in maximizing screen
@@ -266,13 +264,6 @@ const ClassListPage = () => {
             components={{
               Toolbar: () => <Customtoolbar classId={classId} />,
             }}
-            // slots={{ toolbar: Customtoolbar }}
-            // slotProps={{
-            //   toolbar: {
-            //     showQuickFilter: true,
-            //     quickFilterProps: { debounceMs: 500 },
-            //   },
-            // }}
             initialState={{
               ...rows.initialState,
               pagination: { paginationModel: { pageSize: 8 } },
@@ -316,24 +307,28 @@ const ClassListPage = () => {
                 {`Sure you want to delete student ${selectedName}`}
               </Typography>
               <Box display="flex" gap={2} sx={{ alignSelf: "center" }}>
-                {isDeleting?<Button
-                  variant="contained"
-                  size="medium"
-                  type="button"
-                  disabled
-                  startIcon={<CircularProgress size={20}/>}
-                  sx={{ mb: 2, width: "200px", alignSelf: "start" }}
-                >
-                 deleting
-                </Button>:<Button
-                  variant="contained"
-                  size="medium"
-                  type="button"
-                  sx={{ mb: 2, width: "200px", alignSelf: "start" }}
-                  onClick={handleRowDelete}
-                >
-                 delete
-                </Button>}
+                {isDeleting ? (
+                  <Button
+                    variant="contained"
+                    size="medium"
+                    type="button"
+                    disabled
+                    startIcon={<CircularProgress size={20} />}
+                    sx={{ mb: 2, width: "200px", alignSelf: "start" }}
+                  >
+                    deleting
+                  </Button>
+                ) : (
+                  <Button
+                    variant="contained"
+                    size="medium"
+                    type="button"
+                    sx={{ mb: 2, width: "200px", alignSelf: "start" }}
+                    onClick={handleRowDelete}
+                  >
+                    delete
+                  </Button>
+                )}
                 <Button
                   variant="contained"
                   size="medium"

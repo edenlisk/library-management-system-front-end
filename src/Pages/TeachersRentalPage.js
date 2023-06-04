@@ -14,7 +14,6 @@ import {
 } from "../states/apiSlice";
 import {
     ChevronLeft,
-    ChevronRightOutlined,
     DeleteOutlined,
     ModeEditOutlined,
     Add,
@@ -25,7 +24,6 @@ import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import {DataGrid} from "@mui/x-data-grid";
 import Customtoolbar from "../components/Customtoolbar";
 import AddTeacherBookRental from "../components/teachersComponents/AddTeacherBookRental";
-import Status from "../components/Status";
 import ReceiveBook from "../components/books components/ReceiveBook";
 import {toast} from "react-toastify";
 
@@ -189,12 +187,12 @@ const TeachersRentalsPage = () => {
 
     const columns = [
         {field: "nameOfBook", headerName: "Book name", flex: 0.4},
-        {field: "numberOfBooks", headerName: "value", flex: 0.2},
+        // {field: "numberOfBooks", headerName: "value", flex: 0.2},
         {field: "rentalFor", headerName: "Rented For", flex: 0.3},
         {field: "issueDate", headerName: "Issue date", flex: 0.3},
         {field: "dueDate", headerName: "Due date", flex: 0.3},
         {field: "returnDate", headerName: "Return date", flex: 0.3},
-        {field: "returned", headerName: "Returned", flex: 0.3},
+        {field: "returned", headerName: "Returned", flex: 0.2},
         // {field: "teacherId", headerName: "Teacher Id", flex: 0.3},
         {
             field: "receive",
@@ -216,7 +214,7 @@ const TeachersRentalsPage = () => {
         {
             field: "actions",
             headerName: "Actions",
-            flex: 0.4,
+            flex: 0.3,
             renderCell: (params) => (
                 <Stack direction="row" spacing={1}>
                     {/* icons only */}

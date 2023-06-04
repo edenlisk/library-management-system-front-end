@@ -1,48 +1,51 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { useGetClassesQuery, useCreateClassMutation } from "../states/apiSlice";
 import { useSelector } from "react-redux";
 import ClassNames from "../components/classTables/ClassNamescomponents";
 import Customtoolbar from "../components/Customtoolbar";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 
 const ClassNamesPage = () => {
-// FOR GETTING ACADEMIC YEAR
+  const academicYear = useSelector((state) => state.global.academicYear);
 
-  const academicYear=useSelector((state)=>state.global.academicYear)
+  const { data, isLoading, isSuccess, isError, error } =
+    useGetClassesQuery(academicYear);
 
-  // FOR FETCHING
+  const [
+    createClass,
+    {
+      isSuccess: isCreationSuccess,
+      isError: isCreationError,
+      error: creationError,
+      isLoading: isSending,
+    },
+  ] = useCreateClassMutation();
 
-  const { data, isLoading, isSuccess, isError, error } = useGetClassesQuery(academicYear);
-  const [createClass, {isSuccess:isCreationSuccess, isError:isCreationError, error:creationError,isLoading:isSending}] = useCreateClassMutation()
-  // console.log(data);
-  useEffect(() => {
-    if (isCreationSuccess) {
-      toast.success("Class created successfully")
-    } else if (isCreationError) {
-      const { data:fullError } = creationError;
-      const {message} = fullError;
-      toast.error(message);
-    }
-  }, [isCreationError, isCreationSuccess]);
-  let rows = [];
-  if (isLoading) {
-    console.log("loading");
-  }
-  if (isError) {
-    console.log(`the api provided error: ${error}`);
-  }
-  if (isSuccess) {
-    const { data: classes } = data;
-    const { classes: allclasses } = classes;
-    rows = allclasses;
-    console.log(rows);
-  }
   const [open, setOpen] = useState(false);
 
   const [newClass, setNewClass] = useState({
     name: "",
     category: "",
   });
+
+  useEffect(() => {
+    if (isCreationSuccess) {
+      toast.success("Class created successfully");
+    } else if (isCreationError) {
+      const { data: fullError } = creationError;
+      const { message } = fullError;
+      toast.error(message);
+    }
+  }, [isCreationError, isCreationSuccess]);
+
+  let rows = [];
+
+  if (isSuccess) {
+    const { data: classes } = data;
+    const { classes: allclasses } = classes;
+    rows = allclasses;
+    console.log(rows);
+  }
 
   const handleOpen = () => {
     setOpen(!open);
@@ -57,10 +60,8 @@ const ClassNamesPage = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await createClass({...newClass,academicYear});
+    await createClass({ ...newClass, academicYear });
     setOpen(!open);
-    
-
     console.log(newClass);
     setNewClass({ name: "", category: "" });
   };
@@ -90,6 +91,5 @@ const ClassNamesPage = () => {
     </>
   );
 };
-
 
 export default ClassNamesPage;

@@ -366,6 +366,69 @@ const Tests = () => {
           </Box>
         </Fade>
       </Modal>
+
+          {/* <Box
+      mt="20px"
+      display="grid"
+      gridTemplateColumns="repeat(12, 1fr)"
+      gridAutoRows="160px"
+      gap="20px"
+      sx={{
+        "& > div": { gridColumn: isNonMediumScreens ? undefined : "span 12" },
+      }}
+    >
+      <StatBox
+        title="Total Customers"
+        // value={data && data.totalCustomers}
+        increase="+14%"
+        description="Since last month"
+        icon={
+          <Email
+            sx={{ color: theme.palette.secondary[300], fontSize: "26px" }}
+          />
+        }
+      />
+      <StatBox
+        title="Sales Today"
+        // value={data && data.todayStats.totalSales}
+        increase="+21%"
+        description="Since last month"
+        icon={
+          <PointOfSale
+            sx={{ color: theme.palette.secondary[300], fontSize: "26px" }}
+          />
+        }
+      />
+      <Box
+        gridColumn="span 8"
+        gridRow="span 2"
+        backgroundColor={theme.palette.background.alt}
+        p="1rem"
+        borderRadius="0.55rem"
+      ></Box>
+      <StatBox
+        title="Monthly Sales"
+        // value={data && data.thisMonthStats.totalSales}
+        increase="+5%"
+        description="Since last month"
+        icon={
+          <PersonAdd
+            sx={{ color: theme.palette.secondary[300], fontSize: "26px" }}
+          />
+        }
+      />
+      <StatBox
+        title="Yearly Sales"
+        // value={data && data.yearlySalesTotal}
+        increase="+43%"
+        description="Since last month"
+        icon={
+          <Traffic
+            sx={{ color: theme.palette.secondary[300], fontSize: "26px" }}
+          />
+        }
+      />
+    </Box> */}
     </>
   );
 };

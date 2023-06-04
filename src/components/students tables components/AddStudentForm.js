@@ -18,7 +18,6 @@ import {
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { CloseOutlined,Add } from "@mui/icons-material";
 
-// COMPONENT TO ADD A NEW STUDENT USING POP UP MODAL
 const AddStudentForm = ({newStudent,handleChange,onSubmit,open,handleOpen,handleClose,isSending}) => {
   const theme = useTheme();
  
@@ -45,6 +44,7 @@ const AddStudentForm = ({newStudent,handleChange,onSubmit,open,handleOpen,handle
               flexDirection="column"
               justifyContent="top"
               alignItems="center"
+              borderRadius="12px"
               height="90%"
               sx={{ p: "10px 10px" }}
               backgroundColor={theme.palette.primary[900]}
@@ -58,7 +58,6 @@ const AddStudentForm = ({newStudent,handleChange,onSubmit,open,handleOpen,handle
                 Add Student
               </Typography>
               <TextField
-                // backgroundColor={theme.palette.neutral.main}
                 required
                 fullWidth
                 name="name"
@@ -66,7 +65,6 @@ const AddStudentForm = ({newStudent,handleChange,onSubmit,open,handleOpen,handle
                 type="text"
                 id="name"
                 variant="outlined"
-                // changing input color on each input field
                 sx={{
                   mb: 2,
                 }}

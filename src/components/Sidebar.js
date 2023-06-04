@@ -64,7 +64,7 @@ const navItems = [
         icon: <Groups2Outlined/>,
     },
     {
-        text: "Book",
+        text: "Books",
         icon: <BookOutlined/>,
     },
     {

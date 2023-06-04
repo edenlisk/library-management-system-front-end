@@ -104,7 +104,7 @@ export const tokensDark = {
               },
               background: {
                 default: tokensDark.grey[0],
-                alt: tokensDark.grey[50],
+                alt: tokensDark.grey[100],
               },
             }),
       },
