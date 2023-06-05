@@ -84,9 +84,7 @@ const AddClassForm = ({ newClass, setNewClass, handleChange, onSubmit,isSending,
                   value={newClass.category}
                   onChange={handleChange}
                 >
-                  <MenuItem value="">
-                    <em>A-Level</em>
-                  </MenuItem>
+                 
                   <MenuItem value="O-Level">O-Level</MenuItem>
                   <MenuItem value="A-Level">A-Level</MenuItem>
                 </Select>
