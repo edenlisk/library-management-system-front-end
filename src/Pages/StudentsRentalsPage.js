@@ -41,6 +41,7 @@ const StudentsRentalsPage = () => {
   const { studentId } = useParams();
   const theme = useTheme();
   const navigate = useNavigate();
+  const academicYear = useSelector((state) => state.global.academicYear);
 
   const [book, setBook] = useState(null);
   const [open, setOpen] = useState(false);
@@ -83,7 +84,6 @@ const StudentsRentalsPage = () => {
   const { data: studentInfo, isSuccess: isDone } =
     useGetOneStudentQuery(studentId);
 
-  const academicYear = useSelector((state) => state.global.academicYear);
 
   useEffect(() => {
     if (isCreateSuccess) {

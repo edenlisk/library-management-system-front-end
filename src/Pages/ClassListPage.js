@@ -67,7 +67,6 @@ const ClassListPage = () => {
   const [newStudent, setNewStudent] = useState({
     name: "",
     registrationNumber: "",
-    academicLevel: "",
   });
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
@@ -110,6 +109,12 @@ const ClassListPage = () => {
     rows = result;
   }
 
+  const capitalizeSentence = (sentence) =>(
+  sentence
+    .toLowerCase()
+    .replace(/(^\w|\s\w)/g, (match) => match.toUpperCase())
+  );
+  
   const handleOpen = () => {
     setOpen(!open);
   };
@@ -127,7 +132,7 @@ const ClassListPage = () => {
   };
 
   const handleChange = (e) => {
-    setNewStudent({ ...newStudent, [e.target.name]: e.target.value });
+    setNewStudent({ ...newStudent, [e.target.name]:e.target.name === "name" ? capitalizeSentence(e.target.value) : e.target.value});
   };
 
   const handleSubmit = async (event) => {
@@ -135,7 +140,7 @@ const ClassListPage = () => {
     await createNewStudent({ ...newStudent, academicYear, classId });
     setOpen(!open);
     console.log(newStudent);
-    setNewStudent({ name: "", registrationNumber: "", academicLevel: "" });
+    setNewStudent({ name: "", registrationNumber: ""});
   };
 
   const handleRowDelete = async () => {
@@ -293,6 +298,7 @@ const ClassListPage = () => {
               justifyContent="top"
               alignItems="center"
               height="40%"
+              borderRadius="12px"
               sx={{ p: "10px 10px" }}
               backgroundColor={theme.palette.primary[900]}
             >

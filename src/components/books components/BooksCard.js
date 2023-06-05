@@ -11,7 +11,7 @@ import {
     useMediaQuery,
   } from "@mui/material";
 
-const BooksCard = ({bookName,author,category,language,academicLevel,id,cardClick}) => {
+const BooksCard = ({bookName,author,category,language,academicLevel,numberOfBooks,availableCopy,cardClick}) => {
     // const{bookName,author,category,academicLevel,id}=props
     const theme = useTheme();
     const [isExpanded, setIsExpanded] = useState(false);
@@ -63,8 +63,9 @@ const BooksCard = ({bookName,author,category,language,academicLevel,id,cardClick
         }}
       >
         <CardContent>
-          <Typography>id: {id}</Typography>
-          <Typography>academic Level: {academicLevel}</Typography>
+          <Typography>Total books: {numberOfBooks}</Typography>
+          <Typography>Availble: {availableCopy}</Typography>
+          <Typography>Academic Level: {academicLevel}</Typography>
           {/* <Typography>
             Yearly Sales This Year: {stat.yearlySalesTotal}
           </Typography>

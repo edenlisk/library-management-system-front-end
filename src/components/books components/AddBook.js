@@ -111,6 +111,7 @@ const AddBook = ({ isOpen, setIsOpen }) => {
               flexDirection: "column",
               alignItems: "center",
               gap: "20px",
+              borderRadius:"12px",
             }}
             backgroundColor={theme.palette.primary[900]}
             onSubmit={handleSubmit}

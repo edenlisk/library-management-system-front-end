@@ -31,6 +31,7 @@ const AddStudentBookRentalPage = () => {
   const { studentId } = useParams();
   const theme = useTheme();
   const navigate = useNavigate();
+  let rows = [];
   const isNonMobile = useMediaQuery("(min-width: 1000px)");
 
   const academicYear = useSelector((state) => state.global.academicYear);
@@ -80,8 +81,6 @@ const AddStudentBookRentalPage = () => {
       toast.error(message);
     }
   }, [isCreateError, isCreateSuccess]);
-
-  let rows = [];
 
   if (isSuccess) {
     const { data: allBooks } = data;
@@ -382,40 +381,55 @@ const AddStudentBookRentalPage = () => {
       </Grid2>
 
       <Grid2 container sx={{ p: 4.5 }} spacing={2} disableEqualOverflow>
-        <Grid2 xs={12} md={6} sx={{ height: "100vh", overflow: "auto" }}>
-          <Box
-            display="grid"
-            gridTemplateColumns="repeat(3, minmax(0, 1fr))"
-            justifyContent="space-between"
-            rowGap="7.5px"
-            columnGap="1.33%"
-            sx={{
-              "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
-              padding: "0px 5.5px 0px 0px",
-            }}
-          >
-            {filteredObject.map(
-              ({
-                bookName,
-                author,
-                categoryName,
-                academicLevel,
-                language,
-                _id,
-              }) => (
-                <BooksCard
-                  bookName={bookName}
-                  author={author}
-                  category={categoryName}
-                  academicLevel={academicLevel}
-                  language={language}
-                  id={_id}
-                  cardClick={() => cardClick(_id)}
-                  key={_id}
-                />
-              )
-            )}
-          </Box>
+        <Grid2
+          xs={12}
+          md={6}
+          sx={{
+            height: "100vh",
+            overflow: "auto",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          {isLoading ? (
+            <CircularProgress
+              sx={{ alignSelf: "center", justifyContent: "center" }}
+            />
+          ) : (
+            <Box
+              display="grid"
+              gridTemplateColumns="repeat(3, minmax(0, 1fr))"
+              justifyContent="space-between"
+              rowGap="7.5px"
+              columnGap="1.33%"
+              sx={{
+                "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
+                padding: "0px 5.5px 0px 0px",
+              }}
+            >
+              {filteredObject.map(
+                ({
+                  bookName,
+                  author,
+                  categoryName,
+                  academicLevel,
+                  language,
+                  _id,
+                }) => (
+                  <BooksCard
+                    bookName={bookName}
+                    author={author}
+                    category={categoryName}
+                    academicLevel={academicLevel}
+                    language={language}
+                    id={_id}
+                    cardClick={() => cardClick(_id)}
+                    key={_id}
+                  />
+                )
+              )}
+            </Box>
+          )}
         </Grid2>
 
         <Grid2 xs={12} md={6} spacing={2}>

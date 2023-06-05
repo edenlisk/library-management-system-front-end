@@ -47,16 +47,15 @@ const EditTeacherPage = () => {
   }, [isUpdateError, isUpdateSuccess]);
 
   let  forminfo =[];
-  // if (isSuccess) {
-  //   const { data: info } = data;
-  //   // const{student}=info;
-  //   console.log(info);
-  //    forminfo = info;
-  // }
 
-  // TAKES INPUT FROM INPUT FIELDS
+  const capitalizeSentence = (sentence) =>(
+    sentence
+      .toLowerCase()
+      .replace(/(^\w|\s\w)/g, (match) => match.toUpperCase())
+    );
+
   const handleChange = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
+    setUser({ ...user, [e.target.name]: capitalizeSentence(e.target.value) });
   };
 
   // SUBMITS DATA IN THE INPUTS FIELDS

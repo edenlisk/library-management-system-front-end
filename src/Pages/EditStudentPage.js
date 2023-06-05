@@ -27,21 +27,6 @@ const EditStudentPage = () => {
   const [updateStudent, {isSuccess:isUpdateSuccess, isError:isUpdateError, error:updateError, isLoading:isSending}] = useUpdateStudentMutation();
 
   useEffect(() => {
-    if (isUpdateSuccess) {
-      toast.success("Student updated successfully")
-    } else if (isUpdateError) {
-      const { data:fullError } = updateError;
-      const {message} = fullError;
-      toast.error(message);
-    }
-  }, [isUpdateError, isUpdateSuccess]);
-  // if (isSuccess) {
-  //   const { data: info } = data;
-  //   const{student}=info;
-  //   console.log(student);
-
-  // }
-  useEffect(() => {
     if (isSuccess) {
       const { data: info } = data;
       const{student}=info;
@@ -50,9 +35,25 @@ const EditStudentPage = () => {
     }
   }, [isSuccess]);
 
+  useEffect(() => {
+    if (isUpdateSuccess) {
+      toast.success("Student updated successfully")
+    } else if (isUpdateError) {
+      const { data:fullError } = updateError;
+      const {message} = fullError;
+      toast.error(message);
+    }
+  }, [isUpdateError, isUpdateSuccess]);
+
+  const capitalizeSentence = (sentence) =>(
+    sentence
+      .toLowerCase()
+      .replace(/(^\w|\s\w)/g, (match) => match.toUpperCase())
+    );
+
   // TAKES INPUT FROM INPUT FIELDS
   const handleChange = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
+    setUser({ ...user, [e.target.name]:e.target.name === "name" ? capitalizeSentence(e.target.value) : e.target.value});
   };
 
   // SUBMITS DATA IN THE INPUTS FIELDS
