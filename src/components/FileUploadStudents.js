@@ -1,26 +1,18 @@
-import React, { useState, useRef, useEffect } from "react";
-import {
-  Box,
-  Button,
-  TextField,
-  Tooltip,
-  Stack,
-  CircularProgress,
-} from "@mui/material";
+import React, {useState, useRef, useEffect} from "react";
+import { Box, Button, TextField, Tooltip,Stack,CircularProgress } from "@mui/material";
 import { UploadFile } from "@mui/icons-material";
 import { useUploadStudentsMutation } from "../states/apiSlice";
-import { toast } from "react-toastify";
+import {toast} from "react-toastify";
 
 const FileUploadStudents = ({ classId }) => {
-  const [uploadStudents, { isSuccess, isLoading, isError, error }] =
-    useUploadStudentsMutation();
+  const [uploadStudents, { isSuccess, isLoading, isError, error }] = useUploadStudentsMutation();
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success("Students uploaded successfully");
+      toast.success("Students uploaded successfully")
     } else if (isError) {
-      const { data: fullError } = error;
-      const { message } = fullError;
+      const { data:fullError } = error;
+      const {message} = fullError;
       toast.error(message);
     }
   }, [isError, isSuccess]);
@@ -47,6 +39,7 @@ const FileUploadStudents = ({ classId }) => {
       fileStudentsInputRef.current.click();
       setFileDialogOpened(true);
       setFirstClick(true);
+
     }
   };
 
@@ -60,13 +53,10 @@ const FileUploadStudents = ({ classId }) => {
           }
         >
           {isLoading ? (
-            <Button
-              disabled
-              variant="contained"
-              startIcon={<CircularProgress size={20} />}
-            >
-              Uploading
-            </Button>
+            <Button disabled
+            variant="contained"
+            startIcon={ <CircularProgress size={20}/> }
+            >Uploading</Button>
           ) : (
             // TO CHANGE THE BUTTON ON FILE CHANGE
             <Button
@@ -74,12 +64,12 @@ const FileUploadStudents = ({ classId }) => {
               startIcon={<UploadFile sx={{ fontSize: "10.8px" }} />}
               sx={{ fontSize: "10.8px" }}
             >
-              <input
-                type="file"
-                style={{ display: "none" }}
-                ref={fileStudentsInputRef}
-                onChange={handleFileChange}
-              />
+                <input
+        type="file"
+        style={{ display: "none" }}
+        ref={fileStudentsInputRef}
+        onChange={handleFileChange}
+      />
               students
             </Button>
           )}

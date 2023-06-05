@@ -198,6 +198,10 @@ export const apiSlice = createApi({
             query: () => `/librarians`,
             providesTags: ['librarians']
         }),
+        getLibrarian: builder.query({
+            query: (librarianId) => `/librarians/${librarianId}`,
+            providesTags: ['librarians']
+        }),
         deleteLibrarian: builder.mutation({
            query: (librarianId) => ({
                url: `/librarians/delete/${librarianId}`,
@@ -464,5 +468,6 @@ export const {
     useUpdateLibrarianMutation,
     useDeleteLibrarianMutation,
     useGetLibrariansQuery,
+    useGetLibrarianQuery,
     useIssuedBooksQuery
 } = apiSlice;

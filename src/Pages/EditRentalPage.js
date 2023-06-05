@@ -29,6 +29,8 @@ const EditRentalPage = () => {
     const navigate = useNavigate();
 
     const {data, isLoading, isSuccess} = useGetOneRentalQuery(rentalId);
+    const [rental, setRental] = useState({nameOfBook: "", dueDate: null, active: false, returned: false});
+
 
     const [updateRental, {isSuccess: isUpdateSuccess, isError: isUpdateError, error: updateError}] = useUpdateRentalMutation();
 
@@ -41,21 +43,18 @@ const EditRentalPage = () => {
             toast.error(message);
         }
     }, [isUpdateError, isUpdateSuccess]);
-    let forminfo = [];
+    let forminfo = {};
 
-    if (isSuccess) {
-        const {data: info} = data;
-        const {rental: rentals} = info;
-        console.log(rentals);
-        forminfo = rentals;
-    }
+    useEffect(() => {
+        if(isSuccess) {
+            const {data: info} = data;
+            const {rental: rentals} = info;
+            setRental({nameOfBook: rentals.nameOfBook, dueDate: rentals.dueDate.split('T')[0], active: rentals.active, returned: rentals.returned})
+            // forminfo = rentals;
+        }
+    }, [isSuccess, data]);
 
 
-    const [rental, setRental] = useState({
-        nameOfBook: "",
-        dueDate: null,
-        returned: false
-    });
 
     // TAKES INPUT FROM INPUT FIELDS
     const handleChange = (e) => {
@@ -65,9 +64,12 @@ const EditRentalPage = () => {
     const handleEndDateChange = (newDate) => {
         setRental((prevState) => ({
             ...prevState,
-            dueDate: newDate.format("MM/DD/YYYY"),
+            dueDate: newDate.format("YYYY-MM-DD")
         }));
     };
+    const handleActive = () => {
+        setRental(prevState => ({...prevState, active: !prevState.active}));
+    }
 
 
     // SUBMITS DATA IN THE INPUTS FIELDS
@@ -75,10 +77,10 @@ const EditRentalPage = () => {
         event.preventDefault();
         const body = {...rental};
         await updateRental({body, rentalId});
-        console.log(rental);
         setRental({
             nameOfBook: "",
             dueDate: null,
+            active: false,
             returned: false
         });
         navigate(-1);
@@ -108,7 +110,8 @@ const EditRentalPage = () => {
                 <TextField
                     required
                     fullWidth
-                    defaultValue={forminfo.nameOfBook}
+                    // defaultValue={forminfo.nameOfBook}
+                    value={rental.nameOfBook}
                     name="nameOfBook"
                     // placeholder=" nameOfBook"
                     // label="nameOfBook"
@@ -117,25 +120,28 @@ const EditRentalPage = () => {
                     variant="outlined"
                     onChange={handleChange}
                     sx={{mb: 2}}
+                    disabled={rental.returned}
                 />
                 <DatePicker
-                    disablePast
-                    value={rental.dueDate}
+                    // disablePast
+                    value={dayjs(new Date(rental.dueDate))}
                     onChange={handleEndDateChange}
-                    format="MM/DD/YYYY"
+                    format="YYYY-MM-DD"
                     sx={{minWidth: 230, alignSelf: "start", mb: 2}}
+                    disabled={rental.returned}
                 />
 
                 <FormControlLabel
                     sx={{alignSelf: "start"}}
                     control={
                         <Checkbox
-                            name="returned"
-                            checked={rental.returned}
-                            onChange={handleChange}
+                            name="active"
+                            checked={rental.active}
+                            onChange={handleActive}
+                            disabled={rental.returned}
                         />
                     }
-                    label="Returned"
+                    label="Active"
                 />
 
                 <Button
@@ -144,6 +150,7 @@ const EditRentalPage = () => {
                     type="submit"
                     sx={{mb: 2, width: "100px", alignSelf: "start"}}
                     endIcon={<LoginOutlined/>}
+                    disabled={rental.returned}
                 >
                     save
                 </Button>

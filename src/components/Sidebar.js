@@ -38,7 +38,7 @@ import {
     ChevronLeftOutlined,
     Inventory2Outlined,
     WorkHistoryOutlined,
-    BookOutlined
+    BookOutlined, Security
 } from "@mui/icons-material";
 import {useEffect, useState} from "react";
 import {useLocation, useNavigate, Navigate} from "react-router-dom";
@@ -107,6 +107,10 @@ const navItems = [
         text: "Perfomance",
         icon: <TrendingUpOutlined/>,
     },
+    {
+        text: "Permissions",
+        icon: <Security/>
+    }
 ];
 
 const Sidebar = ({
@@ -285,7 +289,7 @@ const Sidebar = ({
                                             fontSize="0.8rem"
                                             sx={{color: theme.palette.secondary[200]}}
                                         >
-                                            {userData ? userData.role : 'librarian'}
+                                            {'librarian'}
                                         </Typography>
                                     </Box>
                                     <SettingsOutlined
