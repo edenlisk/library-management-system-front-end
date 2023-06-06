@@ -14,7 +14,8 @@ import {
     Select,
     FormControl,
     FormControlLabel,
-    Checkbox
+    Checkbox,
+    CircularProgress
 } from "@mui/material";
 import {DatePicker} from "@mui/x-date-pickers";
 import dayjs from "dayjs";
@@ -32,7 +33,7 @@ const EditRentalPage = () => {
     const [rental, setRental] = useState({nameOfBook: "", dueDate: null, active: false, returned: false});
 
 
-    const [updateRental, {isSuccess: isUpdateSuccess, isError: isUpdateError, error: updateError}] = useUpdateRentalMutation();
+    const [updateRental, {isSuccess: isUpdateSuccess, isError: isUpdateError, error: updateError,isLoading:isUpdating}] = useUpdateRentalMutation();
 
     useEffect(() => {
         if (isUpdateSuccess) {
@@ -110,11 +111,9 @@ const EditRentalPage = () => {
                 <TextField
                     required
                     fullWidth
-                    // defaultValue={forminfo.nameOfBook}
                     value={rental.nameOfBook}
                     name="nameOfBook"
-                    // placeholder=" nameOfBook"
-                    // label="nameOfBook"
+                    label="Name Of Book"
                     type="text"
                     id="nameOfBook"
                     variant="outlined"
@@ -144,16 +143,25 @@ const EditRentalPage = () => {
                     label="Active"
                 />
 
-                <Button
+                {isUpdating?<Button
                     variant="contained"
                     size="medium"
                     type="submit"
                     sx={{mb: 2, width: "100px", alignSelf: "start"}}
-                    endIcon={<LoginOutlined/>}
+                    startIcon={<CircularProgress size={20}/>}
+                    disabled
+                >
+                    saving
+                </Button>:<Button
+                    variant="contained"
+                    size="medium"
+                    type="submit"
+                    sx={{mb: 2, width: "100px", alignSelf: "start"}}
+                   
                     disabled={rental.returned}
                 >
                     save
-                </Button>
+                </Button>}
             </Box>
         </Box>
     );

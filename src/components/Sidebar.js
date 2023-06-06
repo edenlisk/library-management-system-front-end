@@ -38,7 +38,7 @@ import {
     ChevronLeftOutlined,
     Inventory2Outlined,
     WorkHistoryOutlined,
-    BookOutlined, Security
+    BookOutlined, Security,MenuBookOutlined
 } from "@mui/icons-material";
 import {useEffect, useState} from "react";
 import {useLocation, useNavigate, Navigate} from "react-router-dom";
@@ -65,7 +65,7 @@ const navItems = [
     },
     {
         text: "Books",
-        icon: <BookOutlined/>,
+        icon: <MenuBookOutlined/>,
     },
     {
         text: "History",

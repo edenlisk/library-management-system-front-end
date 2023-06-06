@@ -15,7 +15,8 @@ import {
   Select,
   FormControl,
   FormControlLabel,
-  Checkbox
+  Checkbox,
+  CircularProgress
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import { LoginOutlined } from "@mui/icons-material";
@@ -29,6 +30,8 @@ const EditTeacherRentalPage = () => {
   const navigate = useNavigate();
 
   const{data,isLoading,isSuccess,isError,error}=useGetSingleTeacherRentalQuery(rentalId);
+  
+  const [updateTeacherRental, {isSuccess:isUpdateSuccess, isError:isUpdateError, error:updateError,isLoading:isUpdating}] = useUpdateTeacherRentalMutation();
 
 
   const [rental, setRental] = useState({
@@ -53,8 +56,6 @@ const EditTeacherRentalPage = () => {
     }
   }, [isSuccess]);
 
-
-  const [updateTeacherRental, {isSuccess:isUpdateSuccess, isError:isUpdateError, error:updateError}] = useUpdateTeacherRentalMutation();
 
   useEffect(() => {
     if (isUpdateSuccess) {
@@ -135,8 +136,7 @@ const EditTeacherRentalPage = () => {
           fullWidth
           value={rental.nameOfBook || ""}
           name="nameOfBook"
-          // placeholder=" nameOfBook"
-          // label="nameOfBook"
+          label="Name Of Book"
           type="text"
           id="nameOfBook"
           variant="outlined"
@@ -145,7 +145,6 @@ const EditTeacherRentalPage = () => {
           disabled={rental.returned}
         />
         <DatePicker
-          disablePast
           value={ dayjs(rental.dueDate) || null }
           onChange={handleEndDateChange}
           format="YYYY-MM-DD"
@@ -167,16 +166,24 @@ const EditTeacherRentalPage = () => {
         />
 
 
-        <Button
+        {isUpdating ?<Button
           variant="contained"
           size="medium"
           type="submit"
           sx={{ mb: 2, width: "100px", alignSelf: "start" }}
-          endIcon={<LoginOutlined />}
+          disabled={rental.returned}
+          startIcon={<CircularProgress size={20}/>}
+        >
+          saving
+        </Button>:<Button
+          variant="contained"
+          size="medium"
+          type="submit"
+          sx={{ mb: 2, width: "100px", alignSelf: "start" }}
           disabled={rental.returned}
         >
           save
-        </Button>
+        </Button>}
       </Box>
     </Box>
   );

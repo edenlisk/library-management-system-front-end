@@ -67,11 +67,12 @@ const Navbar = ({isSidebarOpen, setIsSidebarOpen}) => {
                     position: "static",
                     background: "none",
                     boxShadow: "none",
+                    p:"0px 0px"
                 }}
             >
-                <Toolbar sx={{justifyContent: "space-between"}}>
+                <Toolbar sx={{justifyContent: "space-between",p:"0px"}}>
                     {/* LEFT SIDE */}
-                    <FlexBetween>
+                    <FlexBetween sx={{P:"0px"}}>
                         <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
                             <MenuIcon/>
                         </IconButton>

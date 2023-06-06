@@ -85,12 +85,7 @@ const TeacherListPage = () => {
   // ADDING NEW STUDENT
 
   let className="";
-//   if (isDone) {
-//     const { data:classData } = classInfo;
-//     const { selectedClass} = classData;
-//     console.log(classInfo);
-//     className=selectedClass.name;
-//   }
+
 
   let rows = [];
   if (isLoading) {
@@ -118,9 +113,14 @@ const TeacherListPage = () => {
     name: "",
     registrationNumber: "",
   });
+  const capitalizeSentence = (sentence) =>(
+    sentence
+      .toLowerCase()
+      .replace(/(^\w|\s\w)/g, (match) => match.toUpperCase())
+    );
 
   const handleChange = (e) => {
-    setNewTeacher({ ...newTeacher, [e.target.name]: e.target.value });
+    setNewTeacher({ ...newTeacher, [e.target.name]: e.target.name === "name" ? capitalizeSentence(e.target.value) : e.target.value });
   };
 
   const handleSubmit = async (event) => {
@@ -295,6 +295,7 @@ const TeacherListPage = () => {
               justifyContent="top"
               alignItems="center"
               height="40%"
+              borderRadius="12px"
               sx={{ p: "10px 10px" }}
               backgroundColor={theme.palette.primary[900]}
             >
