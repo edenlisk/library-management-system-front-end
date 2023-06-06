@@ -15,7 +15,6 @@ export const MyResponsivePie = () => {
             const {data: weeklyStats} = rows;
             const {response} = weeklyStats;
             setData(response);
-            console.log(response)
         }
     }, [isSuccess, data]);
 
@@ -70,7 +69,7 @@ export const MyResponsivePie = () => {
                     ]
                 }}
                 arcLinkLabelsSkipAngle={10}
-                arcLinkLabelsTextColor="#333333"
+                arcLinkLabelsTextColor="#068DA9"
                 arcLinkLabelsThickness={2}
                 arcLinkLabelsColor={{from: 'color'}}
                 arcLabelsSkipAngle={10}
@@ -184,7 +183,7 @@ export const MyResponsivePie = () => {
 
 
 export const MyResponsiveLine = () => {
-    const {data:rows, isSuccess, isLoading, isError, error} = useOverallStatsQuery();
+    const {data: rows, isSuccess, isLoading, isError, error} = useOverallStatsQuery();
     const [data, setData] = useState([]);
     useEffect(() => {
         if (isSuccess) {
@@ -192,81 +191,107 @@ export const MyResponsiveLine = () => {
             const {numberOfRentalsByCategory} = data;
             setData(numberOfRentalsByCategory)
         } else if (isError) {
-            const {data:fullError} = error;
+            const {data: fullError} = error;
             const {message} = fullError;
             toast.error(message)
         }
     }, [isSuccess, data, isError, error]);
 
     return (
-        <ResponsiveLine
-            data={data}
-            curve="monotoneX"
-            margin={{top: 50, right: 10, bottom: 100, left: 60}}
-            xScale={{type: 'point'}}
-            yScale={{
-                type: 'linear',
-                min: 'auto',
-                max: 'auto',
-                stacked: true,
-                reverse: false
-            }}
-            yFormat=" >-.2f"
-            axisTop={null}
-            axisRight={null}
-            axisBottom={{
-                tickSize: 5,
-                tickPadding: 5,
-                tickRotation: 0,
-                legend: 'Number of rentals by category',
-                legendOffset: 36,
-                legendPosition: 'middle'
-            }}
-            axisLeft={{
-                tickSize: 5,
-                tickPadding: 5,
-                tickRotation: 0,
-                legend: 'count',
-                legendOffset: -40,
-                legendPosition: 'middle'
-            }}
-            colors={{scheme: 'category10'}}
-            pointSize={10}
-            pointColor={{theme: 'background'}}
-            pointBorderWidth={2}
-            pointBorderColor={{from: 'serieColor'}}
-            pointLabelYOffset={-12}
-            useMesh={true}
-            enableSlices="x"
-            height={500}
-            width={900}
-            legends={[
-                {
-                    padding: 30,
-                    anchor: 'bottom',
-                    direction: 'row',
-                    justify: false,
-                    translateX: 0,
-                    translateY: 90,
-                    itemsSpacing: 0,
-                    itemDirection: 'left-to-right',
-                    itemWidth: 100,
-                    itemHeight: 20,
-                    itemOpacity: 0.75,
-                    symbolSize: 12,
-                    symbolShape: 'circle',
-                    symbolBorderColor: 'rgba(0, 0, 0, .5)',
-                    effects: [
-                        {
-                            on: 'hover',
-                            style: {
-                                itemBackground: 'rgba(0, 0, 0, .03)',
-                                itemOpacity: 1
+        <>
+            <ResponsiveLine
+                data={data}
+                curve="monotoneX"
+                margin={{top: 50, right: 10, bottom: 100, left: 60}}
+                xScale={{type: 'point'}}
+                yScale={{
+                    type: 'linear',
+                    min: 'auto',
+                    max: 'auto',
+                    stacked: true,
+                    reverse: false
+                }}
+                yFormat=" >-.2f"
+                axisTop={null}
+                axisRight={null}
+                axisBottom={{
+                    tickSize: 3,
+                    tickPadding: 5,
+                    tickRotation: 0,
+                    legend: 'Number of rentals by category',
+                    legendOffset: 36,
+                    legendPosition: 'middle',
+                    renderTick: (tick, index) => (
+                        <g transform={`translate(${tick.x},${tick.y + 22})`}>
+                            <text
+                                textAnchor="middle"
+                                dominantBaseline="middle"
+                                style={{ fill: index === 0 ? 'red' : '#F9E2AF', fontSize: 10 }}
+                            >
+                                {tick.value.split(' ').length > 0 ? tick.value.split(' ')[0] : tick.value }
+                            </text>
+                        </g>
+                    ),
+                }}
+                axisLeft={{
+                    tickSize: 5,
+                    tickPadding: 5,
+                    tickRotation: 0,
+                    legend: 'count',
+                    legendOffset: -40,
+                    legendPosition: 'middle',
+                    renderTick: (tick) => (
+                        <g transform={`translate(${tick.x - 22},${tick.y})`}>
+                            <text
+                                textAnchor="end"
+                                dominantBaseline="middle"
+                                style={{ fill: '#F9E2AF', fontSize: 10 }}
+                            >
+                                {tick.value}
+                            </text>
+                        </g>
+                    ),
+                }}
+                colors={{scheme: 'category10'}}
+                pointSize={10}
+                pointColor={{theme: 'background'}}
+                pointBorderWidth={2}
+                pointBorderColor={{from: 'serieColor'}}
+                pointLabelYOffset={-12}
+                useMesh={true}
+                // enableSlices="x"
+                height={500}
+                width={900}
+                legends={[
+                    {
+                        padding: 30,
+                        anchor: 'bottom',
+                        direction: 'row',
+                        justify: false,
+                        translateX: 0,
+                        translateY: 90,
+                        itemsSpacing: 0,
+                        itemDirection: 'left-to-right',
+                        itemWidth: 100,
+                        itemHeight: 20,
+                        itemTextColor: '#F9E2AF',
+                        itemOpacity: 0.75,
+                        symbolSize: 12,
+                        symbolShape: 'circle',
+                        symbolBorderColor: 'rgba(0, 0, 0, .5)',
+                        effects: [
+                            {
+                                on: 'hover',
+                                style: {
+                                    itemBackground: 'rgba(210,210,210,0.5)',
+                                    itemOpacity: 1
+                                }
                             }
-                        }
-                    ]
-                }
-            ]}
-        />
+                        ]
+                    }
+                ]}
+            />
+        </>
     )
 }
+// 0000007F
