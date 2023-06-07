@@ -40,6 +40,7 @@ const FileUploadClasses = ({ academicYear }) => {
     if (!fileDialogOpened) {
       fileClassesInputRef.current.click();
       setFileDialogOpened(true);
+      setFirstClick(true);
      
     }
   };
@@ -51,7 +52,7 @@ const FileUploadClasses = ({ academicYear }) => {
         <Stack
           variant="contained"
           onClick={() =>
-            firstClick ? handleUpload(`${academicYear}`) : handleFirstclick()
+            firstClick ? handleUpload(academicYear) : handleFirstclick()
           }
         >
           {isLoading ? (
