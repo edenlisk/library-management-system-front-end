@@ -440,7 +440,7 @@ const Tests = () => {
           backgroundColor={theme.palette.background.alt}
           p="16px"
           borderRadius="0.55rem"
-        > </Box>
+        ><MyResponsiveLine /> </Box>
 
       </Box>
     </>

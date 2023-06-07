@@ -40,17 +40,13 @@ const FileUploadClasses = ({ academicYear }) => {
     if (!fileDialogOpened) {
       fileClassesInputRef.current.click();
       setFileDialogOpened(true);
+     
     }
   };
 
   return (
     <Box sx={{ display: "flex" }}>
-      <TextField
-        type="file"
-        sx={{ display: "none" }}
-        ref={fileClassesInputRef}
-        onChange={handleFileChange}
-      />
+
       <Tooltip title="Upload classes" placement="top" arrow>
         <Stack
           variant="contained"
@@ -59,13 +55,22 @@ const FileUploadClasses = ({ academicYear }) => {
           }
         >
           {isLoading ? (
-            "Uploading"
+           <Button disabled
+           variant="contained"
+           startIcon={ <CircularProgress size={20}/> }
+           >Uploading</Button>
           ) : (
             <Button
               variant="contained"
               startIcon={<UploadFile sx={{ fontSize: "10.8px" }} />}
               sx={{ fontSize: "10.8px" }}
             >
+                    <input
+        type="file"
+        sx={{ display: "none" }}
+        ref={fileClassesInputRef}
+        onChange={handleFileChange}
+      />
               classes
             </Button>
           )}
