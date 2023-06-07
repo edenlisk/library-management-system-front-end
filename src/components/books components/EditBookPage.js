@@ -9,32 +9,32 @@ import {
   InputLabel,
   Button,
 } from "@mui/material";
-import {
-  ChevronLeft,
-
-} from "@mui/icons-material";
+import { ChevronLeft } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { useGetBookQuery, useUpdateBookMutation } from "../../states/apiSlice";
 import { useParams } from "react-router-dom";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 
 const EditBookPage = () => {
-    const{bookId}=useParams();
+  const { bookId } = useParams();
   const navigate = useNavigate();
-  const [updateBook, {isSuccess:isUpdateSuccess, isError:isUpdateError, error:updateError}]=useUpdateBookMutation();
-  const {data:info, isLoading, isSuccess }=useGetBookQuery(bookId);
+  const [
+    updateBook,
+    { isSuccess: isUpdateSuccess, isError: isUpdateError, error: updateError },
+  ] = useUpdateBookMutation();
+  const { data: info, isLoading, isSuccess } = useGetBookQuery(bookId);
 
   useEffect(() => {
     if (isUpdateSuccess) {
       toast.success("Book updated successfully");
     } else if (isUpdateError) {
-      const { data:fullError } = updateError;
-      const {message} = fullError;
+      const { data: fullError } = updateError;
+      const { message } = fullError;
       toast.error(message);
     }
   }, [isUpdateError, isUpdateSuccess, updateError]);
-  let singleBk=[];
+  let singleBk = [];
 
   const [book, setBook] = useState({
     bookName: "",
@@ -68,21 +68,50 @@ const EditBookPage = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const body=book;
-    await updateBook({body, bookId});
-    navigate("/monthly");
+    const body = book;
+    await updateBook({ body, bookId });
+    navigate("/books");
     console.log(book);
-    // setBook({bookName:"",author:"",edition:"",numberOfBooks:"",academicLevel:"",category:"",language:""});
+    setBook({
+      bookName: "",
+      author: "",
+      edition: "",
+      numberOfBooks: "",
+      academicLevel: "",
+      categoryName: "",
+      language: "",
+    });
   };
   const levels = ["S1", "S2", "S3", "S4", "S5", "S6", "AllEvels"];
   const languages = ["English", "French", "Kinyarwanda", "Swahili", "Other"];
 
-  const categories=["Mathematics","Physics","Chemistry","Biology","Computer Science","Geography","Economics","Entrepreneurship","History",
-  "Kinyarwanda","Kiswahili","English", "Literature","French","Novel","Others"];
+  const categories = [
+    "Mathematics",
+    "Physics",
+    "Chemistry",
+    "Biology",
+    "Computer Science",
+    "Geography",
+    "Economics",
+    "Entrepreneurship",
+    "History",
+    "Kinyarwanda",
+    "Kiswahili",
+    "English",
+    "Literature",
+    "French",
+    "Novel",
+    "Others",
+  ];
   return (
-    <Box component="form" sx={{ p: 4.5, pt:2 }}
-    display="flex" flexDirection="column" gap="20px">
-    <ChevronLeft  onClick={() => navigate(-1)} />
+    <Box
+      component="form"
+      sx={{ p: 4.5, pt: 2 }}
+      display="flex"
+      flexDirection="column"
+      gap="20px"
+    >
+      <ChevronLeft onClick={() => navigate(-1)} />
       <Grid2 container spacing={2}>
         <Grid2
           xs={12}
@@ -151,7 +180,7 @@ const EditBookPage = () => {
               id="numberOfBooks"
               type="text"
               variant="outlined"
-              inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+              inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
               value={book.numberOfBooks || ""}
               onChange={handleChange}
             />
@@ -180,55 +209,59 @@ const EditBookPage = () => {
               </Select>
             </FormControl> */}
             <TextField
-                label="Academic Level"
-                sx={{ width: "80%" }}
-                name="academicLevel"
-                id="academicLevel"
-                type="text"
-                variant="outlined"
-                value={book.academicLevel || ""}
-                onChange={handleChange}
-              />
+              label="Academic Level"
+              sx={{ width: "80%" }}
+              name="academicLevel"
+              id="academicLevel"
+              type="text"
+              variant="outlined"
+              value={book.academicLevel || ""}
+              onChange={handleChange}
+            />
           </Grid2>
 
           <Grid2 xs={12} md={2}>
             <Typography variant="p">Category</Typography>
           </Grid2>
           <Grid2 xs={12} md={10}>
-          <TextField
-                label="Category name"
-                sx={{ width: "80%" }}
-                name="categoryName"
-                id="categoryName"
-                type="text"
-                variant="outlined"
-                disabled
-                value={book.categoryName || ""}
-                onChange={handleChange}
-              />
+            <TextField
+              label="Category name"
+              sx={{ width: "80%" }}
+              name="categoryName"
+              id="categoryName"
+              type="text"
+              variant="outlined"
+              disabled
+              value={book.categoryName || ""}
+              onChange={handleChange}
+            />
           </Grid2>
           <Grid2 xs={12} md={2}>
             <Typography variant="p">Language</Typography>
           </Grid2>
           <Grid2 xs={12} md={10}>
-          <TextField
-                label="Language"
-                sx={{ width: "80%" }}
-                name="language"
-                id="language"
-                type="text"
-                variant="outlined"
-                value={book.language || ""}
-                onChange={handleChange}
-                disabled
-              />
+            <TextField
+              label="Language"
+              sx={{ width: "80%" }}
+              name="language"
+              id="language"
+              type="text"
+              variant="outlined"
+              value={book.language || ""}
+              onChange={handleChange}
+              disabled
+            />
           </Grid2>
 
           <Grid2 container gap={2} display="flex">
             <Button variant="contained" type="submit" onClick={handleSubmit}>
               Edit book
             </Button>
-            <Button variant="contained" type="button" onClick={() => navigate(-1)}>
+            <Button
+              variant="contained"
+              type="button"
+              onClick={() => navigate(-1)}
+            >
               cancel
             </Button>
           </Grid2>

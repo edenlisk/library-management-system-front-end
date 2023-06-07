@@ -202,7 +202,7 @@ export const MyResponsiveLine = () => {
             <ResponsiveLine
                 data={data}
                 curve="monotoneX"
-                margin={{top: 50, right: 10, bottom: 100, left: 60}}
+                margin={{top: 10, right: 10, bottom: 70, left: 60}}
                 xScale={{type: 'point'}}
                 yScale={{
                     type: 'linear',
@@ -260,8 +260,8 @@ export const MyResponsiveLine = () => {
                 pointLabelYOffset={-12}
                 useMesh={true}
                 // enableSlices="x"
-                height={500}
-                width={900}
+                // height={500}
+                // width={900}
                 legends={[
                     {
                         padding: 30,
