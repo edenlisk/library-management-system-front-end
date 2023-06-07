@@ -1,5 +1,5 @@
 import React, {useState, useRef, useEffect} from "react";
-import { Box, Button, TextField, Tooltip, Stack  } from "@mui/material";
+import { Box, Button, TextField, Tooltip, Stack, CircularProgress  } from "@mui/material";
 import { UploadFile } from "@mui/icons-material";
 import { useUploadClassesMutation } from "../states/apiSlice";
 import {toast} from "react-toastify";
@@ -40,7 +40,7 @@ const FileUploadClasses = ({ academicYear }) => {
     if (!fileDialogOpened) {
       fileClassesInputRef.current.click();
       setFileDialogOpened(true);
-      setFirstClick(true);
+      
      
     }
   };
@@ -68,7 +68,7 @@ const FileUploadClasses = ({ academicYear }) => {
             >
                     <input
         type="file"
-        sx={{ display: "none" }}
+        style={{ display: "none" }}
         ref={fileClassesInputRef}
         onChange={handleFileChange}
       />
