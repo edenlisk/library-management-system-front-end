@@ -24,9 +24,18 @@ const LoginPage = () => {
   const [login, { data, isSuccess, isLoading, isError, error }] =
     useLoginMutation();
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");
-  const userData = localStorage.getItem("profile");
-  const accessability=localStorage.getItem("accessability")
+  const [token, setToken] = useState(() => {
+    return localStorage.getItem('token')
+  })
+  const [userData, setProfile] = useState(() => {
+    return localStorage.getItem('profile');
+  })
+  const [accessability, setAccess] = useState(() => {
+    return localStorage.getItem('accessability');
+  })
+  // const token = localStorage.getItem("token");
+  // const userData = localStorage.getItem("profile");
+  // const accessability=localStorage.getItem("accessability")
   useEffect(() => {
     if (token) {
       dispatch(setAuthToken(token));

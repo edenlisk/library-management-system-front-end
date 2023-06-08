@@ -1,5 +1,5 @@
 import React, {useState, useRef, useEffect} from "react";
-import { Box, Button, TextField, Tooltip,Stack,CircularProgress } from "@mui/material";
+import {Box, Button, TextField, Tooltip, Stack, CircularProgress } from "@mui/material";
 import { UploadFile } from "@mui/icons-material";
 import { useUploadStudentsMutation } from "../states/apiSlice";
 import {toast} from "react-toastify";
@@ -9,7 +9,7 @@ const FileUploadStudents = ({ classId }) => {
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success("Students uploaded successfully")
+      toast.success("Students uploaded successfully");
     } else if (isError) {
       const { data:fullError } = error;
       const {message} = fullError;
@@ -32,7 +32,6 @@ const FileUploadStudents = ({ classId }) => {
     const formData = new FormData();
     formData.append("students", selectedFile, selectedFile.name);
     await uploadStudents({ classId, formData });
-    console.log(classId);
   };
   const handleFirstclick = () => {
     if (!fileDialogOpened) {
@@ -78,5 +77,6 @@ const FileUploadStudents = ({ classId }) => {
     </Box>
   );
 };
+
 
 export default FileUploadStudents;
