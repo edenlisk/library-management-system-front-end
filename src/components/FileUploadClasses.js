@@ -32,8 +32,9 @@ const FileUploadClasses = ({ academicYear }) => {
   };
   const handleUpload = async (academicYear) => {
     const formData = new FormData();
-    formData.append("students", selectedFile, selectedFile.name);
+    formData.append("classes", selectedFile, selectedFile.name);
     await uploadClasses({ academicYear, formData });
+    console.log(academicYear);
   };
 
   const handleFirstclick = () => {

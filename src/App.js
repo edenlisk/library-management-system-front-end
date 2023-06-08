@@ -57,7 +57,7 @@ function App() {
                         />
                         <Routes>
                             <Route element={<Layout/>}>
-                                <Route exact path="/" element={<Navigate to="/login" replace/>}/>
+                                {/* <Route exact path="/" element={<Navigate to="/login" replace/>}/> */}
                                 <Route path="/login" element={<LoginPage/>}/>
                                 <Route path="/unauthorized" element={<UnavailablePage/>}/>
                                 <Route element={<RequireAuth/>}>
@@ -91,7 +91,7 @@ function App() {
                                     <Route path='/add/student-rental/:studentId' element={<AddStudentBookRentalPage/>}/>
                                     <Route path='/add/teacher-rental/:teacherId' element={<AddTeacherBookRentalPage/>}/>
                                     <Route path="/books" element={<BooksList/>}/>
-                                    <Route path="/lost-books" element={<LostBooks/>}/>
+                                    <Route path="/we" element={<LostBooks/>}/>
                                     <Route path="/notification" element={<Notification/>}/>
                                     <Route path="/perfomance" element={<Tests/>}/>
                                     <Route path="/settings" element={<RoleBasedRoute element={<Settings/>} roles={["admin"]} />}/>
