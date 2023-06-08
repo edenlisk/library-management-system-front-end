@@ -68,7 +68,7 @@ const navItems = [
         icon: <MenuBookOutlined/>,
     },
     {
-        text: "lost books",
+        text: "Lost books",
         icon: <CancelOutlined/>,
     },
     {
