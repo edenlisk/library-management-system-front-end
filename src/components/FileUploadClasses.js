@@ -1,6 +1,6 @@
 import React, {useState, useRef, useEffect} from "react";
 import { Box, Button, TextField, Tooltip, Stack, CircularProgress  } from "@mui/material";
-import { UploadFile } from "@mui/icons-material";
+import { CheckCircleOutlineOutlined, UploadFile } from "@mui/icons-material";
 import { useUploadClassesMutation } from "../states/apiSlice";
 import {toast} from "react-toastify";
 
@@ -27,57 +27,61 @@ const FileUploadClasses = ({ academicYear }) => {
   const fileClassesInputRef = useRef(null);
 
   const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
-    setFirstClick(true);
+    // to choose file on file explorer modal and enable trigger of the upload function after
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      // File selected
+      console.log('File selected:', files[0]);
+      setFirstClick(true);
+      setSelectedFile(files[0]);
+    }
+    else {
+      // when file is not selected cancel upload function and revert back to handle buttonclick
+          setFirstClick(false)
+          console.log('niko');
+        }
+      
   };
+
+  const one= ()=>{
+    console.log("one click is all it takes")
+  }
+  const two= ()=>{
+    console.log("two click is all it takes")
+  }
+
+  const handleButtonClick = () => {
+    fileClassesInputRef.current.click();
+    console.log("yoola")
+  };
+
   const handleUpload = async (academicYear) => {
     const formData = new FormData();
     formData.append("classes", selectedFile, selectedFile.name);
     await uploadClasses({ academicYear, formData });
-    console.log(academicYear);
+    setSelectedFile("");
+    setFirstClick(false);
   };
 
-  const handleFirstclick = () => {
-    if (!fileDialogOpened) {
-      fileClassesInputRef.current.click();
-      setFileDialogOpened(true);
-      
-     
-    }
-  };
 
   return (
     <Box sx={{ display: "flex" }}>
 
-      <Tooltip title="Upload classes" placement="top" arrow>
-        <Stack
-          variant="contained"
-          onClick={() =>
-            firstClick ? handleUpload(academicYear) : handleFirstclick()
-          }
-        >
-          {isLoading ? (
-           <Button disabled
-           variant="contained"
-           startIcon={ <CircularProgress size={20}/> }
-           >Uploading</Button>
-          ) : (
-            <Button
-              variant="contained"
-              startIcon={<UploadFile sx={{ fontSize: "10.8px" }} />}
-              sx={{ fontSize: "10.8px" }}
-            >
-                    <input
+<input
         type="file"
-        style={{ display: "none" }}
         ref={fileClassesInputRef}
+        style={{ display: 'none' }}
         onChange={handleFileChange}
+        onClick={() =>
+          firstClick ? two() : one()}
       />
-              classes
-            </Button>
-          )}
-        </Stack>
-      </Tooltip>
+      {firstClick ?<> {isLoading?<Button variant="contained" disabled startIcon={<CircularProgress size={20}/> }>
+       uploading
+      </Button>:<Button sx={{backgroundColor:"#37796c"}} variant="contained" startIcon={<CheckCircleOutlineOutlined sx={{ fontSize: "10.8px" }} />} onClick={() =>handleUpload(academicYear)}>
+       upload classes
+      </Button>}</>:<Button variant="contained"  startIcon={<UploadFile sx={{ fontSize: "10.8px" }} />} onClick={() =>handleButtonClick()}>
+        classes
+      </Button>}
     </Box>
   );
 };
