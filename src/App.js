@@ -41,6 +41,7 @@ import AllRentals from "./components/AllRentals";
 import ManagePermissions from "./components/dashboard/ManagePermissions";
 import UnavailablePage from "./components/UnavailablePage";
 import Tests from "./components/Tests";
+import FileUploadButton from "./components/FileUploadButton";
 
 function App() {
     const mode = useSelector((state) => state.global.mode);
@@ -92,7 +93,7 @@ function App() {
                                     <Route path='/add/teacher-rental/:teacherId' element={<AddTeacherBookRentalPage/>}/>
                                     <Route path="/books" element={<BooksList/>}/>
                                     <Route path="/lost books" element={<LostBooks/>}/>
-                                    <Route path="/Permissions" element={<FileUploadStudents/>}/>
+                                    <Route path="/Permissions" element={<FileUploadButton/>}/>
                                     <Route path="/notification" element={<Notification/>}/>
                                     <Route path="/perfomance" element={<Tests/>}/>
                                     <Route path="/settings" element={<RoleBasedRoute element={<Settings/>} roles={["admin"]} />}/>
