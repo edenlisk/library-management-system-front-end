@@ -92,7 +92,7 @@ function App() {
                                     <Route path='/add/teacher-rental/:teacherId' element={<AddTeacherBookRentalPage/>}/>
                                     <Route path="/books" element={<BooksList/>}/>
                                     <Route path="/lost books" element={<LostBooks/>}/>
-                                    <Route path="/Statistics" element={<FileUploadStudents/>}/>
+                                    <Route path="/Permissions" element={<FileUploadStudents/>}/>
                                     <Route path="/notification" element={<Notification/>}/>
                                     <Route path="/perfomance" element={<Tests/>}/>
                                     <Route path="/settings" element={<RoleBasedRoute element={<Settings/>} roles={["admin"]} />}/>
