@@ -46,12 +46,16 @@ const Navbar = ({isSidebarOpen, setIsSidebarOpen}) => {
     }
 
     const [selectedAcademicYear, setSelectedAcademicYear] = useState('');
+    const [schoolYearsSelect, setSchoolYearsSelect] = useState([]);
 
     useEffect(() => {
         if (isDone) {
             const {data:academicYears} = years;
             const {schoolYears} = academicYears;
-            setSelectedAcademicYear(schoolYears[0].academicYear)
+            setSchoolYearsSelect(schoolYears);
+            const rawYears = schoolYears.map(year => year.academicYear);
+            // console.log(rawYears.sort()[rawYears.length - 1]);
+            setSelectedAcademicYear(rawYears.sort()[rawYears.length - 1]);
         }
     }, [isDone, years])
     //  DISPATCH TO DISPATCH FOR SETTING YEAR
@@ -101,11 +105,14 @@ const Navbar = ({isSidebarOpen, setIsSidebarOpen}) => {
                                     }}
                                 >
                                     {/* <MenuItem value=""><em>academic Year</em></MenuItem> */}
-                                    <MenuItem selected value="2023-2024">
-                                        2023-2024
-                                    </MenuItem>
-                                    <MenuItem value="2024-2025">2024-2025</MenuItem>
-                                    <MenuItem value="2025-2026">2025-2026</MenuItem>
+                                    {schoolYearsSelect.map(({academicYear, _id}, index) => {
+                                        return <MenuItem key={index} value={academicYear}>{academicYear}</MenuItem>
+                                    })}
+                                    {/*<MenuItem selected value="2023-2024">*/}
+                                    {/*    2023-2024*/}
+                                    {/*</MenuItem>*/}
+                                    {/*<MenuItem value="2024-2025">2024-2025</MenuItem>*/}
+                                    {/*<MenuItem value="2025-2026">2025-2026</MenuItem>*/}
                                 </Select>
                             </FormControl>
                         </FlexBetween>

@@ -92,7 +92,7 @@ function App() {
                                     <Route path='/add/student-rental/:studentId' element={<AddStudentBookRentalPage/>}/>
                                     <Route path='/add/teacher-rental/:teacherId' element={<AddTeacherBookRentalPage/>}/>
                                     <Route path="/books" element={<BooksList/>}/>
-                                    <Route path="/lost books" element={<LostBooks/>}/>
+                                    <Route path="/lost-books" element={<LostBooks/>}/>
                                     <Route path="/Permissions" element={<FileUploadButton/>}/>
                                     <Route path="/notification" element={<Notification/>}/>
                                     <Route path="/perfomance" element={<Tests/>}/>

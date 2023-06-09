@@ -5,6 +5,7 @@ import Customtoolbar from "../Customtoolbar";
 import { useLostBooksQuery } from "../../states/apiSlice";
 import ReceiveBook from "./ReceiveBook";
 import BooksToolbar from "./BooksToolbar";
+import LostBooksToolBar from "./LostBooksToolBar";
 
 const LostBooks = () => {
   const { data, isLoading, isSuccess, isError, error } = useLostBooksQuery();
@@ -30,12 +31,12 @@ const LostBooks = () => {
 
   const columns = [
     { field: "bookId", headerName: "Id", flex: 0.12 },
-    { field: "nameOfBook", headerName: "Book name", flex: 0.3 },
-    { field: "author", headerName: "Author", flex: 0.3 },
+    { field: "nameOfBook", headerName: "Book name", flex: 0.2 },
+    // { field: "author", headerName: "Author", flex: 0.3 },
     { field: "issueDate", headerName: "issue date", flex: 0.16 },
-    { field: "dueDate", headerName: "due date", flex: 0.16 },
-    { field: "rentalFor", headerName: "borrower", flex: 0.15 },
-    { field: "className", headerName: "class", flex: 0.15 },
+    // { field: "dueDate", headerName: "due date", flex: 0.16 },
+    { field: "rentalFor", headerName: "borrower", flex: 0.1 },
+    { field: "className", headerName: "class", flex: 0.1, },
     {
       field: "receive",
       headerName: "Receive",
@@ -79,7 +80,7 @@ const LostBooks = () => {
         loading={isLoading || !rows}
         autoHeight
         components={{
-          Toolbar: () => <BooksToolbar />,
+          Toolbar: () => <LostBooksToolBar />,
         }}
       />
       {book ? (

@@ -136,7 +136,7 @@ const Dashboard = () => {
           </Box>
         </FlexBetween>
         <Box>
-          <DashboardStats />
+          {/*<DashboardStats />*/}
         </Box>
         <Box
           display="flex"
