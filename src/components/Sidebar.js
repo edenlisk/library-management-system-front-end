@@ -126,8 +126,22 @@ const Sidebar = ({
 
     const [logout, {data, isLoading, isSuccess, isError, error}] = useLogoutMutation();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     // const token = useSelector(state => state.auth.token);
     // const userData = useSelector(state => state.auth.userData);
+    // const [token, setToken] = useState(() => {
+    //     return localStorage.getItem('token');
+    // });
+    // const [userData, setUser] = useState(() => {
+    //     return localStorage.getItem('profile');
+    // });
+
+    // useEffect(() => {
+    //     if (token && userData) {
+    //         navigate('/login')
+    //     }
+    // }, [userData, token]);
     const token = localStorage.getItem("token");
     const rawUserData = localStorage.getItem("profile");
     const userData = JSON.parse(rawUserData);
@@ -175,7 +189,6 @@ const Sidebar = ({
 
     const [active, setActive] = useState("");
 
-    const navigate = useNavigate();
 
     const theme = useTheme();
     useEffect(() => {
