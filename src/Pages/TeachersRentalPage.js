@@ -1,12 +1,8 @@
-import React, {useEffect, useState} from "react";
-import {useSelector} from "react-redux";
-import {useTheme} from "@emotion/react";
-import {useNavigate, useParams, Link} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useTheme } from "@emotion/react";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import {
-//   useCreateRentalMutation,
-//   useDeleteRentalMutation,
-//   useGetOneStudentQuery,
-//   useGetRentalsQuery,
     useGetTeacherRentalsQuery,
     useCreateTeacherRentalMutation,
     useDeleteTeacherRentalMutation,
@@ -19,17 +15,17 @@ import {
     Add,
     CloseOutlined
 } from "@mui/icons-material";
-import {Box, Typography, IconButton, Stack, Tooltip, Button, Toolbar,Fade,Modal,CircularProgress} from "@mui/material";
+import { Box, Typography, IconButton, Stack, Tooltip, Button, Fade, Modal, CircularProgress } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
-import {DataGrid} from "@mui/x-data-grid";
+import { DataGrid } from "@mui/x-data-grid";
 import Customtoolbar from "../components/Customtoolbar";
 import AddTeacherBookRental from "../components/teachersComponents/AddTeacherBookRental";
 import ReceiveBook from "../components/books components/ReceiveBook";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 
 
 const TeachersRentalsPage = () => {
-    const {teacherId} = useParams();
+    const { teacherId } = useParams();
     const theme = useTheme();
     const navigate = useNavigate();
     const academicYear = useSelector((state) => state.global.academicYear);
@@ -52,38 +48,38 @@ const TeachersRentalsPage = () => {
 
 
 
-    const [createRental, {isSuccess:isCreateSuccess, isError:isCreateError, error:createError}] = useCreateTeacherRentalMutation();
+    const [createRental, { isSuccess: isCreateSuccess, isError: isCreateError, error: createError }] = useCreateTeacherRentalMutation();
 
     useEffect(() => {
         if (isCreateSuccess) {
             toast.success("Rental created successfully")
         } else if (isCreateError) {
-            const { data:fullError } = createError;
-            const {message} = fullError;
+            const { data: fullError } = createError;
+            const { message } = fullError;
             toast.error(message);
         }
     }, [isCreateError, isCreateSuccess]);
 
-    const [deleteRental, {isSuccess:isDeleteSuccess, isError:isDeleteError, error:deleteError,isLoading:isDeleting}] = useDeleteTeacherRentalMutation();
+    const [deleteRental, { isSuccess: isDeleteSuccess, isError: isDeleteError, error: deleteError, isLoading: isDeleting }] = useDeleteTeacherRentalMutation();
 
     useEffect(() => {
         if (isDeleteSuccess) {
             toast.success("Rental deleted successfully")
         } else if (isDeleteError) {
-            const { data:fullError } = deleteError;
-            const {message} = fullError;
+            const { data: fullError } = deleteError;
+            const { message } = fullError;
             toast.error(message);
         }
     }, [isDeleteError, isDeleteSuccess]);
 
-    const {data, isLoading, isSuccess, isError, error} = useGetTeacherRentalsQuery(teacherId);
+    const { data, isLoading, isSuccess, isError, error } = useGetTeacherRentalsQuery(teacherId);
 
-    const {data: studentInfo, isSuccess: isDone} = useGetTeacherQuery(teacherId);
+    const { data: studentInfo, isSuccess: isDone } = useGetTeacherQuery(teacherId);
 
     let teacherName = "";
     if (isDone) {
-        const {data: studentData} = studentInfo;
-        const {teacher} = studentData;
+        const { data: studentData } = studentInfo;
+        const { teacher } = studentData;
         teacherName = teacher.name;
     }
 
@@ -95,10 +91,10 @@ const TeachersRentalsPage = () => {
         console.log(`the api provided error: ${error}`);
     }
     if (isSuccess) {
-        const {data: rentalsinfo} = data;
-        const {teacherRentals: rawRentalHistory} = rentalsinfo;
+        const { data: rentalsinfo } = data;
+        const { teacherRentals: rawRentalHistory } = rentalsinfo;
         rawRentalHistory.forEach(rent => {
-            const rental = {...rent, issueDate: rent.issueDate.split('T')[0], dueDate:rent.dueDate.split('T')[0], returnDate: rent.returnDate ? rent.returnDate.split('T')[0] : ''}
+            const rental = { ...rent, issueDate: rent.issueDate.split('T')[0], dueDate: rent.dueDate.split('T')[0], returnDate: rent.returnDate ? rent.returnDate.split('T')[0] : '' }
             rows.push(rental)
         })
     }
@@ -107,93 +103,36 @@ const TeachersRentalsPage = () => {
 
     const [openModal, setOpenModal] = useState(false);
 
-    const [selectedId,setSelectedId]=useState(null);
-    const [selectedBkId,setSelectedBkId]=useState(null);
-    const [selectedName,setSelectedName]=useState("");
-    const [openDeleteModal,setOpenDeleteModal]=useState(false);
+    const [selectedId, setSelectedId] = useState(null);
+    const [selectedBkId, setSelectedBkId] = useState(null);
+    const [selectedName, setSelectedName] = useState("");
+    const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
-
-    // const [rental, setRental] = useState({
-    //     nameOfBook: "",
-    //     numberOfBooks: "",
-    //     rentalFor: "",
-    //     teacherId: "",
-    //     issueDate: null,
-    //     dueDate: null,
-    // });
-
-    // const handleModalOpen = () => {
-    //     setOpenModal(!openModal);
-    // };
-    // const handleModalClose = () => {
-    //     setOpenModal(!openModal);
-    // };
-
-    // const handleChange = (e) => {
-    //     setRental({...rental, [e.target.name]: e.target.value});
-    // };
-
-    // const handleStartDateChange = (newDate) => {
-    //     setRental((prevState) => ({
-    //         ...prevState,
-    //         // issueDate: newDate.format("MM/DD/YYYY"),
-    //         issueDate: newDate.format('YYYY-MM-DD'),
-    //     }));
-    // };
-
-    // const handleEndDateChange = (newDate) => {
-    //     setRental((prevState) => ({
-    //         ...prevState,
-    //         // dueDate: newDate.format("MM/DD/YYYY"),
-    //         dueDate: newDate.format('YYYY-MM-DD'),
-    //     }));
-    // };
-
-    // const handleSubmit = async (event) => {
-    //     event.preventDefault();
-    //     const body = {...rental};
-    //     await createRental(body);
-    //     console.log(rental);
-    //     setRental({
-    //         nameOfBook: "",
-    //         numberOfBooks: "",
-    //         rentalFor: "",
-    //         teacherId: "",
-    //         issueDate: null,
-    //         dueDate: null,
-    //     });
-    //     setOpenModal(!openModal);
-    // };
-
-
-
-    const handleClickOpenDeleteModal = (id,name,bkName) => {
+    const handleClickOpenDeleteModal = (id, name, bkName) => {
         setSelectedId(id);
         setSelectedName(name);
         setSelectedBkId(bkName);
         setOpenDeleteModal(!openDeleteModal);
-      };
+    };
 
-      const handleRowDelete = async () => {
+    const handleRowDelete = async () => {
         const rentalId = selectedId;
         await deleteRental(rentalId);
         setOpenDeleteModal(!openDeleteModal)
         console.log(typeof rentalId);
     };
 
-      const handleCloseDeleteModal = () => {
+    const handleCloseDeleteModal = () => {
         setOpenDeleteModal(!openDeleteModal);
-      };
+    };
 
     const columns = [
-        {field: "nameOfBook", headerName: "Book name", flex: 0.4},
-        // {field: "numberOfBooks", headerName: "value", flex: 0.2},
-        {field: "rentalFor", headerName: "Rented For", flex: 0.3},
-        {field: "issueDate", headerName: "Issue date", flex: 0.3},
-        {field: "dueDate", headerName: "Due date", flex: 0.3},
-        {field: "returnDate", headerName: "Return date", flex: 0.3},
-        {field: "returned", headerName: "Returned", flex: 0.2},
-        // {field: "teacherId", headerName: "Teacher Id", flex: 0.3},
+        { field: "nameOfBook", headerName: "Book name", flex: 0.4 },
+        { field: "rentalFor", headerName: "Rented For", flex: 0.3 },
+        { field: "issueDate", headerName: "Issue date", flex: 0.3 },
+        { field: "dueDate", headerName: "Due date", flex: 0.3 },
+        { field: "returnDate", headerName: "Return date", flex: 0.3 },
+        { field: "returned", headerName: "Returned", flex: 0.2 },
         {
             field: "receive",
             headerName: "Receive",
@@ -202,7 +141,7 @@ const TeachersRentalsPage = () => {
                 return (
                     <Button
                         variant="contained"
-                        color= {params.row.returned ? "success" : "info"}
+                        color={params.row.returned ? "success" : "info"}
                         onClick={() => params.row.returned ? "" : handleShow(params.row)}
                         size="small"
                     >
@@ -217,13 +156,13 @@ const TeachersRentalsPage = () => {
             flex: 0.3,
             renderCell: (params) => (
                 <Stack direction="row" spacing={1}>
-                    {/* icons only */}
+
                     <Tooltip title="Delete" placement="top" arrow>
                         <IconButton
                             aria-label="delete"
-                            onClick={() => handleClickOpenDeleteModal(params.row._id,params.row.nameOfBook,params.row.bookId)}
+                            onClick={() => handleClickOpenDeleteModal(params.row._id, params.row.nameOfBook, params.row.bookId)}
                         >
-                            <DeleteOutlined sx={{fontSize: 20}}/>
+                            <DeleteOutlined sx={{ fontSize: 20 }} />
                         </IconButton>
                     </Tooltip>
 
@@ -235,19 +174,14 @@ const TeachersRentalsPage = () => {
                                     console.log(`Button clicked for row ${params.id}`);
                                 }}
                             >
-                                <ModeEditOutlined sx={{fontSize: 20}}/>
+                                <ModeEditOutlined sx={{ fontSize: 20 }} />
                             </IconButton>
                         </Tooltip>
                     </Link>
                 </Stack>
             ),
         },
-        // {
-        //     field: "status",
-        //     headerName: "Status",
-        //     flex: 0.3,
-        //     renderCell: (params) => <Status returned={params.row.returned}/>,
-        // },
+
     ];
     return (
         <Grid2
@@ -258,7 +192,7 @@ const TeachersRentalsPage = () => {
             padding="0px 26px"
         >
             <Grid2 xs={12} display="flex" justifyContent="start">
-                <ChevronLeft onClick={() => navigate(-1)}/>
+                <ChevronLeft onClick={() => navigate(-1)} />
             </Grid2>
             <Grid2
                 xs={12}
@@ -267,23 +201,14 @@ const TeachersRentalsPage = () => {
                 alignItems="center"
             >
                 <Typography variant="h4">{teacherName}:{academicYear}</Typography>
-                {/* <AddTeacherBookRental
-                    rental={rental}
-                    format="YYYY-MM-DD"
-                    setRental={setRental}
-                    handleChange={handleChange}
-                    onSubmit={handleSubmit}
-                    handleStartDateChange={handleStartDateChange}
-                    handleEndDateChange={handleEndDateChange}
-                    openModal={openModal}
-                    handleModalOpen={handleModalOpen}
-                    handleModalClose={handleModalClose}
-                /> */} 
-         <Button  size="small" sx={{ display: "flex",border:"solid 1.5px",textTransform:"none",
-      color:"inherit",padding:"8px" }} onClick={()=>navigate(`/add/teacher-rental/${teacherId}`)}>
-          <Add />
-           Add new book rental...
-      </Button >
+
+                <Button size="small" sx={{
+                    display: "flex", border: "solid 1.5px", textTransform: "none",
+                    color: "inherit", padding: "8px"
+                }} onClick={() => navigate(`/add/teacher-rental/${teacherId}`)}>
+                    <Add />
+                    Add new book rental...
+                </Button >
 
             </Grid2>
             <Grid2 xs={12} display="flex" justifyContent="start">
@@ -293,7 +218,7 @@ const TeachersRentalsPage = () => {
                         height: "600px",
                     }}
                 >
-                    {/* DATAGRID TABLE ON UI */}
+
                     <DataGrid
                         sx={{
                             width: "100%",
@@ -307,96 +232,90 @@ const TeachersRentalsPage = () => {
                         }}
                         columns={columns}
                         rows={rows}
-                        loading={isLoading ||!rows}
+                        loading={isLoading || !rows}
                         getRowId={(row) => row._id}
                         disableColumnFilter
                         disableColumnSelector
                         disableDensitySelector
                         autoHeight
                         components={{
-                            Toolbar: () => <Customtoolbar/>,
+                            Toolbar: () => <Customtoolbar />,
                         }}
-                        // slots={{ toolbar: GridToolbar }}
-                        // slotProps={{
-                        //   toolbar: {
-                        //     showQuickFilter: true,
-                        //     quickFilterProps: { debounceMs: 500 },
-                        //   },
-                        // }}
+
                         initialState={{
                             ...rows.initialState,
-                            pagination: {paginationModel: {pageSize: 8}},
+                            pagination: { paginationModel: { pageSize: 8 } },
                         }}
                         pageSizeOptions={[8, 16, 24]}
                         item="true"
                     />
-                </Box> 
+                </Box>
                 <Modal
-        open={openDeleteModal}
-        aria-labelledby="add-modal-title"
-        aria-describedby="add-modal-description"
-        sx={{
-          "& .MuiBackdrop-root-MuiModal-backdrop": {
-            backgroundColor: `red`,
-            opacity: "0.1px",
-          },
-        }}
-      >
-        <Fade in={openDeleteModal}>
-          <Box maxWidth={700} height="100%" margin="auto" padding={3}>
-            <Box
-              display="flex"
-              flexDirection="column"
-              justifyContent="top"
-              alignItems="center"
-              height="40%"
-              sx={{ p: "10px 10px" }}
-              backgroundColor={theme.palette.primary[900]}
-            >
-              <CloseOutlined
-                sx={{ alignSelf: "end" }}
-                onClick={handleCloseDeleteModal}
-              />
-              <Typography
-                variant="h3"
-                sx={{ textAlign: "center", mb: 3, mt: 3 }}
-              >
-                {`Sure you want to delete rental ${selectedName} with the ID: ${selectedBkId}`}
-              </Typography>
-              <Box display="flex" gap={2} sx={{ alignSelf: "center" }}>
-                {isDeleting?<Button
-                  variant="contained"
-                  size="medium"
-                  type="button"
-                  disabled
-                  startIcon={<CircularProgress size={20}/>}
-                  sx={{ mb: 2, width: "200px", alignSelf: "start" }}
+                    open={openDeleteModal}
+                    aria-labelledby="add-modal-title"
+                    aria-describedby="add-modal-description"
+                    sx={{
+                        "& .MuiBackdrop-root-MuiModal-backdrop": {
+                            backgroundColor: `red`,
+                            opacity: "0.1px",
+                        },
+                    }}
                 >
-                 deleting
-                </Button>:<Button
-                  variant="contained"
-                  size="medium"
-                  type="button"
-                  sx={{ mb: 2, width: "200px", alignSelf: "start" }}
-                  onClick={handleRowDelete}
-                >
-              delete
-                </Button>}
-                <Button
-                  variant="contained"
-                  size="medium"
-                  type="button"
-                  sx={{ mb: 2, width: "200px", alignSelf: "start" }}
-                  onClick={handleCloseDeleteModal}
-                >
-                  cancel
-                </Button>
-              </Box>
-            </Box>
-          </Box>
-        </Fade>
-      </Modal>
-                {book ? <ReceiveBook book={book} open={open} handleClose={handleClose}/> : <div/>}
+                    <Fade in={openDeleteModal}>
+                        <Box maxWidth={700} height="100%" margin="auto" padding={3}>
+                            <Box
+                                display="flex"
+                                flexDirection="column"
+                                justifyContent="top"
+                                alignItems="center"
+                                height="40%"
+                                sx={{ p: "10px 10px" }}
+                                backgroundColor={theme.palette.primary[900]}
+                            >
+                                <CloseOutlined
+                                    sx={{ alignSelf: "end" }}
+                                    onClick={handleCloseDeleteModal}
+                                />
+                                <Typography
+                                    variant="h3"
+                                    sx={{ textAlign: "center", mb: 3, mt: 3 }}
+                                >
+                                    {`Sure you want to delete rental ${selectedName} with the ID: ${selectedBkId}`}
+                                </Typography>
+                                <Box display="flex" gap={2} sx={{ alignSelf: "center" }}>
+                                    {isDeleting ? <Button
+                                        variant="contained"
+                                        size="medium"
+                                        type="button"
+                                        disabled
+                                        startIcon={<CircularProgress size={20} />}
+                                        sx={{ mb: 2, width: "200px", alignSelf: "start" }}
+                                    >
+                                        deleting
+                                    </Button> : <Button
+                                        variant="contained"
+                                        size="medium"
+                                        type="button"
+                                        sx={{ mb: 2, width: "200px", alignSelf: "start" }}
+                                        onClick={handleRowDelete}
+                                    >
+                                        delete
+                                    </Button>}
+                                    <Button
+                                        variant="contained"
+                                        size="medium"
+                                        type="button"
+                                        sx={{ mb: 2, width: "200px", alignSelf: "start" }}
+                                        onClick={handleCloseDeleteModal}
+                                    >
+                                        cancel
+                                    </Button>
+                                </Box>
+                            </Box>
+                        </Box>
+                    </Fade>
+                </Modal>
+                {book ? <ReceiveBook book={book} open={open} handleClose={handleClose} /> : <div />}
             </Grid2>
         </Grid2>
     );

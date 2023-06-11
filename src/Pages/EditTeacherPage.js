@@ -1,12 +1,7 @@
 import React, { useState,useEffect } from "react";
-import { NavLink, useNavigate, useParams } from "react-router-dom";
-import { FormHelperText, TextField, Typography } from "@mui/material";
+import { useNavigate, useParams } from "react-router-dom";
+import { TextField, Typography } from "@mui/material";
 import {
-  FormControl,
-  InputLabel,
-  OutlinedInput,
-  InputAdornment,
-  IconButton,
   Button,
   Box,
 } from "@mui/material";
@@ -58,7 +53,6 @@ const EditTeacherPage = () => {
     setUser({ ...user, [e.target.name]: capitalizeSentence(e.target.value) });
   };
 
-  // SUBMITS DATA IN THE INPUTS FIELDS
   const handleSubmit =  async (event) => {
     event.preventDefault();
     const body={...user}

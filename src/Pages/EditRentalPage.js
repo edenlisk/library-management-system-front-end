@@ -1,29 +1,21 @@
 import React, {useEffect, useState} from "react";
-import {NavLink, useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {
-    FormHelperText,
     TextField,
     Typography,
-    InputLabel,
-    OutlinedInput,
-    InputAdornment,
-    IconButton,
     Button,
     Box,
-    MenuItem,
-    Select,
-    FormControl,
     FormControlLabel,
     Checkbox,
-    CircularProgress
+    Stack,
+    CircularProgress,
+    IconButton
 } from "@mui/material";
 import {DatePicker} from "@mui/x-date-pickers";
 import dayjs from "dayjs";
-import {LoginOutlined,ChevronLeftOutlined} from "@mui/icons-material";
+import {LoginOutlined,ChevronLeftOutlined, DisabledByDefaultRounded, CheckBoxRounded} from "@mui/icons-material";
 import {useUpdateRentalMutation, useGetOneRentalQuery} from "../states/apiSlice";
 import {toast} from "react-toastify";
-
-// TO ADD A BOOLEAN TO MAKE FIELDS RED WHEN THERE IS AN ERROR
 
 const EditRentalPage = () => {
     const {rentalId} = useParams();
@@ -31,6 +23,7 @@ const EditRentalPage = () => {
 
     const {data, isLoading, isSuccess} = useGetOneRentalQuery(rentalId);
     const [rental, setRental] = useState({nameOfBook: "", dueDate: null, active: false, returned: false});
+    const [rentalA, setRentalA] = useState( false);
 
 
     const [updateRental, {isSuccess: isUpdateSuccess, isError: isUpdateError, error: updateError,isLoading:isUpdating}] = useUpdateRentalMutation();
@@ -51,13 +44,10 @@ const EditRentalPage = () => {
             const {data: info} = data;
             const {rental: rentals} = info;
             setRental({nameOfBook: rentals.nameOfBook, dueDate: rentals.dueDate.split('T')[0], active: rentals.active, returned: rentals.returned})
-            // forminfo = rentals;
+            console.log(rentals)
         }
     }, [isSuccess, data]);
 
-
-
-    // TAKES INPUT FROM INPUT FIELDS
     const handleChange = (e) => {
         setRental({...rental, [e.target.name]: e.target.type === 'checkbox' ? e.target.checked : e.target.value,});
     };
@@ -68,12 +58,12 @@ const EditRentalPage = () => {
             dueDate: newDate.format("YYYY-MM-DD")
         }));
     };
-    const handleActive = () => {
-        setRental(prevState => ({...prevState, active: !prevState.active}));
+    const handleActive = (isActive) => {
+
+        setRental((prevState) => ({...prevState, active: !isActive}));
+        console.log(rental.active)
     }
 
-
-    // SUBMITS DATA IN THE INPUTS FIELDS
     const handleSubmit = async (event) => {
         event.preventDefault();
         const body = {...rental};
@@ -112,7 +102,7 @@ const EditRentalPage = () => {
                 <TextField
                     required
                     fullWidth
-                    value={rental.nameOfBook}
+                    value={rental.nameOfBook || ""}
                     name="nameOfBook"
                     label="Name Of Book"
                     type="text"
@@ -124,25 +114,31 @@ const EditRentalPage = () => {
                 />
                 <DatePicker
                     // disablePast
-                    value={dayjs(new Date(rental.dueDate))}
+                    value={dayjs(new Date(rental.dueDate))|| null}
                     onChange={handleEndDateChange}
                     format="YYYY-MM-DD"
                     sx={{minWidth: 230, alignSelf: "start", mb: 2}}
                     disabled={rental.returned}
                 />
 
-                <FormControlLabel
+                {/* <FormControlLabel
                     sx={{alignSelf: "start"}}
                     control={
                         <Checkbox
                             name="active"
-                            checked={rental.active}
+                            checked={rental.active || null}
                             onChange={handleActive}
                             disabled={rental.returned}
                         />
                     }
                     label="Active"
-                />
+                /> */}
+                <Box display="flex" justifyContent="center" alignItems="center" sx={{alignSelf: "start"}} flexDirection="rows">
+                <IconButton  disabled={rental.returned} onClick={()=>handleActive(rental.active)}>
+                {rental.active?<CheckBoxRounded color={rental.returned?"disabled":"success"}/>:<DisabledByDefaultRounded color={rental.returned?"disabled":"error"}/>}
+                </IconButton>
+                <Typography sx={{opacity:rental.returned? "0.5":"1"}}>active</Typography>
+                </Box>
 
                 {isUpdating?<Button
                     variant="contained"

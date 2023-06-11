@@ -1,21 +1,15 @@
 import React, { useState,useEffect } from "react";
-import { NavLink, useNavigate, useParams } from "react-router-dom";
-import { FormHelperText, TextField, Typography } from "@mui/material";
+import { useNavigate, useParams } from "react-router-dom";
+import { TextField, Typography } from "@mui/material";
 import {
-  FormControl,
-  InputLabel,
-  OutlinedInput,
-  InputAdornment,
-  IconButton,
   Button,
   Box,
   CircularProgress
 } from "@mui/material";
-import { LoginOutlined,ChevronLeftOutlined } from "@mui/icons-material";
+import {ChevronLeftOutlined } from "@mui/icons-material";
 import { useUpdateStudentMutation,useGetOneStudentQuery } from "../states/apiSlice";
 import {toast} from "react-toastify";
 
-// TO ADD A BOOLEAN TO MAKE FIELDS RED WHEN THERE IS AN ERROR
 
 const EditStudentPage = () => {
   const { studentId } = useParams();
@@ -51,12 +45,10 @@ const EditStudentPage = () => {
       .replace(/(^\w|\s\w)/g, (match) => match.toUpperCase())
     );
 
-  // TAKES INPUT FROM INPUT FIELDS
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]:e.target.name === "name" ? capitalizeSentence(e.target.value) : e.target.value});
   };
 
-  // SUBMITS DATA IN THE INPUTS FIELDS
   const handleSubmit =  async (event) => {
     event.preventDefault();
     const body={...user}

@@ -71,32 +71,32 @@ const navItems = [
         text: "Lost books",
         icon: <CancelOutlined/>,
     },
+    {
+        text: "Transactions",
+        icon: <PublicOffOutlined/>,
+    },
     // {
-    //     text: "Transactions ",
-    //     icon: <PublicOffOutlined/>,
+    //     text: "Statistics",
+    //     icon: null,
+    // },
+    // {
+    //     text: "Overview",
+    //     icon: <PointOfSaleOutlined/>,
+    // },
+    // {
+    //     text: "Daily",
+    //     icon: <TodayOutlined/>,
+    // },
+    // {
+    //     text: "Monthly",
+    //     icon: <CalendarViewMonthOutlined/>,
+    // },
+    // {
+    //     text: "Breakdown",
+    //     icon: <PieChartOutline/>,
     // },
     {
-        text: "Statistics",
-        icon: null,
-    },
-    {
-        text: "Overview",
-        icon: <PointOfSaleOutlined/>,
-    },
-    {
-        text: "Daily",
-        icon: <TodayOutlined/>,
-    },
-    {
-        text: "Monthly",
-        icon: <CalendarViewMonthOutlined/>,
-    },
-    {
-        text: "Breakdown",
-        icon: <PieChartOutline/>,
-    },
-    {
-        text: "Management",
+        text: "Admin Management",
         icon: null,
     },
     {

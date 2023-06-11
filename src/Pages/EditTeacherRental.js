@@ -1,37 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { NavLink, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import dayjs from 'dayjs';
 import {
-  FormHelperText,
   TextField,
   Typography,
-  InputLabel,
-  OutlinedInput,
-  InputAdornment,
-  IconButton,
   Button,
   Box,
-  MenuItem,
-  Select,
-  FormControl,
   FormControlLabel,
   Checkbox,
-  CircularProgress
+  CircularProgress,
+  IconButton
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
-import { LoginOutlined,ChevronLeftOutlined } from "@mui/icons-material";
-import { useUpdateTeacherRentalMutation,useGetSingleTeacherRentalQuery } from "../states/apiSlice";
-import {toast} from "react-toastify";
-
-// TO ADD A BOOLEAN TO MAKE FIELDS RED WHEN THERE IS AN ERROR
+import { ChevronLeftOutlined, DisabledByDefaultRounded, CheckBoxRounded } from "@mui/icons-material";
+import { useUpdateTeacherRentalMutation, useGetSingleTeacherRentalQuery } from "../states/apiSlice";
+import { toast } from "react-toastify";
 
 const EditTeacherRentalPage = () => {
   const { rentalId } = useParams();
   const navigate = useNavigate();
 
-  const{data,isLoading,isSuccess,isError,error}=useGetSingleTeacherRentalQuery(rentalId);
-  
-  const [updateTeacherRental, {isSuccess:isUpdateSuccess, isError:isUpdateError, error:updateError,isLoading:isUpdating}] = useUpdateTeacherRentalMutation();
+  const { data, isLoading, isSuccess, isError, error } = useGetSingleTeacherRentalQuery(rentalId);
+
+  const [updateTeacherRental, { isSuccess: isUpdateSuccess, isError: isUpdateError, error: updateError, isLoading: isUpdating }] = useUpdateTeacherRentalMutation();
 
 
   const [rental, setRental] = useState({
@@ -43,9 +34,9 @@ const EditTeacherRentalPage = () => {
   useEffect(() => {
     if (isSuccess) {
       const { data: info } = data;
-      const { rental:rentall } = info;
+      const { rental: rentall } = info;
 
-         const formattedDueDate = new Date(rentall.dueDate.split("T")[0]);
+      const formattedDueDate = new Date(rentall.dueDate.split("T")[0]);
 
       setRental({
         nameOfBook: rentall.nameOfBook,
@@ -61,27 +52,18 @@ const EditTeacherRentalPage = () => {
     if (isUpdateSuccess) {
       toast.success("Rental updated successfully")
     } else if (isUpdateError) {
-      const { data:fullError } = updateError;
-      const {message} = fullError;
+      const { data: fullError } = updateError;
+      const { message } = fullError;
       toast.error(message);
     }
   }, [isUpdateError, isUpdateSuccess]);
 
-  let  forminfo =[];
+  let forminfo = [];
 
   console.log(rental)
-    // if (isSuccess) {
-    //   const { data: info } = data;
-    //   const{rental:rentals}=info;
-    //   console.log(rentals);
-    //   forminfo=rentals;
-    // }
 
-  
-
-  // TAKES INPUT FROM INPUT FIELDS
   const handleChange = (e) => {
-    setRental({ ...rental, [e.target.name]: e.target.type === 'checkbox' ? e.target.checked : e.target.value,});
+    setRental({ ...rental, [e.target.name]: e.target.type === 'checkbox' ? e.target.checked : e.target.value, });
   };
 
   const handleEndDateChange = (newDate) => {
@@ -91,15 +73,14 @@ const EditTeacherRentalPage = () => {
     }));
   };
 
-  const handleActive = () => {
-    setRental(prevState => ({...prevState, active: !prevState.active}));
-  }
+  const handleActive = (isActive) => {
 
-
-  // SUBMITS DATA IN THE INPUTS FIELDS
+    setRental((prevState) => ({...prevState, active: !isActive}));
+    console.log(rental.active)
+}
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const body = { ...rental};
+    const body = { ...rental };
     await updateTeacherRental({ body, rentalId });
     setRental({
       nameOfBook: "",
@@ -112,7 +93,7 @@ const EditTeacherRentalPage = () => {
 
   return (
     <Box height="100%">
-      <ChevronLeftOutlined onClick={()=>navigate(-1)}/>
+      <ChevronLeftOutlined onClick={() => navigate(-1)} />
       <Box
         component="form"
         onSubmit={handleSubmit}
@@ -146,37 +127,44 @@ const EditTeacherRentalPage = () => {
           disabled={rental.returned}
         />
         <DatePicker
-          value={ dayjs(rental.dueDate) || null }
+          value={dayjs(rental.dueDate) || null}
           onChange={handleEndDateChange}
           format="YYYY-MM-DD"
           sx={{ minWidth: 230, alignSelf: "start", mb: 2 }}
           disabled={rental.returned}
         />
 
-        <FormControlLabel
-            sx={{alignSelf: "start"}}
-            control={
-              <Checkbox
-                  name="active"
-                  checked={rental.active}
-                  onChange={handleActive}
-                  disabled={rental.returned}
-              />
-            }
-            label="Active"
-        />
+        {/* <FormControlLabel
+          sx={{ alignSelf: "start" }}
+          control={
+            <Checkbox
+              name="active"
+              checked={rental.active}
+              onChange={handleActive}
+              disabled={rental.returned}
+            />
+          }
+          label="Active"
+        /> */}
+
+             <Box display="flex" justifyContent="center" alignItems="center" sx={{alignSelf: "start"}} flexDirection="rows">
+                <IconButton  disabled={rental.returned} onClick={()=>handleActive(rental.active)}>
+                {rental.active?<CheckBoxRounded color={rental.returned?"disabled":"success"}/>:<DisabledByDefaultRounded color={rental.returned?"disabled":"error"}/>}
+                </IconButton>
+                <Typography sx={{opacity:rental.returned? "0.5":"1"}}>active</Typography>
+                </Box>
 
 
-        {isUpdating ?<Button
+        {isUpdating ? <Button
           variant="contained"
           size="medium"
           type="submit"
           sx={{ mb: 2, width: "100px", alignSelf: "start" }}
-          disabled={rental.returned}
-          startIcon={<CircularProgress size={20}/>}
+          disabled
+          startIcon={<CircularProgress size={20} />}
         >
           saving
-        </Button>:<Button
+        </Button> : <Button
           variant="contained"
           size="medium"
           type="submit"

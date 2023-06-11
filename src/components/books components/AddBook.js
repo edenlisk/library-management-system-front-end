@@ -104,14 +104,15 @@ const AddBook = ({ isOpen, setIsOpen }) => {
           <Box
             component="form"
             sx={{
-              p: 4.5,
-              pt: 2,
+              p:"10px 30px",
+             
               width: "70%",
-              height:"100%",
+              height:"97%",
               display: "flex",
               margin:"auto",
               flexDirection: "column",
               alignItems: "center",
+              justifyContent:"top",
               gap: "20px",
               borderRadius:"12px",
             }}

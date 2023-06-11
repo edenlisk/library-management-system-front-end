@@ -18,8 +18,6 @@ import {
 import { LoginOutlined, Visibility, VisibilityOff } from "@mui/icons-material";
 import { RotatingLines } from "react-loader-spinner";
 import { toast } from "react-toastify";
-// TO ADD A BOOLEAN TO MAKE FIELDS RED WHEN THERE IS AN ERROR
-
 const LoginPage = () => {
   const [login, { data, isSuccess, isLoading, isError, error }] =
     useLoginMutation();
@@ -33,9 +31,7 @@ const LoginPage = () => {
   const [accessability, setAccess] = useState(() => {
     return localStorage.getItem('accessability');
   })
-  // const token = localStorage.getItem("token");
-  // const userData = localStorage.getItem("profile");
-  // const accessability=localStorage.getItem("accessability")
+
   useEffect(() => {
     if (token) {
       dispatch(setAuthToken(token));
@@ -55,7 +51,6 @@ const LoginPage = () => {
     }
   }, [isError, isSuccess, error]);
 
-  // const userDataStore = useSelector(state => state.auth.userData);
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -65,15 +60,12 @@ const LoginPage = () => {
 
   const [loginErrors, setLoginErrors] = useState({ email: "", password: "" });
 
-  // TAKES INPUT FROM INPUT FIELDS
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  // SUBMITS DATA IN THE INPUTS FIELDS
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // form validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const passwordRegex = /^[a-zA-Z0-9]+$/;
 
@@ -167,7 +159,7 @@ const LoginPage = () => {
             }
             label="Password"
           />
-          {/* Form helper in helper text */}
+
           <FormHelperText id="password">{loginErrors.password}</FormHelperText>
         </FormControl>
         <Button
@@ -190,12 +182,7 @@ const LoginPage = () => {
             `Login`
           )}
         </Button>
-        {/* <Typography
-          variant="p"
-          sx={{ alignSelf: "start", paddingRight: "4px" }}
-        >
-          Forgot Password ? <NavLink to="/passwordrecover">Recover</NavLink>
-        </Typography> */}
+
       </Box>
     </Box>
   );

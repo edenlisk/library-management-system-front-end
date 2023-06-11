@@ -86,6 +86,11 @@ export const tokensDark = {
                 default: tokensDark.primary[600],
                 alt: tokensDark.primary[500],
               },
+              accordion: {
+                ...tokensDark.primary,
+                main: tokensDark.primary[400],
+           
+              },
             }
           : {
               // palette values for light mode
@@ -104,6 +109,7 @@ export const tokensDark = {
                 main: tokensDark.grey[500],
               },
               background: {
+                ...tokensLight.primary,
                 default: tokensDark.grey[0],
                 alt: tokensDark.grey[100],
               },

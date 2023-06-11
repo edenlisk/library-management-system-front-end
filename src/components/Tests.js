@@ -33,6 +33,7 @@ import {
   InputAdornment,
   useMediaQuery,
   useTheme,
+  Accordion,AccordionSummary,AccordionDetails
 } from "@mui/material";
 import {
   LoginOutlined,
@@ -42,6 +43,8 @@ import {
   Email,
   PointOfSale,
   Traffic,
+  WarningRounded,
+ ExpandMore
 } from "@mui/icons-material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
@@ -54,6 +57,7 @@ import StatBox from "./StatBox";
 import { setAcademicYear } from "../states/slice";
 // import MyResponsiveLine from "./Datachart";
 import { MyResponsivePie,MyResponsiveLine } from "./dashboard/Graphs";
+
 
 // const rows = [
 //   { id: 1, name: "John", age: 25, email: "john@example.com" },
@@ -197,6 +201,64 @@ const Tests = () => {
     setOpenModal(!openModal);
   };
 
+  const criticalBooks=[ {
+    BKname: "The Hidden Path",
+    total: 50,
+    remaining: 20,
+    id:1
+  },
+  {
+    BKname: "Beyond the Horizon",
+    total: 30,
+    remaining: 5,
+    id:2
+  },
+  {
+    BKname: "Whispering Shadows",
+    total: 25,
+    remaining: 10,
+    id:3
+  },
+  {
+    BKname: "The Enigma Code",
+    total: 15,
+    remaining: 2,
+    id:4
+  },
+  {
+    BKname: "Secrets of the Lost Temple",
+    total: 40,
+    remaining: 15,
+    id:5
+  },
+  {
+    BKname: "The Forgotten Key",
+    total: 20,
+    remaining: 8,
+    id:6
+  },
+  {
+    BKname: "Echoes of Eternity",
+    total: 35,
+    remaining: 18,
+    id:7
+  },
+  {
+    BKname: "The Silent Witness",
+    total: 50,
+    remaining: 30,
+    id:8
+  }];
+
+  const BookNotify=({BKname,total,remaining,id})=>{
+
+    return(
+      <Box padding={4.5} display="flex" gap={0.5} alignItems="center">
+      <WarningRounded color="warning" sx={{ fontSize: 26 }}/>
+      <Typography variant="h5">Book:<span style={{fontWeight:"bold"}}> {BKname}</span> is at it's limit <span style={{color:"red"}}>{`(${remaining} of ${total})`}</span> is remaining.</Typography>
+    </Box>
+    )
+  }
   return (
     // <div style={{ height: 400, width: "100%" }}>
     //   <DataGrid
@@ -374,7 +436,7 @@ const Tests = () => {
         </Fade>
       </Modal> */}
 
-      <Box
+      {/* <Box
         mt="20px"
         display="grid"
         gridTemplateColumns="repeat(12, 1fr)"
@@ -442,7 +504,24 @@ const Tests = () => {
           borderRadius="0.55rem"
         ><MyResponsiveLine /> </Box>
 
+      </Box> */}
+<Box padding={3.5}>
+      <Accordion sx={{backgroundColor:theme.palette.background.default,'& .MuiAccordionDetails-root': { padding: 0 },'& .MuiBox-root': { padding:1 }}}>
+      <AccordionSummary
+          expandIcon={<ExpandMore />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <Typography variant="h4">Books</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+        {criticalBooks.map(({BKname,total,remaining,id})=>(<BookNotify key={id}
+        BKname={BKname} total={total} remaining={remaining}/>))}
+
+        </AccordionDetails>
+      </Accordion>
       </Box>
+      
     </>
   );
 };
