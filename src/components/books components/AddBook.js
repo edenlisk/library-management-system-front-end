@@ -100,14 +100,16 @@ const AddBook = ({ isOpen, setIsOpen }) => {
       aria-describedby="add-modal-description"
     >
       <Fade in={isOpen}>
-        <Box padding="5px 20px 0 20px" display="flex" justifyContent="center">
+        
           <Box
             component="form"
             sx={{
               p: 4.5,
               pt: 2,
               width: "70%",
+              height:"100%",
               display: "flex",
+              margin:"auto",
               flexDirection: "column",
               alignItems: "center",
               gap: "20px",
@@ -120,6 +122,8 @@ const AddBook = ({ isOpen, setIsOpen }) => {
               sx={{ alignSelf: "end", padding: "0px 0px 3px 3px" }}
               onClick={handleModalClose}
             />
+
+            <Typography variant="h2">Add new Book</Typography>
             <Grid2 container spacing={2}>
               <Grid2
                 xs={12}
@@ -266,7 +270,7 @@ const AddBook = ({ isOpen, setIsOpen }) => {
                   </FormControl>
                 </Grid2>
 
-                <Grid2 container gap={2} display="flex">
+                <Grid2 container xs={12} gap={2} display="flex" justifyContent="center">
                   {isSending ? (
                     <Button
                       variant="contained"
@@ -292,7 +296,7 @@ const AddBook = ({ isOpen, setIsOpen }) => {
               </Grid2>
             </Grid2>
           </Box>
-        </Box>
+       
       </Fade>
     </Modal>
   );

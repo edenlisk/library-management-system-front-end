@@ -84,28 +84,6 @@ const LoginPage = () => {
       password: "",
     };
 
-    // if (!emailRegex.test(email)) {
-    //   newErrors.email = "Invalid email address";
-    //   // setUser({email:"",password:""})
-    // }
-
-    // if (!passwordRegex.test(password)) {
-    //   newErrors.password = "Password can only contain letters and numbers";
-    //   // setUser({email:"",password:""})
-    // }
-    // else if(password.length<4){
-    //   newErrors.password="Password is too short";
-    //   // setUser({email:"",password:""})
-    // }
-
-    // Check if email and username are taken together
-    // if (email === "example@example.com" && password === "example") {
-    //   newErrors.email = "This email and pasword combination is already taken";
-    //   newErrors.password =
-    //     "This email and pasword combination is already taken";
-    //     // setUser({email:"",password:""})
-    // }
-
     const body = { email, password };
     const response = await login({ body });
     if (response) {
@@ -120,11 +98,6 @@ const LoginPage = () => {
       localStorage.setItem("accessability", data.user.accessibility);
       navigate("/dashboard");
     }
-
-    // setLoginErrors(newErrors);
-
-    // console.log(user);
-    // setUser({ email: "", password: "" });
   };
 
   const handleMouseDownPassword = (event) => {
@@ -217,12 +190,12 @@ const LoginPage = () => {
             `Login`
           )}
         </Button>
-        <Typography
+        {/* <Typography
           variant="p"
           sx={{ alignSelf: "start", paddingRight: "4px" }}
         >
           Forgot Password ? <NavLink to="/passwordrecover">Recover</NavLink>
-        </Typography>
+        </Typography> */}
       </Box>
     </Box>
   );

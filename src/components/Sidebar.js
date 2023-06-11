@@ -71,10 +71,10 @@ const navItems = [
         text: "Lost-books",
         icon: <CancelOutlined/>,
     },
-    {
-        text: "Transactions ",
-        icon: <PublicOffOutlined/>,
-    },
+    // {
+    //     text: "Transactions ",
+    //     icon: <PublicOffOutlined/>,
+    // },
     {
         text: "Statistics",
         icon: null,
@@ -112,8 +112,8 @@ const navItems = [
         icon: <TrendingUpOutlined/>,
     },
     {
-        text: "Permissions",
-        icon: <Security/>
+        text: "settings",
+        icon: <SettingsOutlined/>
     }
 ];
 

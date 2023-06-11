@@ -1,9 +1,11 @@
 import React, { useRef ,useState} from 'react';
 import { Button, Box } from '@mui/material';
+import { useTheme } from 'styled-components';
 
 const FileUploadButton = () => {
   const fileInputRef = useRef(null);
   const [firstClick, setFirstClick] = useState(false);
+  const theme =useTheme();
 
   const handleFileChange = (event) => {
     // to choose file on file explorer modal and enable trigger of the upload function after
@@ -53,9 +55,17 @@ const FileUploadButton = () => {
       />
       {firstClick ? <Button variant="contained"onClick={() =>handleUpload()}>
         upload File
-      </Button>:<Button variant="contained"onClick={() =>handleButtonClick()}>
+      </Button>:<Button  variant="contained"onClick={() =>handleButtonClick()}>
         Select File
       </Button>}
+
+      <Button
+      variant="contained"
+      sx={{ backgroundColor: theme.palette.primary[900] }}
+    >
+      Button Text
+    </Button>
+
     </Box>
   );
 };
