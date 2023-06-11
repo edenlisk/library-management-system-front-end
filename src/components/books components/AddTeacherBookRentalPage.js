@@ -194,7 +194,7 @@ const AddTeacherBookRentalPage = () => {
     navigate(-1);
   };
 
-  const levels = ["S1", "S2", "S3", "S4", "S5", "S6", "AllEvels"];
+  const levels = ["senor one", "senior two", "senior three", "senior four", "senior five", "senior six", "others"];
 
   const cardClick = (id) => {
     const clickedBook = rows.find((book) => book._id === id);
@@ -357,7 +357,8 @@ const AddTeacherBookRentalPage = () => {
                     category={categoryName}
                     academicLevel={academicLevel}
                     language={language}
-                    numberOfBooks={numberOfBooks}availableCopy={availableCopy}
+                    numberOfBooks={numberOfBooks}
+                    availableCopy={availableCopy}
                     cardClick={() => cardClick(_id)}
                     key={_id}
                   />

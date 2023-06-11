@@ -93,7 +93,7 @@ const StudentsRentalsPage = () => {
       const { message } = fullError;
       toast.error(message);
     }
-  }, [isCreateError, isCreateSuccess]);
+  }, [isCreateError, isCreateSuccess, createError]);
 
   useEffect(() => {
     if (isDeleteSuccess) {
@@ -103,7 +103,7 @@ const StudentsRentalsPage = () => {
       const { message } = fullError;
       toast.error(message);
     }
-  }, [isDeleteError, isDeleteSuccess]);
+  }, [isDeleteError, isDeleteSuccess, deleteError]);
 
   let studentName = "";
   if (isDone) {
@@ -166,16 +166,16 @@ const StudentsRentalsPage = () => {
   };
 
   const columns = [
-    { field: "nameOfBook", headerName: "Book name", flex: 0.4 },
-    { field: "bookId", headerName: "ID", flex: 0.2 },
-    { field: "categoryName", headerName: "category", flex: 0.3 },
-    { field: "issueDate", headerName: "Issue date", flex: 0.4 },
-    { field: "dueDate", headerName: "Due date", flex: 0.4 },
-    { field: "returnDate", headerName: "Return date", flex: 0.3 },
+    { field: "nameOfBook", headerName: "Book name", flex: 0.3 },
+    { field: "bookId", headerName: "ID", flex: 0.18 },
+    { field: "categoryName", headerName: "category", flex: 0.2 },
+    { field: "issueDate", headerName: "Issue date", flex: 0.2 },
+    { field: "dueDate", headerName: "Due date", flex: 0.2 },
+    { field: "returnDate", headerName: "Return date", flex: 0.2 },
     {
       field: "Receive",
       headerName: "Receive",
-      flex: 0.3,
+      flex: 0.15,
       renderCell: (params) => {
         return (
           <Button
@@ -192,7 +192,7 @@ const StudentsRentalsPage = () => {
     {
       field: "actions",
       headerName: "Actions",
-      flex: 0.3,
+      flex: 0.15,
       renderCell: (params) => (
         <Stack direction="row" spacing={1}>
           <Tooltip title="Delete" placement="top" arrow>

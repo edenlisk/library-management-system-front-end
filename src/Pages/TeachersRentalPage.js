@@ -62,7 +62,7 @@ const TeachersRentalsPage = () => {
             const {message} = fullError;
             toast.error(message);
         }
-    }, [isCreateError, isCreateSuccess]);
+    }, [isCreateError, isCreateSuccess, createError]);
 
     const [deleteRental, {isSuccess:isDeleteSuccess, isError:isDeleteError, error:deleteError,isLoading:isDeleting}] = useDeleteTeacherRentalMutation();
 
@@ -74,7 +74,7 @@ const TeachersRentalsPage = () => {
             const {message} = fullError;
             toast.error(message);
         }
-    }, [isDeleteError, isDeleteSuccess]);
+    }, [isDeleteError, isDeleteSuccess, deleteError]);
 
     const {data, isLoading, isSuccess, isError, error} = useGetTeacherRentalsQuery(teacherId);
 
@@ -186,18 +186,18 @@ const TeachersRentalsPage = () => {
       };
 
     const columns = [
-        {field: "nameOfBook", headerName: "Book name", flex: 0.4},
+        {field: "nameOfBook", headerName: "Book name", flex: 0.3},
         // {field: "numberOfBooks", headerName: "value", flex: 0.2},
-        {field: "rentalFor", headerName: "Rented For", flex: 0.3},
-        {field: "issueDate", headerName: "Issue date", flex: 0.3},
-        {field: "dueDate", headerName: "Due date", flex: 0.3},
-        {field: "returnDate", headerName: "Return date", flex: 0.3},
-        {field: "returned", headerName: "Returned", flex: 0.2},
+        {field: "rentalFor", headerName: "Rented For", flex: 0.2},
+        {field: "issueDate", headerName: "Issue date", flex: 0.2},
+        {field: "dueDate", headerName: "Due date", flex: 0.2},
+        {field: "returnDate", headerName: "Return date", flex: 0.2},
+        // {field: "returned", headerName: "Returned", flex: 0.2},
         // {field: "teacherId", headerName: "Teacher Id", flex: 0.3},
         {
             field: "receive",
             headerName: "Receive",
-            flex: 0.2,
+            flex: 0.15,
             renderCell: params => {
                 return (
                     <Button
@@ -214,7 +214,7 @@ const TeachersRentalsPage = () => {
         {
             field: "actions",
             headerName: "Actions",
-            flex: 0.3,
+            flex: 0.15,
             renderCell: (params) => (
                 <Stack direction="row" spacing={1}>
                     {/* icons only */}

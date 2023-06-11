@@ -90,7 +90,7 @@ const AddBook = ({ isOpen, setIsOpen }) => {
       language: "",
     });
   };
-  const levels = ["S1", "S2", "S3", "S4", "S5", "S6", "AllEvels"];
+  const levels = ["Senior One", "Senior Two", "Senior Three", "Senior Four", "Senior Five", "Senior Six", "Others"];
   const languages = ["English", "French", "Kinyarwanda", "Swahili", "Other"];
 
   return (
