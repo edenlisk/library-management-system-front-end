@@ -28,12 +28,12 @@ const LostBooks = () => {
   };
 
   const columns = [
-    { field: "bookId", headerName: "Id", flex: 0.12 },
+    { field: "bookId", headerName: "Id", flex: 0.1 },
     { field: "nameOfBook", headerName: "Book name", flex: 0.2 },
     // { field: "author", headerName: "Author", flex: 0.3 },
     { field: "issueDate", headerName: "issue date", flex: 0.16 },
     // { field: "dueDate", headerName: "due date", flex: 0.16 },
-    { field: "rentalFor", headerName: "borrower", flex: 0.3 },
+    { field: "rentalFor", headerName: "borrower", flex: 0.35 },
     { field: "className", headerName: "class", flex: 0.1, },
     {
       field: "receive",

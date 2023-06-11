@@ -85,8 +85,8 @@ const AddClassForm = ({ newClass, setNewClass, handleChange, onSubmit,isSending,
                   onChange={handleChange}
                 >
                  
-                  <MenuItem value="O-Level">O-Level</MenuItem>
-                  <MenuItem value="A-Level">A-Level</MenuItem>
+                  <MenuItem value="O Level">O Level</MenuItem>
+                  <MenuItem value="A Level">A Level</MenuItem>
                 </Select>
               </FormControl>
                <Grid2 container justifyContent="start" alignSelf="start" width="100%">

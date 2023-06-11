@@ -168,6 +168,13 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: ['rentals', 'teachersRentals', 'statistics', "books"]
         }),
+        getAllRentals: builder.mutation({
+            query: ({startDate, endDate}) => ({
+                url:  `/rentals/all-rentals/${startDate}/${endDate}`,
+                method: 'POST'
+            }),
+            providesTags: ['rentals', 'teachersRental', 'statistics']
+        }),
         lostBooks: builder.query({
             query: () => `/rentals/inactive-rentals`,
             providesTags: ['rentals']
@@ -397,8 +404,12 @@ export const apiSlice = createApi({
             providesTags: ['statistics', 'rentals', 'teachersRentals', 'books']
         }),
         issuedBooks: builder.query({
-            query: () => `/statistics/all-rentals`,
+            query: (academicYear) => `/statistics/all-rentals/${academicYear}`,
             providesTags: ['statistics', 'rentals', 'teachersRentals', 'books']
+        }),
+        lessBooks: builder.query({
+            query: () => `/books/less-books`,
+            providesTags: ['rentals', 'books', 'teachersRentals', 'settings', 'statistics']
         })
 
         // GET STUDENTS BY CLASSID  TO GET: STUNT-ID,NAME CLASS-ID,REG-NBR,FINE
@@ -469,5 +480,7 @@ export const {
     useDeleteLibrarianMutation,
     useGetLibrariansQuery,
     useGetLibrarianQuery,
-    useIssuedBooksQuery
+    useIssuedBooksQuery,
+    useGetAllRentalsMutation,
+    useLessBooksQuery
 } = apiSlice;

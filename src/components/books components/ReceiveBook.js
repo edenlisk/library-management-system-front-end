@@ -61,7 +61,6 @@ export default function ReceiveBook ({open, handleClose, book}) {
                 <DialogTitle sx={{fontSize: '20px'}}>
                     {"Do you want to receive this book with following Information, Are you sure ?"}
                 </DialogTitle>
-                <hr/>
                 <DialogContent>
                     <TableContainer>
                         <Table>

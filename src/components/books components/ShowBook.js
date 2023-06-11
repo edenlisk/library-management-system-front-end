@@ -53,7 +53,6 @@ export default function AlertDialogSlide({ open, handleClose, bookId }) {
         {/*<DialogTitle sx={{fontSize: '30px'}}>*/}
         {/*    The selected book has the following details*/}
         {/*</DialogTitle>*/}
-        <hr />
         <DialogContent>
           <TableContainer>
             <Table>

@@ -64,7 +64,7 @@ const BooksCard = ({bookName,author,category,language,academicLevel,numberOfBook
       >
         <CardContent>
           <Typography>Total books: {numberOfBooks}</Typography>
-          <Typography>Availble: {availableCopy}</Typography>
+          <Typography>Available: {availableCopy}</Typography>
           <Typography>Academic Level: {academicLevel}</Typography>
           {/* <Typography>
             Yearly Sales This Year: {stat.yearlySalesTotal}

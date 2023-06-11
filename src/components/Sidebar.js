@@ -38,7 +38,7 @@ import {
     ChevronLeftOutlined,
     Inventory2Outlined,
     WorkHistoryOutlined,
-    BookOutlined, Security,MenuBookOutlined,CancelOutlined
+    BookOutlined, Security, MenuBookOutlined, CancelOutlined, FactCheck
 } from "@mui/icons-material";
 import {useEffect, useState} from "react";
 import {useLocation, useNavigate, Navigate} from "react-router-dom";
@@ -68,7 +68,7 @@ const navItems = [
         icon: <MenuBookOutlined/>,
     },
     {
-        text: "Lost books",
+        text: "Lost-books",
         icon: <CancelOutlined/>,
     },
     {
@@ -104,6 +104,10 @@ const navItems = [
         icon: <AdminPanelSettingsOutlined/>,
     },
     {
+      text: "Issued-Books",
+      icon: <FactCheck/>
+    },
+    {
         text: "Perfomance",
         icon: <TrendingUpOutlined/>,
     },
@@ -122,8 +126,22 @@ const Sidebar = ({
 
     const [logout, {data, isLoading, isSuccess, isError, error}] = useLogoutMutation();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     // const token = useSelector(state => state.auth.token);
     // const userData = useSelector(state => state.auth.userData);
+    // const [token, setToken] = useState(() => {
+    //     return localStorage.getItem('token');
+    // });
+    // const [userData, setUser] = useState(() => {
+    //     return localStorage.getItem('profile');
+    // });
+
+    // useEffect(() => {
+    //     if (token && userData) {
+    //         navigate('/login')
+    //     }
+    // }, [userData, token]);
     const token = localStorage.getItem("token");
     const rawUserData = localStorage.getItem("profile");
     const userData = JSON.parse(rawUserData);
@@ -171,7 +189,6 @@ const Sidebar = ({
 
     const [active, setActive] = useState("");
 
-    const navigate = useNavigate();
 
     const theme = useTheme();
     useEffect(() => {

@@ -22,24 +22,29 @@ const LoginPage = () => {
   const [login, { data, isSuccess, isLoading, isError, error }] =
     useLoginMutation();
   const navigate = useNavigate();
-  const [token, setToken] = useState(() => {
-    return localStorage.getItem('token')
-  })
-  const [userData, setProfile] = useState(() => {
-    return localStorage.getItem('profile');
-  })
-  const [accessability, setAccess] = useState(() => {
-    return localStorage.getItem('accessability');
-  })
+  // const [token, setToken] = useState(() => {
+  //   return localStorage.getItem('token')
+  // })
+  // const [userData, setProfile] = useState(() => {
+  //   return localStorage.getItem('profile');
+  // })
+  // const [accessability, setAccess] = useState(() => {
+  //   return localStorage.getItem('accessability');
+  // })
 
   useEffect(() => {
-    if (token) {
+    const token = localStorage.getItem('token');
+    const userData = localStorage.getItem('profile');
+    const accessability = localStorage.getItem('accessability');
+
+    if (token && userData && accessability) {
       dispatch(setAuthToken(token));
       dispatch(setUserData(userData));
       dispatch(setAccessibility(accessability));
       navigate("/dashboard");
     }
-  }, [navigate, token]);
+  }, [navigate]);
+
 
   useEffect(() => {
     if (isSuccess) {
@@ -84,7 +89,6 @@ const LoginPage = () => {
       dispatch(setAuthToken(token));
       dispatch(setUserData(data.user));
       dispatch(setAccessibility(data.user.accessibility))
-      console.log(data.user.accessibility)
       localStorage.setItem("token", token);
       localStorage.setItem("profile", JSON.stringify(data.user));
       localStorage.setItem("accessability", data.user.accessibility);

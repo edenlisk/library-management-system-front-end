@@ -58,7 +58,7 @@ const TeachersRentalsPage = () => {
             const { message } = fullError;
             toast.error(message);
         }
-    }, [isCreateError, isCreateSuccess]);
+    }, [isCreateError, isCreateSuccess, createError]);
 
     const [deleteRental, { isSuccess: isDeleteSuccess, isError: isDeleteError, error: deleteError, isLoading: isDeleting }] = useDeleteTeacherRentalMutation();
 
@@ -70,7 +70,7 @@ const TeachersRentalsPage = () => {
             const { message } = fullError;
             toast.error(message);
         }
-    }, [isDeleteError, isDeleteSuccess]);
+    }, [isDeleteError, isDeleteSuccess, deleteError]);
 
     const { data, isLoading, isSuccess, isError, error } = useGetTeacherRentalsQuery(teacherId);
 
@@ -136,7 +136,7 @@ const TeachersRentalsPage = () => {
         {
             field: "receive",
             headerName: "Receive",
-            flex: 0.2,
+            flex: 0.15,
             renderCell: params => {
                 return (
                     <Button
@@ -153,7 +153,7 @@ const TeachersRentalsPage = () => {
         {
             field: "actions",
             headerName: "Actions",
-            flex: 0.3,
+            flex: 0.15,
             renderCell: (params) => (
                 <Stack direction="row" spacing={1}>
 
