@@ -69,7 +69,7 @@ const AllRentals = () => {
 
 
     return (
-        <Box sx={{ p: 4.5, width: "100%" }}>
+        <Box sx={{p: 4.5, width: "100%"}}>
             <DataGrid
                 sx={{
                     "& .MuiDataGrid-columnHeaders": {
@@ -86,7 +86,7 @@ const AllRentals = () => {
                 loading={isLoading || !rows}
                 autoHeight
                 components={{
-                    Toolbar: () => <LostBooksToolBar />,
+                    Toolbar: () => <LostBooksToolBar/>,
                 }}
             />
             {rental ? <ShowRentalDetails rental={rental} handleClose={handleClose} open={open}/> : <div/>}
