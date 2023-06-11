@@ -42,6 +42,7 @@ import ManagePermissions from "./components/dashboard/ManagePermissions";
 import UnavailablePage from "./components/UnavailablePage";
 import Tests from "./components/Tests";
 import FileUploadButton from "./components/FileUploadButton";
+import LessBooks from "./components/BookNotify";
 
 function App() {
     const mode = useSelector((state) => state.global.mode);
@@ -97,7 +98,6 @@ function App() {
                                     <Route path="/Permissions" element={<FileUploadButton/>}/>
                                     <Route path="/notification" element={<Notification/>}/>
                                     <Route path="/perfomance" element={<Tests/>}/>
-                                    <Route path="/transactions" element={<Tests/>}/>
                                     <Route path="/settings" element={<RoleBasedRoute element={<Settings/>} roles={["admin"]} />}/>
                                     <Route path="/admin" element={<RoleBasedRoute element={<ManageLibrarians />} roles={["admin"]} />}/>
                                     <Route path="/permissions/:name/:librarianId" element={<ManagePermissions/>}/>

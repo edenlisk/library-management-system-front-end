@@ -52,7 +52,7 @@ const navItems = [
         icon: <HomeOutlined/>,
     },
     {
-        text: "Client Facing",
+        text: "Librarian",
         icon: null,
     },
     {
@@ -71,10 +71,10 @@ const navItems = [
         text: "Lost-books",
         icon: <CancelOutlined/>,
     },
-    {
-        text: "Transactions",
-        icon: <PublicOffOutlined/>,
-    },
+    // {
+    //     text: "Transactions",
+    //     icon: <PublicOffOutlined/>,
+    // },
     // {
     //     text: "Statistics",
     //     icon: null,
