@@ -406,6 +406,10 @@ export const apiSlice = createApi({
         issuedBooks: builder.query({
             query: (academicYear) => `/statistics/all-rentals/${academicYear}`,
             providesTags: ['statistics', 'rentals', 'teachersRentals', 'books']
+        }),
+        lessBooks: builder.query({
+            query: () => `/books/less-books`,
+            providesTags: ['rentals', 'books', 'teachersRentals', 'settings', 'statistics']
         })
 
         // GET STUDENTS BY CLASSID  TO GET: STUNT-ID,NAME CLASS-ID,REG-NBR,FINE
@@ -477,5 +481,6 @@ export const {
     useGetLibrariansQuery,
     useGetLibrarianQuery,
     useIssuedBooksQuery,
-    useGetAllRentalsMutation
+    useGetAllRentalsMutation,
+    useLessBooksQuery
 } = apiSlice;
