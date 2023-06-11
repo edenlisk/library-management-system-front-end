@@ -6,28 +6,21 @@ import {useMemo} from "react";
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import {LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import RoleBasedRoute from "./RoleRoute";
 import Dashboard from "./components/Dashboard";
 import Layout from "./layout/Layout";
-// import FileUploadStudents from "./components/FileUploadStudents";
-// import GenerateClassReport from "./components/GenerateClassReport";
 import GenerateStudentReport from "./components/GenerateStudentReport";
 import Notification from "./components/Notification";
 import Settings from "./components/Settings";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'
-
-
-// import AddForm from './components/AddForm';
 import LoginPage from "./components/userAuthentication/LoginPage";
 import PasswordRecoverPage from "./components/userAuthentication/PasswordRecoverPage";
 import SignUpPage from "./components/userAuthentication/SignupPage";
 import StudentsRentalsPage from "./Pages/StudentsRentalsPage";
 import ClassListPage from "./Pages/ClassListPage";
-// import Tests from "./components/Tests";
 import EditStudentPage from "./Pages/EditStudentPage";
 import ClassNamesPage from "./Pages/ClassNamesPage";
-// import ClassList from "./components/students tables components/ClassListComponent";
-// import StudentsRentalsComponent from "./components/students tables components/StudentsRentalsComponent";
 import EditRentalPage from "./Pages/EditRentalPage";
 import FileUploadStudents from "./components/FileUploadStudents";
 import CustomButtuonUpload from "./components/CustomButtuonUpload";
@@ -46,6 +39,9 @@ import RequireAuth from "./components/userAuthentication/RequireAuth";
 import ManageLibrarians from "./components/userAuthentication/ManageLibrarians";
 import AllRentals from "./components/AllRentals";
 import ManagePermissions from "./components/dashboard/ManagePermissions";
+import UnavailablePage from "./components/UnavailablePage";
+import Tests from "./components/Tests";
+import FileUploadButton from "./components/FileUploadButton";
 
 function App() {
     const mode = useSelector((state) => state.global.mode);
@@ -64,6 +60,7 @@ function App() {
                             <Route element={<Layout/>}>
                                 <Route exact path="/" element={<Navigate to="/login" replace/>}/>
                                 <Route path="/login" element={<LoginPage/>}/>
+                                <Route path="/unauthorized" element={<UnavailablePage/>}/>
                                 <Route element={<RequireAuth/>}>
                                     {/*<Route*/}
                                     {/*    path="/"*/}
@@ -87,18 +84,21 @@ function App() {
                                     <Route path="/teachers/teachers-rentals/:teacherId"
                                            element={<TeachersRentalsPage/>}/>
                                     <Route path="/edit/teachers-rental/:rentalId" element={<EditTeacherRentalPage/>}/>
-                                    <Route path="/daily" element={<TeacherListPage/>}/>
+                                    <Route path="/teachers" element={<TeacherListPage/>}/>
                                     <Route path='/breakdown' element={<AllRentals/>}/>
                                     <Route path='/book' element={<AddBook/>}/>
                                     <Route path='/edit-book/:bookId' element={<EditBookPage/>}/>
                                     <Route path='/bookspage' element={<BooksPage/>}/>
                                     <Route path='/add/student-rental/:studentId' element={<AddStudentBookRentalPage/>}/>
                                     <Route path='/add/teacher-rental/:teacherId' element={<AddTeacherBookRentalPage/>}/>
-                                    <Route path="/monthly" element={<BooksList/>}/>
-                                    <Route path="/lost-books" element={<LostBooks/>}/>
+                                    <Route path="/books" element={<BooksList/>}/>
+                                    <Route path="/lost books" element={<LostBooks/>}/>
+                                    <Route path="/Permissions" element={<FileUploadButton/>}/>
                                     <Route path="/notification" element={<Notification/>}/>
-                                    <Route path="/settings" element={<Settings/>}/>
-                                    <Route path="/admin" element={<ManageLibrarians/>}/>
+                                    <Route path="/perfomance" element={<Tests/>}/>
+                                    <Route path="/daily" element={<FileUploadButton/>}/>
+                                    <Route path="/settings" element={<RoleBasedRoute element={<Settings/>} roles={["admin"]} />}/>
+                                    <Route path="/admin" element={<RoleBasedRoute element={<ManageLibrarians />} roles={["admin"]} />}/>
                                     <Route path="/permissions/:name/:librarianId" element={<ManagePermissions/>}/>
                                 </Route>
                             </Route>

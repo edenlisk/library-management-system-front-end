@@ -31,17 +31,29 @@ import {
   FormHelperText,
   IconButton,
   InputAdornment,
-  useTheme
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
-import { LoginOutlined, Visibility, VisibilityOff } from "@mui/icons-material";
+import {
+  LoginOutlined,
+  Visibility,
+  VisibilityOff,
+  PersonAdd,
+  Email,
+  PointOfSale,
+  Traffic,
+} from "@mui/icons-material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
+import StatBox from "./StatBox";
 // import LoadingButton from '@mui/lab/LoadingButton';
 // import SaveIcon from '@mui/icons-material/Save';
 // import Stack from '@mui/material/Stack';
 
 // ACTION USED TO STORE YEAR
 import { setAcademicYear } from "../states/slice";
+// import MyResponsiveLine from "./Datachart";
+import { MyResponsivePie,MyResponsiveLine } from "./dashboard/Graphs";
 
 // const rows = [
 //   { id: 1, name: "John", age: 25, email: "john@example.com" },
@@ -115,7 +127,8 @@ const columns = [
 ];
 const Tests = () => {
   // FETCH ACADEMIC YEARS
-  const theme=useTheme();
+  const theme = useTheme();
+  const isNonMediumScreens = useMediaQuery("(min-width:1200px)");
   const { data: years, isSuccess: isDone } = useGetAcademicYearsQuery();
   console.log(years);
 
@@ -196,7 +209,7 @@ const Tests = () => {
     //   />
     // </div>
     <>
-      {loadtr ? (
+      {/* {loadtr ? (
         <Button
           variant="contained"
           size="small"
@@ -216,7 +229,7 @@ const Tests = () => {
 
       <Typography variant="h5">we are testing....</Typography>
       <Box height="500px" width="100%">
-        {/* BUTTON YTO OPEN MENU */}
+
         <Button
           id="gauge-button"
           aria-controls={open ? "user-menu" : undefined}
@@ -226,7 +239,7 @@ const Tests = () => {
         >
           Dashboard
         </Button>
-        {/* MENU LIST ITEM TO GO ON GAUGE */}
+ 
         <Menu
           id="user-menu"
           anchorEl={anchorEl}
@@ -260,11 +273,10 @@ const Tests = () => {
             label="Age"
             onChange={(event) => {
               setSelectedAcademicYear(event.target.value);
-              // dispatch(setAcademicYear(selectedAcademicYear))
-              // console.log(selectedAcademicYear)
+
             }}
           >
-            {/*<MenuItem value="2023-2024"><em>five</em></MenuItem>*/}
+
             <MenuItem selected value="2023-2024">
               2023-2024
             </MenuItem>
@@ -277,12 +289,7 @@ const Tests = () => {
         open={openModal}
         aria-labelledby="add-modal-title"
         aria-describedby="add-modal-description"
-        // sx={{
-        //   "& .MuiBackdrop-root-MuiModal-backdrop": {
-        //     backgroundColor: `red`,
-        //     opacity: "0.1px",
-        //   },
-        // }}
+
       >
         <Fade in={openModal}>
           <Box maxWidth={700} height="100%" margin="auto" padding={3}>
@@ -343,7 +350,7 @@ const Tests = () => {
                   }
                   label="Password"
                 />
-                {/* Form helper in helper text */}
+
                 <FormHelperText id="password">
                 </FormHelperText>
               </FormControl>
@@ -365,70 +372,77 @@ const Tests = () => {
             </Box>
           </Box>
         </Fade>
-      </Modal>
+      </Modal> */}
 
-          {/* <Box
-      mt="20px"
-      display="grid"
-      gridTemplateColumns="repeat(12, 1fr)"
-      gridAutoRows="160px"
-      gap="20px"
-      sx={{
-        "& > div": { gridColumn: isNonMediumScreens ? undefined : "span 12" },
-      }}
-    >
-      <StatBox
-        title="Total Customers"
-        // value={data && data.totalCustomers}
-        increase="+14%"
-        description="Since last month"
-        icon={
-          <Email
-            sx={{ color: theme.palette.secondary[300], fontSize: "26px" }}
-          />
-        }
-      />
-      <StatBox
-        title="Sales Today"
-        // value={data && data.todayStats.totalSales}
-        increase="+21%"
-        description="Since last month"
-        icon={
-          <PointOfSale
-            sx={{ color: theme.palette.secondary[300], fontSize: "26px" }}
-          />
-        }
-      />
       <Box
+        mt="20px"
+        display="grid"
+        gridTemplateColumns="repeat(12, 1fr)"
+        gridAutoRows="160px"
+        gap="20px"
+        p="0px 17px"
+        sx={{
+          "& > div": { gridColumn: isNonMediumScreens ? undefined : "span 12" },
+        }}
+      >
+        
+        <StatBox
+          title="Total Customers"
+          // value={data && data.totalCustomers}
+          increase="+14%"
+          icon={
+            <Email
+              sx={{ color: theme.palette.secondary[300], fontSize: "26px" }}
+            />
+          }
+        />
+        <StatBox
+          title="Sales Today"
+          // value={data && data.todayStats.totalSales}
+          increase="+21%"
+
+          icon={
+            <PointOfSale
+              sx={{ color: theme.palette.secondary[300], fontSize: "26px" }}
+            />
+          }
+        />
+                <Box
         gridColumn="span 8"
         gridRow="span 2"
         backgroundColor={theme.palette.background.alt}
-        p="1rem"
+        p="16px"
         borderRadius="0.55rem"
-      ></Box>
-      <StatBox
-        title="Monthly Sales"
-        // value={data && data.thisMonthStats.totalSales}
-        increase="+5%"
-        description="Since last month"
-        icon={
-          <PersonAdd
-            sx={{ color: theme.palette.secondary[300], fontSize: "26px" }}
-          />
-        }
-      />
-      <StatBox
-        title="Yearly Sales"
-        // value={data && data.yearlySalesTotal}
-        increase="+43%"
-        description="Since last month"
-        icon={
-          <Traffic
-            sx={{ color: theme.palette.secondary[300], fontSize: "26px" }}
-          />
-        }
-      />
-    </Box> */}
+      ><MyResponsivePie /> </Box>
+        <StatBox
+          title="Monthly Sales"
+          // value={data && data.thisMonthStats.totalSales}
+          increase="+5%"
+          icon={
+            <PersonAdd
+              sx={{ color: theme.palette.secondary[300], fontSize: "26px" }}
+            />
+          }
+        />
+        <StatBox
+          title="Yearly Sales"
+          // value={data && data.yearlySalesTotal}
+          increase="+43%"
+          icon={
+            <Traffic
+              sx={{ color: theme.palette.secondary[300], fontSize: "26px" }}
+            />
+          }
+        />
+                <Box
+          gridColumn="span 12"
+          gridRow="span 2"
+          backgroundColor={theme.palette.background.alt}
+          p="16px"
+          borderRadius="0.55rem"
+        ><MyResponsiveLine /> </Box>
+
+      </Box>
     </>
   );
 };

@@ -11,7 +11,7 @@ import {
   Box,
   CircularProgress
 } from "@mui/material";
-import { LoginOutlined } from "@mui/icons-material";
+import { LoginOutlined,ChevronLeftOutlined } from "@mui/icons-material";
 import { useUpdateStudentMutation,useGetOneStudentQuery } from "../states/apiSlice";
 import {toast} from "react-toastify";
 
@@ -68,6 +68,7 @@ const EditStudentPage = () => {
 
   return (
     <Box height="100%">
+      <ChevronLeftOutlined onClick={()=>navigate(-1)}/>
       <Box
         component="form"
         onSubmit={handleSubmit}

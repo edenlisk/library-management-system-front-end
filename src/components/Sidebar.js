@@ -38,7 +38,7 @@ import {
     ChevronLeftOutlined,
     Inventory2Outlined,
     WorkHistoryOutlined,
-    BookOutlined, Security,MenuBookOutlined
+    BookOutlined, Security,MenuBookOutlined,CancelOutlined
 } from "@mui/icons-material";
 import {useEffect, useState} from "react";
 import {useLocation, useNavigate, Navigate} from "react-router-dom";
@@ -68,13 +68,13 @@ const navItems = [
         icon: <MenuBookOutlined/>,
     },
     {
-        text: "History",
-        icon: <WorkHistoryOutlined/>,
+        text: "Lost books",
+        icon: <CancelOutlined/>,
     },
-    {
-        text: "Transactions ",
-        icon: <PublicOffOutlined/>,
-    },
+    // {
+    //     text: "Transactions ",
+    //     icon: <PublicOffOutlined/>,
+    // },
     {
         text: "Statistics",
         icon: null,
@@ -108,8 +108,8 @@ const navItems = [
         icon: <TrendingUpOutlined/>,
     },
     {
-        text: "Permissions",
-        icon: <Security/>
+        text: "settings",
+        icon: <SettingsOutlined/>
     }
 ];
 

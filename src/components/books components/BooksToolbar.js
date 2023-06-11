@@ -4,7 +4,7 @@ import FlexBetween from "../FlexBetween";
 import FileUploadBooks from "./FileUploadBooks";
 import GenerateClassReport from "../GenerateClassReport";
 import Button from "@mui/material/Button";
-import { Add } from "@mui/icons-material";
+import {Add} from "@mui/icons-material";
 import AddBook from "./AddBook";
 
 const BooksToolbar = () => {

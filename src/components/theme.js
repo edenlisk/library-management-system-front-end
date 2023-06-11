@@ -17,12 +17,13 @@ export const tokensDark = {
     },
     primary: {
       // blue
-      100: "#d3d4de",
+      100: "#e0e0e0",
       200: "#a6a9be",
       300: "#7a7f9d",
       400: "#4d547d",
       500: "#21295c",
       600: "#191F45", // manually adjusted
+      // 600: "#073445", // manually adjusted
       700: "#141937",
       800: "#0d1025",
       900: "#070812",
@@ -149,7 +150,23 @@ export const tokensDark = {
               //   borderBottom:0
               // }
           }
-        }
+        },
+        // MuiButton: {
+        //   styleOverrides: {
+        //     contained: {
+        //       backgroundColor: '#ffd166', // Replace with your desired background color
+        //       '&:hover': {
+        //         backgroundColor: '#cca752', // Replace with your desired hover color
+        //       },
+        //       '&:active': {
+        //         backgroundColor: '#997d3d', // Replace with your desired active color
+        //       },
+        //       '&:disabled': {
+        //         backgroundColor: '#665429', // Replace with your desired disabled background color
+        //       },
+        //     },
+        //   },
+        // },
       }
     };
   };

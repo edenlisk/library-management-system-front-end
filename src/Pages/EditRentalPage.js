@@ -19,7 +19,7 @@ import {
 } from "@mui/material";
 import {DatePicker} from "@mui/x-date-pickers";
 import dayjs from "dayjs";
-import {LoginOutlined} from "@mui/icons-material";
+import {LoginOutlined,ChevronLeftOutlined} from "@mui/icons-material";
 import {useUpdateRentalMutation, useGetOneRentalQuery} from "../states/apiSlice";
 import {toast} from "react-toastify";
 
@@ -89,6 +89,7 @@ const EditRentalPage = () => {
 
     return (
         <Box height="100%">
+            <ChevronLeftOutlined onClick={()=>navigate(-1)}/>
             <Box
                 component="form"
                 onSubmit={handleSubmit}

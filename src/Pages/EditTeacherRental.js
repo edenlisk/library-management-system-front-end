@@ -19,7 +19,7 @@ import {
   CircularProgress
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
-import { LoginOutlined } from "@mui/icons-material";
+import { LoginOutlined,ChevronLeftOutlined } from "@mui/icons-material";
 import { useUpdateTeacherRentalMutation,useGetSingleTeacherRentalQuery } from "../states/apiSlice";
 import {toast} from "react-toastify";
 
@@ -112,6 +112,7 @@ const EditTeacherRentalPage = () => {
 
   return (
     <Box height="100%">
+      <ChevronLeftOutlined onClick={()=>navigate(-1)}/>
       <Box
         component="form"
         onSubmit={handleSubmit}
