@@ -42,7 +42,7 @@ export default function AlertDialogSlide({ open, handleClose, bookId }) {
             width: "60%",
             maxWidth: "none",
             height: "90%",
-            backgroundColor: theme.palette.primary[800],
+            backgroundColor:theme.palette.primary[900],
             fontSize: 26,
           },
         }}

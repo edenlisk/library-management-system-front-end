@@ -251,12 +251,12 @@ const Sidebar = ({
                                                 sx={{
                                                     backgroundColor:
                                                         active === lcText
-                                                            ? theme.palette.secondary[300]
+                                                            ? theme.palette.grey[500]
                                                             : "transparent",
                                                     color:
                                                         active === lcText
                                                             ? theme.palette.primary[600]
-                                                            : theme.palette.secondary[100],
+                                                            : theme.palette.accordion.light,
                                                 }}
                                             >
                                                 <ListItemIcon
@@ -265,7 +265,7 @@ const Sidebar = ({
                                                         color:
                                                             active === lcText
                                                                 ? theme.palette.primary[600]
-                                                                : theme.palette.secondary[200],
+                                                                : theme.palette.accordion.main,
                                                     }}
                                                 >
                                                     {icon}
@@ -304,13 +304,13 @@ const Sidebar = ({
                                         <Typography
                                             fontWeight="bold"
                                             fontSize="0.8rem"
-                                            sx={{color: theme.palette.secondary[200]}}
+                                            sx={{color: theme.palette.accordion.main}}
                                         >
                                             {'librarian'}
                                         </Typography>
                                     </Box>
                                     <SettingsOutlined
-                                        sx={{color: theme.palette.secondary[300], fontSize: "25px"}}
+                                        sx={{color: theme.palette.accordion.main, fontSize: "25px"}}
                                         id="gauge-button"
                                         aria-controls={open ? 'user-menu' : undefined}
                                         aria-haspopup="false"

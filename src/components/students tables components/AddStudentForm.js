@@ -96,7 +96,7 @@ const AddStudentForm = ({newStudent,handleChange,onSubmit,open,handleOpen,handle
                   variant="contained"
                   size="medium"
                   type="submit"
-                  sx={{ mb: 2, width: "90%", alignSelf: "start" }}
+                  sx={{ mb: 2, width: "90%", alignSelf: "start" ,backgroundColor:theme.palette.buttons.main}}
                 >
                   Add student
                 </Button>}
@@ -107,7 +107,7 @@ const AddStudentForm = ({newStudent,handleChange,onSubmit,open,handleOpen,handle
                   size="medium"
                   type="button"
                   onClick={handleClose}
-                  sx={{ mb: 2, width: "90%", alignSelf: "start" }}
+                  sx={{ mb: 2, width: "90%", alignSelf: "start",backgroundColor:theme.palette.buttons.main }}
                 >
                   cancel
                 </Button>

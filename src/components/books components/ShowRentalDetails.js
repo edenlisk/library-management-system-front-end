@@ -30,7 +30,7 @@ const ShowRentalDetails = ({open, handleClose, rental}) => {
                         width: '70%',
                         maxWidth: 'none',
                         height: '90%',
-                        backgroundColor: theme.palette.primary[800],
+                        backgroundColor: theme.palette.primary[900],
                         fontSize: 24
                     }
                 }}

@@ -1,10 +1,6 @@
 import React, { useState,useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { TextField, Typography } from "@mui/material";
-import {
-  Button,
-  Box,
-} from "@mui/material";
+import { TextField, Typography, Button,Box,useTheme } from "@mui/material";
 import { LoginOutlined,ChevronLeftOutlined} from "@mui/icons-material";
 import { useUpdateTeacherMutation,useGetTeacherQuery} from "../states/apiSlice";
 import {toast} from "react-toastify";
@@ -14,6 +10,7 @@ import {toast} from "react-toastify";
 const EditTeacherPage = () => {
   const { teacherId } = useParams();
   const navigate=useNavigate();
+  const theme=useTheme();
   const{data,isLoading,isSuccess}=useGetTeacherQuery(teacherId);
  
   const [user, setUser] = useState({ name: "" });
@@ -102,7 +99,7 @@ const EditTeacherPage = () => {
           variant="contained"
           size="medium"
           type="submit"
-          sx={{ mb: 2, width: "100px", alignSelf: "start" }}
+          sx={{ mb: 2, width: "100px", alignSelf: "start",backgroundColor:theme.palette.buttons.main }}
           endIcon={<LoginOutlined />}
         >
           save

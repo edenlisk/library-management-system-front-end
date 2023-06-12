@@ -9,7 +9,8 @@ import {
     Checkbox,
     Stack,
     CircularProgress,
-    IconButton
+    IconButton,
+    useTheme
 } from "@mui/material";
 import {DatePicker} from "@mui/x-date-pickers";
 import dayjs from "dayjs";
@@ -20,6 +21,7 @@ import {toast} from "react-toastify";
 const EditRentalPage = () => {
     const {rentalId} = useParams();
     const navigate = useNavigate();
+    const theme=useTheme();
 
     const {data, isLoading, isSuccess} = useGetOneRentalQuery(rentalId);
     const [rental, setRental] = useState({nameOfBook: "", dueDate: null, active: false, returned: false});
@@ -153,7 +155,7 @@ const EditRentalPage = () => {
                     variant="contained"
                     size="medium"
                     type="submit"
-                    sx={{mb: 2, width: "100px", alignSelf: "start"}}
+                    sx={{mb: 2, width: "100px", alignSelf: "start",backgroundColor:theme.palette.buttons.main}}
                    
                     disabled={rental.returned}
                 >

@@ -1,11 +1,5 @@
 import React, { useState } from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-// import IconButton from '@mui/material/IconButton';
-// import Stack from "@mui/material/Stack";
-// import { Box } from '@mui/material';
-// import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
-// import ModeEditOutlinedIcon from "@mui/icons-material/ModeEditOutlined";
-// import Button from "@mui/material/Button";
 import { Box, Typography, useTheme, Modal, Fade, IconButton } from "@mui/material";
 // import Status from "../Status";
 import { Link } from "react-router-dom";
@@ -54,54 +48,7 @@ const ClassNames = ({
     },
     { field: "numberOfStudents", headerName: "Number of students", flex: 0.3 },
     { field: "academicYear", headerName: "Academic Year", flex: 0.3 },
-    // {
-    //   field: "actions",
-    //   headerName: "Actions",
-    //   flex: 0.5,
-    //   renderCell: (params) => {
-    //     // TO DELETE LATER
-    //     const rowId=params.row.id;
-    //     return (
-    //       <Stack direction="row" spacing={1}>
-    //         {/* icons only */}
-    //         {/* <IconButton aria-label="delete">
-    //   <DeleteOutlinedIcon sx={{fontSize:20}} />
-    // </IconButton>
-    // <IconButton  aria-label="edit"
-    //  onClick={() => {
-    //   console.log(`Button clicked for row ${params.id}`);
-    // }}>
-    //   <ModeEditOutlinedIcon sx={{fontSize:20}} />
-    // </IconButton> */}
-    //         {/* buttons with icons and text */}
-    //         <Button
-    //           variant="contained"
-    //           size="small"
-    //           startIcon={<DeleteOutlinedIcon sx={{ fontSize: 15 }} />}
-    //           onClick={() => handleClickOpenDeleteModal(params.id)}
-    //         >
-    //           Delete
-    //         </Button>
-    //         <Link to={`/edit/${rowId}`}>
-    //           <Button
-    //             variant="contained"
-    //             size="small"
-    //             startIcon={<ModeEditOutlinedIcon sx={{ fontSize: 15 }} />}
-    //           >
-    //             Edit
-    //           </Button>
-    //           {/* TO DELETE LATER */}
-    //         </Link>
-    //       </Stack>
-    //     );
-    //   },
-    // },
-    // {
-    //   field: "status",
-    //   headerName: "Status",
-    //   flex:0.5,
-    //   renderCell: (params) => <Status />,
-    // },
+
     {
       field: "details",
       headerName: "Details",
@@ -171,13 +118,6 @@ const ClassNames = ({
           disableDensitySelector
           autoHeight
           components={components}
-          // slots={{ toolbar: GridToolbar }}
-          // slotProps={{
-          //   toolbar: {
-          //     showQuickFilter: true,
-          //     quickFilterProps: { debounceMs: 500 },
-          //   },
-          // }}
           initialState={{
             ...rows.initialState,
             pagination: { paginationModel: { pageSize: 8 } },

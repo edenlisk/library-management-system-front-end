@@ -39,7 +39,7 @@ export const tokensDark = {
       600: "#cca752",
       700: "#997d3d",
       800: "#665429",
-      900: "#332a14",
+      900: "#332a14", 
     },
   };
   
@@ -88,7 +88,14 @@ export const tokensDark = {
               },
               accordion: {
                 ...tokensDark.primary,
+                main: tokensDark.primary[100],
+                light: tokensDark.secondary[100],
+           
+              },
+              buttons: {
+                ...tokensDark.primary,
                 main: tokensDark.primary[400],
+                light: tokensDark.primary[200],
            
               },
             }
@@ -112,6 +119,18 @@ export const tokensDark = {
                 ...tokensLight.primary,
                 default: tokensDark.grey[0],
                 alt: tokensDark.grey[100],
+              },
+              accordion: {
+                ...tokensLight.primary,
+                main: tokensDark.primary[500],
+                light: tokensDark.primary[700],
+           
+              },
+              buttons: {
+                ...tokensLight.primary,
+                main: tokensDark.grey[200],
+                light: tokensDark.primary[500],
+           
               },
             }),
       },
@@ -156,6 +175,26 @@ export const tokensDark = {
               //   borderBottom:0
               // }
           }
+        },
+        MuiCssBaseline: {
+          styleOverrides: {
+            body: {
+              '&::-webkit-scrollbar':{
+                width: '7.2px',
+              },
+              
+              '&::-webkit-scrollbar-track':{
+                background: '#7a7f9d',
+              },
+              '&::-webkit-scrollbar-thumb':{
+                background: '#21295c',
+                borderRadius: '4px',
+              },
+              '&::-webkit-scrollbar-track:hover':{
+                background:'#21295c' ,
+              },
+            },
+          },
         },
         // MuiButton: {
         //   styleOverrides: {

@@ -9,7 +9,7 @@ import {
   FormControlLabel,
   Checkbox,
   CircularProgress,
-  IconButton
+  IconButton,useTheme
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import { ChevronLeftOutlined, DisabledByDefaultRounded, CheckBoxRounded } from "@mui/icons-material";
@@ -19,6 +19,7 @@ import { toast } from "react-toastify";
 const EditTeacherRentalPage = () => {
   const { rentalId } = useParams();
   const navigate = useNavigate();
+  const theme=useTheme();
 
   const { data, isLoading, isSuccess, isError, error } = useGetSingleTeacherRentalQuery(rentalId);
 
@@ -168,7 +169,7 @@ const EditTeacherRentalPage = () => {
           variant="contained"
           size="medium"
           type="submit"
-          sx={{ mb: 2, width: "100px", alignSelf: "start" }}
+          sx={{ mb: 2, width: "100px", alignSelf: "start",backgroundColor:theme.palette.buttons.main }}
           disabled={rental.returned}
         >
           save

@@ -50,7 +50,7 @@ export default function ReceiveBook ({open, handleClose, book}) {
                         width: '70%',
                         maxWidth: 'none',
                         height: '90%',
-                        backgroundColor: theme.palette.primary[800],
+                        backgroundColor:theme.palette.primary[900],
                         fontSize: 24
                     }
                 }}

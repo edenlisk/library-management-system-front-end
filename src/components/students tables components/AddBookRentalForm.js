@@ -139,7 +139,7 @@ const RentalForm = ({ rental,format, handleChange, onSubmit,handleStartDateChang
                   variant="contained"
                   size="medium"
                   type="submit"
-                  sx={{ alignSelf: "start", width: "90%" }}
+                  sx={{ alignSelf: "start", width: "90%" ,backgroundColor:theme.palette.buttons.main}}
                 >
                   Add Rental
                 </Button>
@@ -150,7 +150,7 @@ const RentalForm = ({ rental,format, handleChange, onSubmit,handleStartDateChang
                   size="medium"
                   type="button"
                   onClick={handleModalClose}
-                  sx={{ alignSelf: "start" , width: "90%"}}
+                  sx={{ alignSelf: "start" , width: "90%",backgroundColor:theme.palette.buttons.main}}
                 >
                   cancel
                 </Button>

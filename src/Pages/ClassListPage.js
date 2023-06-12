@@ -329,7 +329,7 @@ const ClassListPage = () => {
                     variant="contained"
                     size="medium"
                     type="button"
-                    sx={{ mb: 2, width: "200px", alignSelf: "start" }}
+                    sx={{ mb: 2, width: "200px", alignSelf: "start", backgroundColor:theme.palette.buttons.main  }}
                     onClick={handleRowDelete}
                   >
                     delete
@@ -339,7 +339,7 @@ const ClassListPage = () => {
                   variant="contained"
                   size="medium"
                   type="button"
-                  sx={{ mb: 2, width: "200px", alignSelf: "start" }}
+                  sx={{ mb: 2, width: "200px", alignSelf: "start", backgroundColor:theme.palette.buttons.main  }}
                   onClick={handleCloseDeleteModal}
                 >
                   cancel

@@ -524,6 +524,7 @@ const AddTeacherBookRentalPage = () => {
                 </Button>
               ) : (
                 <Button
+                sx={{backgroundColor:theme.palette.buttons.main}}
                   variant="contained"
                   type="submit"
                   onClick={handleSubmit}
@@ -532,6 +533,7 @@ const AddTeacherBookRentalPage = () => {
                 </Button>
               )}
               <Button
+              sx={{backgroundColor:theme.palette.buttons.main}}
                 variant="contained"
                 type="button"
                 onClick={() => navigate(-1)}

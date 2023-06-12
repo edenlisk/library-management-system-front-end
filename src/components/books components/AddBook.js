@@ -282,11 +282,14 @@ const AddBook = ({ isOpen, setIsOpen }) => {
                       Adding
                     </Button>
                   ) : (
-                    <Button variant="contained" type="submit">
+                    <Button 
+                    sx={{backgroundColor:theme.palette.buttons.main}}
+                    variant="contained" type="submit">
                       Add book
                     </Button>
                   )}
                   <Button
+                  sx={{backgroundColor:theme.palette.buttons.main}}
                     variant="contained"
                     type="button"
                     onClick={handleModalClose}

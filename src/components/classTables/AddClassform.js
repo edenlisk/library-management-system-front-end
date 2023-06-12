@@ -105,7 +105,7 @@ const AddClassForm = ({ newClass, setNewClass, handleChange, onSubmit,isSending,
                   size="medium"
                   type="submit"
 
-                  sx={{ mb: 2, width: "90%", alignSelf: "start" }}
+                  sx={{ mb: 2, width: "90%", alignSelf: "start",backgroundColor:theme.palette.buttons.main }}
                 >
                   Add class
                 </Button>}
@@ -116,7 +116,7 @@ const AddClassForm = ({ newClass, setNewClass, handleChange, onSubmit,isSending,
                   size="medium"
                   type="button"
                   onClick={handleClose}
-                  sx={{ mb: 2, width: "90%", alignSelf: "start" }}
+                  sx={{ mb: 2, width: "90%", alignSelf: "start" ,backgroundColor:theme.palette.buttons.main}}
                 >
                   cancel
                 </Button>

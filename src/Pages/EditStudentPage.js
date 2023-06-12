@@ -1,6 +1,6 @@
 import React, { useState,useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { TextField, Typography } from "@mui/material";
+import { TextField, Typography,useTheme } from "@mui/material";
 import {
   Button,
   Box,
@@ -14,6 +14,7 @@ import {toast} from "react-toastify";
 const EditStudentPage = () => {
   const { studentId } = useParams();
   const navigate=useNavigate();
+  const theme=useTheme();
   const{data,isLoading,isSuccess}=useGetOneStudentQuery(studentId);
  
   const [user, setUser] = useState({ name: "", fine: 0 });
@@ -119,7 +120,7 @@ const EditStudentPage = () => {
           variant="contained"
           size="medium"
           type="submit"
-          sx={{ mb: 2, width: "100px", alignSelf: "start" }}
+          sx={{ mb: 2, width: "100px", alignSelf: "start",backgroundColor:theme.palette.buttons.main }}
         >
           Update
         </Button>}
