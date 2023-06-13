@@ -15,6 +15,7 @@ import {
     Add,
     CloseOutlined
 } from "@mui/icons-material";
+import Skeleton from '@mui/material/Skeleton';
 import { Box, Typography, IconButton, Stack, Tooltip, Button, Fade, Modal, CircularProgress } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { DataGrid } from "@mui/x-data-grid";
@@ -74,7 +75,7 @@ const TeachersRentalsPage = () => {
 
     const { data, isLoading, isSuccess, isError, error } = useGetTeacherRentalsQuery(teacherId);
 
-    const { data: studentInfo, isSuccess: isDone } = useGetTeacherQuery(teacherId);
+    const { data: studentInfo, isSuccess: isDone , isLoading:isFetching} = useGetTeacherQuery(teacherId);
 
     let teacherName = "";
     if (isDone) {
@@ -200,7 +201,9 @@ const TeachersRentalsPage = () => {
                 justifyContent="space-between"
                 alignItems="center"
             >
-                <Typography variant="h4">{teacherName}:{academicYear}</Typography>
+               <Typography variant="h4">
+          {isFetching?<Skeleton animation="wave"  sx={{ width: 400,height:40 }} />:(`${teacherName}:${academicYear}`)}
+        </Typography>
 
                 <Button size="small" sx={{
                     display: "flex", border: "solid 1.5px", textTransform: "none",

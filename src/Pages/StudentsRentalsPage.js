@@ -26,6 +26,7 @@ import {
   Modal,
   CircularProgress,
 } from "@mui/material";
+import Skeleton from '@mui/material/Skeleton';
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { DataGrid } from "@mui/x-data-grid";
 import Customtoolbar from "../components/Customtoolbar";
@@ -76,7 +77,7 @@ const StudentsRentalsPage = () => {
     studentId,
   });
 
-  const { data: studentInfo, isSuccess: isDone } =
+  const { data: studentInfo, isSuccess: isDone, isLoading:isFetching } =
     useGetOneStudentQuery(studentId);
 
 
@@ -239,9 +240,8 @@ const StudentsRentalsPage = () => {
         alignItems="center"
       >
         <Typography variant="h4">
-          {studentName}:{academicYear}
+          {isFetching?<Skeleton animation="wave"  sx={{ width: 400,height:40 }} />:(`${studentName}:${academicYear}`)}
         </Typography>
-
         <Button
           size="small"
           sx={{

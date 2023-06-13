@@ -250,15 +250,15 @@ const Tests = () => {
     id:8
   }];
 
-  const BookNotify=({BKname,total,remaining,id})=>{
+  // const BookNotify=({BKname,total,remaining,id})=>{
 
-    return(
-      <Box padding={4.5} display="flex" gap={0.5} alignItems="center">
-      <WarningRounded color="warning" sx={{ fontSize: 26 }}/>
-      <Typography variant="h5">Book:<span style={{fontWeight:"bold"}}> {BKname}</span> is at it's limit <span style={{color:"red"}}>{`(${remaining} of ${total})`}</span> is remaining.</Typography>
-    </Box>
-    )
-  }
+  //   return(
+  //     <Box padding={4.5} display="flex" gap={0.5} alignItems="center">
+  //     <WarningRounded color="warning" sx={{ fontSize: 26 }}/>
+  //     <Typography variant="h5">Book:<span style={{fontWeight:"bold"}}> {BKname}</span> is at it's limit <span style={{color:"red"}}>{`(${remaining} of ${total})`}</span> is remaining.</Typography>
+  //   </Box>
+  //   )
+  // }
   return (
     // <div style={{ height: 400, width: "100%" }}>
     //   <DataGrid
@@ -436,7 +436,7 @@ const Tests = () => {
         </Fade>
       </Modal> */}
 
-      {/* <Box
+      <Box
         mt="20px"
         display="grid"
         gridTemplateColumns="repeat(12, 1fr)"
@@ -504,8 +504,8 @@ const Tests = () => {
           borderRadius="0.55rem"
         ><MyResponsiveLine /> </Box>
 
-      </Box> */}
-<Box padding={3.5}>
+      </Box>
+{/* <Box padding={3.5}>
       <Accordion sx={{backgroundColor:theme.palette.background.default,'& .MuiAccordionDetails-root': { padding: 0 },'& .MuiBox-root': { padding:1 }}}>
       <AccordionSummary
           expandIcon={<ExpandMore />}
@@ -520,7 +520,7 @@ const Tests = () => {
 
         </AccordionDetails>
       </Accordion>
-      </Box>
+      </Box> */}
       
     </>
   );
