@@ -104,7 +104,7 @@ const Settings = () => {
                         label="Rental limit percentage"
                         type="number"
                         variant="standard"
-                        helperText="System will limit rentals when available copies of books falls under this percentage"
+                        helperText="System will limit rentals when available copies of books falls under this percentage of total books"
                         value={settings.limitPercentage}
                         onChange={handleChange}
                     />
