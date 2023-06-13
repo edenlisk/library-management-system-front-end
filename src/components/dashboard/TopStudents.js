@@ -17,7 +17,7 @@ const TopStudents = () => {
 
     return (
         <div>
-            <div style={{display: 'flex', justifyContent: 'center', margin: '1rem 0'}}>
+            <div style={{display: 'flex', justifyContent: 'center', margin: ''}}>
                 <Typography variant="h3">Top Students</Typography>
             </div>
             <TableContainer>

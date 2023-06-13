@@ -13,7 +13,7 @@ const LastCreated = () => {
     }
 
     return (
-        <div style={{margin: '3rem 0'}}>
+        <div style={{margin: ''}}>
             <div style={{display: 'flex', justifyContent: 'center', margin: '1rem 0'}}>
                 <Typography variant="h3">Last 10 Created Rentals</Typography>
             </div>

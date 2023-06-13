@@ -118,7 +118,7 @@ const Dashboard = () => {
   return (
     <>
       <Box p="16px 16px">
-        <FlexBetween>
+       
           <Header title="DASHBOARD" subtitle="Welcome to Lycee De Kigali Library Management System" />
           {/*<Box>*/}
           {/*  <Button*/}
@@ -134,7 +134,7 @@ const Dashboard = () => {
           {/*    Download Reports*/}
           {/*  </Button>*/}
           {/*</Box>*/}
-        </FlexBetween>
+        
         <Box>
           <DashboardStats />
         </Box>

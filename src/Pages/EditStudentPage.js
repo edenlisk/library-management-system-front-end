@@ -4,7 +4,8 @@ import { TextField, Typography,useTheme } from "@mui/material";
 import {
   Button,
   Box,
-  CircularProgress
+  CircularProgress,
+  Skeleton
 } from "@mui/material";
 import {ChevronLeftOutlined } from "@mui/icons-material";
 import { useUpdateStudentMutation,useGetOneStudentQuery } from "../states/apiSlice";
@@ -81,7 +82,7 @@ const EditStudentPage = () => {
         <Typography variant="h3" sx={{ textAlign: "center", mb: 3 }}>
           Edit Student Info
         </Typography>
-        <TextField
+        {isLoading?<Skeleton animation="wave"  sx={{ width:"100%",height:30 }}/>:<TextField
           required
           fullWidth
           value={user.name || "" }
@@ -93,8 +94,8 @@ const EditStudentPage = () => {
           onChange={handleChange}
           sx={{ mb: 2 }}
 
-        />
-        <TextField
+        />}
+       { isLoading?<Skeleton animation="wave"  sx={{ width:"100%",height:30 }}/>:<TextField
           fullWidth
           value={user.fine || "" }
           name="fine"
@@ -105,7 +106,7 @@ const EditStudentPage = () => {
           onChange={handleChange}
           sx={{ mb: 2 }}
 
-        />
+        />}
 
        {isSending? <Button
           variant="contained"
