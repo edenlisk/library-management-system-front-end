@@ -70,6 +70,7 @@ const FileUploadStudents = ({ classId }) => {
         type="file"
         ref={fileStudentsInputRef}
         style={{ display: 'none' }}
+        accept=".csv, text/csv"
         onChange={handleFileChange}
         onClick={() =>
           firstClick ? two() : one()}

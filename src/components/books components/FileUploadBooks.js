@@ -69,6 +69,7 @@ const FileUploadBooks = () => {
           type="file"
           ref={fileBooksInputRef}
           style={{ display: 'none' }}
+          accept=".csv, text/csv"
           onChange={handleFileChange}
           onClick={() =>
             firstClick ? two() : one()}

@@ -60,7 +60,7 @@ function App() {
                         />
                         <Routes>
                             <Route element={<Layout/>}>
-                                <Route exact path="/" element={<Navigate to="/login" replace/>}/>
+                                <Route path="/" element={<Navigate to="/login" replace/>}/>
                                 <Route path="/login" element={<LoginPage/>}/>
                                 <Route path="/unauthorized" element={<UnavailablePage/>}/>
                                 <Route element={<RequireAuth/>}>
