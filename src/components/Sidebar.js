@@ -75,10 +75,10 @@ const navItems = [
         text: "Issued-Books",
         icon: <FactCheck/>
     },
-    {
-        text: "Transactions",
-        icon: <PublicOffOutlined/>,
-    },
+    // {
+    //     text: "Transactions",
+    //     icon: <PublicOffOutlined/>,
+    // },
     // {
     //     text: "Statistics",
     //     icon: null,
@@ -107,10 +107,10 @@ const navItems = [
         text: "Admin",
         icon: <AdminPanelSettingsOutlined/>,
     },
-    {
-        text: "Perfomance",
-        icon: <TrendingUpOutlined/>,
-    },
+    // {
+    //     text: "Perfomance",
+    //     icon: <TrendingUpOutlined/>,
+    // },
     {
         text: "settings",
         icon: <SettingsOutlined/>
