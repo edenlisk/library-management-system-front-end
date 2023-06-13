@@ -72,6 +72,7 @@ const FileUploadClasses = ({ academicYear }) => {
         type="file"
         ref={fileClassesInputRef}
         style={{ display: 'none' }}
+        accept=".csv, text/csv"
         onChange={handleFileChange}
         onClick={() =>
           firstClick ? two() : one()}
