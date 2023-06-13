@@ -30,7 +30,7 @@ const BooksCard = ({bookName,author,category,language,academicLevel,numberOfBook
       <CardContent>
         <Typography
           sx={{ fontSize: 14 }}
-          color={theme.palette.secondary[700]}
+          color={theme.palette.bookText.light}
           gutterBottom
         >
           {category}
@@ -38,7 +38,7 @@ const BooksCard = ({bookName,author,category,language,academicLevel,numberOfBook
         <Typography variant="h5" component="div">
           {bookName}
         </Typography>
-        <Typography sx={{ mb: "0.5rem" }} color={theme.palette.secondary[400]}>
+        <Typography sx={{ mb: "0.5rem" }} color={theme.palette.bookText.main}>
           {author}
         </Typography>
 

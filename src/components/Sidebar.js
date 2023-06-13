@@ -204,9 +204,9 @@ const Sidebar = ({
                         anchor="left"
                         sx={{
                             width: drawerWidth,
-                            "&.MuiDrawer-paper": {
+                            "& .MuiDrawer-paper": {
                                 color: theme.palette.secondary[200],
-                                backgroundcolor: theme.palette.background.alt,
+                                backgroundColor: theme.palette.background.alt,
                                 boxSizing: "border-box",
                                 borderWidth: isNonMobile ? 0 : "2px",
                                 width: drawerWidth,
@@ -215,9 +215,6 @@ const Sidebar = ({
                     >
                         <Box
                             width="100%"
-                            sx={{
-                                backgroundColor: theme.palette.background.alt,
-                            }}
                         >
                             <Box m="1.5rem 2rem 2rem 3rem">
                                 <FlexBetween color={theme.palette.secondary.main}>

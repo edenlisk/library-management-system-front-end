@@ -41,6 +41,20 @@ export const tokensDark = {
       800: "#665429",
       900: "#332a14", 
     },
+    deepOak: {
+      50: "#fbf9eb",
+      100: "#f7f0ca",
+      200: "#f1df97",
+      300: "#e8c85c",
+      400: "#e0af2f",
+      500: "#d09922",
+      600: "#b3771b",
+      700: "#8f5619",
+      800: "#77451c",
+      900: "#663b1d",
+      950: "#40200e",
+  },
+  
   };
   
   // function that reverses the color palette
@@ -98,6 +112,18 @@ export const tokensDark = {
                 light: tokensDark.primary[200],
            
               },
+              buttons: {
+                ...tokensDark.primary,
+                main: tokensDark.primary[400],
+                light: tokensDark.primary[200],
+           
+              },
+              bookText: {
+                ...tokensDark.secondary,
+                main: tokensDark.secondary[400],
+                light: tokensDark.secondary[700],
+           
+              },
             }
           : {
               // palette values for light mode
@@ -130,6 +156,12 @@ export const tokensDark = {
                 ...tokensLight.primary,
                 main: tokensDark.grey[200],
                 light: tokensDark.primary[500],
+           
+              },
+              bookText: {
+                ...tokensLight.deepOak,
+                main: tokensDark.deepOak[600],
+                light: tokensDark.deepOak[700],
            
               },
             }),
