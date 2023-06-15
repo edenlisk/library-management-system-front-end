@@ -75,18 +75,18 @@ const navItems = [
         text: "Issued-Books",
         icon: <FactCheck/>
     },
-    // {
-    //     text: "Transactions",
-    //     icon: <PublicOffOutlined/>,
-    // },
+    {
+        text: "Transactions",
+        icon: <PublicOffOutlined/>,
+    },
     // {
     //     text: "Statistics",
     //     icon: null,
     // },
-    // {
-    //     text: "Overview",
-    //     icon: <PointOfSaleOutlined/>,
-    // },
+    {
+        text: "Overview",
+        icon: <PointOfSaleOutlined/>,
+    },
     // {
     //     text: "Daily",
     //     icon: <TodayOutlined/>,
