@@ -5,11 +5,19 @@ import { LoginOutlined,Visibility,VisibilityOff } from "@mui/icons-material";
 
 const StLoginPage=()=>{
   const [showPassword, setShowPassword] = useState(false);
+  const [student,setStudent]=useState({email:"",pasword:""});
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
+  };
+  const handleSubmit=()=>{
+  console.log(student);
+  };
+
+  const handleChange=(e)=>{
+    setStudent({...student,[e.target.name]:e.target.value})
   };
     return(
         <>
@@ -17,17 +25,18 @@ const StLoginPage=()=>{
         justifyContent="center"
         alignContent="center"
         height="100%"
-        p="10px 60px">
+        p="10px 70px">
                  <Box
         component="form"
         // onSubmit={handleSubmit}
         // maxWidth="800px"
-        width="100%"
+        sx={{maxWidth:"800px"}}
+        
         display="flex"
+        height="420px"
         flexDirection="column"
         alignItems="center"
         justifyContent="top"
-        height="50%"
         gap="12px"
         p="10px 10px"
         boxShadow={"1.5px 1.5px 10px #ccc"}
@@ -45,7 +54,7 @@ const StLoginPage=()=>{
           type="Email"
           id="standard-basic"
           variant="outlined"
-          // onChange={handleChange}
+          onChange={handleChange}
           sx={{}}
           // error={Boolean(loginErrors.email)}
           // helperText={loginErrors.email}
@@ -56,7 +65,7 @@ const StLoginPage=()=>{
           required
           fullWidth
           // error={Boolean(loginErrors.password)}
-          // onChange={handleChange}
+          onChange={handleChange}
           sx={{ }}
         >
           <InputLabel htmlFor="password">Password</InputLabel>
@@ -88,6 +97,7 @@ const StLoginPage=()=>{
           type="submit"
           sx={{ width: "100px", alignSelf: "start" }}
           endIcon={<LoginOutlined />}
+          onClick={handleSubmit}
         >
           Login
         </Button>
