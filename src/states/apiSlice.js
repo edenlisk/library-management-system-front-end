@@ -133,6 +133,17 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: ['students', 'classes']
         }),
+        studentLogin: builder.mutation({
+            query: ({registrationNumber, password}) => ({
+                url: `/students/login`,
+                method: 'POST',
+                body: {registrationNumber, password}
+            }),
+        }),
+        getStudentRentals: builder.query({
+            query: (studentId) => `/rentals/student/${studentId}`,
+            providesTags: ['rentals', 'students', 'classes', 'books']
+        }),
         getRentals: builder.query({
             query: ({academicYear, studentId}) => ({
                 url: `/rentals/${academicYear}/${studentId}`,
@@ -482,5 +493,7 @@ export const {
     useGetLibrarianQuery,
     useIssuedBooksQuery,
     useGetAllRentalsMutation,
-    useLessBooksQuery
+    useLessBooksQuery,
+    useStudentLoginMutation,
+    useGetStudentRentalsQuery
 } = apiSlice;
