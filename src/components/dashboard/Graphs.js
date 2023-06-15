@@ -260,8 +260,8 @@ export const MyResponsiveLine = () => {
                 pointLabelYOffset={-12}
                 useMesh={true}
                 // enableSlices="x"
-                height={500}
-                width={900}
+                height={700}
+                // width={900}
                 legends={[
                     {
                         padding: 30,

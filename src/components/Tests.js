@@ -44,7 +44,12 @@ import {
   PointOfSale,
   Traffic,
   WarningRounded,
- ExpandMore
+ ExpandMore,
+ LibraryBooks,
+ MonetizationOnRounded,
+ LibraryBooksRounded,
+ LibraryAddTwoTone,
+ LibraryBooksTwoTone
 } from "@mui/icons-material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
@@ -57,6 +62,9 @@ import StatBox from "./StatBox";
 import { setAcademicYear } from "../states/slice";
 // import MyResponsiveLine from "./Datachart";
 import { MyResponsivePie,MyResponsiveLine } from "./dashboard/Graphs";
+import TopStudents from "./dashboard/TopStudents";
+import LastCreated from "./dashboard/LastCreated";
+import TopBooks from "./dashboard/TopBooks";
 
 
 // const rows = [
@@ -440,44 +448,43 @@ const Tests = () => {
         mt="20px"
         display="grid"
         gridTemplateColumns="repeat(12, 1fr)"
-        gridAutoRows="160px"
+        gridAutoRows= "minmax(160px, auto)"
         gap="20px"
         p="0px 17px"
         sx={{
           "& > div": { gridColumn: isNonMediumScreens ? undefined : "span 12" },
         }}
       >
+        <Box gridColumn="span 8"
+        display="flex"
+        flexDirection="column"
+        justifyContent="space-between" flex="1 1 100%"
+        gap="1rem">
         
         <StatBox
-          title="Total Customers"
+          title="Total Revenue"
           // value={data && data.totalCustomers}
           increase="+14%"
           icon={
-            <Email
+            <MonetizationOnRounded
               sx={{ color: theme.palette.secondary[300], fontSize: "26px" }}
             />
           }
         />
         <StatBox
-          title="Sales Today"
+          title="Total Books"
           // value={data && data.todayStats.totalSales}
           increase="+21%"
 
           icon={
-            <PointOfSale
-              sx={{ color: theme.palette.secondary[300], fontSize: "26px" }}
+            <LibraryBooks
+              sx={{ color: theme.palette.bookText.light, fontSize: "26px" }}
             />
           }
         />
-                <Box
-        gridColumn="span 8"
-        gridRow="span 2"
-        backgroundColor={theme.palette.background.alt}
-        p="16px"
-        borderRadius="0.55rem"
-      ><MyResponsivePie /> </Box>
+
         <StatBox
-          title="Monthly Sales"
+          title="Lost Books"
           // value={data && data.thisMonthStats.totalSales}
           increase="+5%"
           icon={
@@ -487,24 +494,65 @@ const Tests = () => {
           }
         />
         <StatBox
-          title="Yearly Sales"
+          title="Issued Books"
           // value={data && data.yearlySalesTotal}
           increase="+43%"
           icon={
-            <Traffic
+            <LibraryAddTwoTone
               sx={{ color: theme.palette.secondary[300], fontSize: "26px" }}
             />
           }
         />
-                <Box
-          gridColumn="span 12"
-          gridRow="span 2"
-          backgroundColor={theme.palette.background.alt}
-          p="16px"
-          borderRadius="0.55rem"
-        ><MyResponsiveLine /> </Box>
+        </Box>
 
-      </Box>
+           <Box
+      gridColumn="span 4"
+      // gridRow="span 3"
+      display="flex"
+      flexDirection="column"
+      justifyContent="space-between"
+      p="1rem 0.5rem"
+      flex="1 1 100%"
+      backgroundColor={theme.palette.background.alt}
+      borderRadius="0.55rem"
+      width="100%"
+    >
+     <TopStudents/>
+    </Box>
+    <Box
+      gridColumn="span 8"
+      // gridRow="span 4"
+      display="flex"
+      flexDirection="column"
+      justifyContent="space-between"
+      p="1rem 0.5rem"
+      flex="1 1 100%"
+      backgroundColor={theme.palette.background.alt}
+      borderRadius="0.55rem"
+      width="100%"
+    >
+     <LastCreated/>
+    </Box>
+    <Box
+      gridColumn="span 4"
+      // gridRow="span 3"
+      display="flex"
+      flexDirection="column"
+      justifyContent="space-between"
+      p="1rem 0.5rem"
+      flex="1 1 100%"
+      backgroundColor={theme.palette.background.alt}
+      borderRadius="0.55rem"
+      width="100%"
+    >
+     <TopBooks/>
+    </Box>
+        </Box>
+
+
+
+
+    
 {/* <Box padding={3.5}>
       <Accordion sx={{backgroundColor:theme.palette.background.default,'& .MuiAccordionDetails-root': { padding: 0 },'& .MuiBox-root': { padding:1 }}}>
       <AccordionSummary

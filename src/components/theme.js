@@ -124,6 +124,13 @@ export const tokensDark = {
                 light: tokensDark.secondary[700],
            
               },
+              dashboard: {
+                ...tokensDark.secondary,
+                main: tokensDark.secondary[600],
+                light: tokensDark.secondary[400],
+                text:tokensDark.secondary[400],
+           
+              },
             }
           : {
               // palette values for light mode
@@ -158,12 +165,14 @@ export const tokensDark = {
                 light: tokensDark.primary[500],
            
               },
-              bookText: {
-                ...tokensLight.deepOak,
-                main: tokensDark.deepOak[600],
-                light: tokensDark.deepOak[700],
+              dashboard: {
+                ...tokensDark.deepOak,
+                main: tokensDark.deepOak[700],
+                light: tokensDark.deepOak[800],
+                text:tokensDark.deepOak[600],
            
               },
+      
             }),
       },
       typography: {
@@ -210,7 +219,7 @@ export const tokensDark = {
         },
         MuiCssBaseline: {
           styleOverrides: {
-            body: {
+           
               '&::-webkit-scrollbar':{
                 width: '7.2px',
               },
@@ -225,7 +234,7 @@ export const tokensDark = {
               '&::-webkit-scrollbar-track:hover':{
                 background:'#21295c' ,
               },
-            },
+           
           },
         },
         // MuiButton: {

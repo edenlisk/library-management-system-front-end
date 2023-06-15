@@ -9,7 +9,7 @@ import {
   FormControlLabel,
   Checkbox,
   CircularProgress,
-  IconButton,useTheme
+  IconButton,useTheme,Skeleton
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import { ChevronLeftOutlined, DisabledByDefaultRounded, CheckBoxRounded } from "@mui/icons-material";
@@ -114,7 +114,7 @@ const EditTeacherRentalPage = () => {
         <Typography variant="h3" sx={{ textAlign: "center", pb: 3 }}>
           Edit Rental Info
         </Typography>
-        <TextField
+        {isLoading?<Skeleton animation="wave"  sx={{ width:"100%",height:30 }}/>:<TextField
           required
           fullWidth
           value={rental.nameOfBook || ""}
@@ -126,14 +126,14 @@ const EditTeacherRentalPage = () => {
           onChange={handleChange}
           sx={{ mb: 2 }}
           disabled={rental.returned}
-        />
-        <DatePicker
+        />}
+      {  isLoading?<Skeleton animation="wave"  sx={{ width:"100%",height:30 }}/>:<DatePicker
           value={dayjs(rental.dueDate) || null}
           onChange={handleEndDateChange}
           format="YYYY-MM-DD"
           sx={{ minWidth: 230, alignSelf: "start", mb: 2 }}
           disabled={rental.returned}
-        />
+        />}
 
         {/* <FormControlLabel
           sx={{ alignSelf: "start" }}

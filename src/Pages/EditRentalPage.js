@@ -10,7 +10,8 @@ import {
     Stack,
     CircularProgress,
     IconButton,
-    useTheme
+    useTheme,
+    Skeleton
 } from "@mui/material";
 import {DatePicker} from "@mui/x-date-pickers";
 import dayjs from "dayjs";
@@ -101,10 +102,10 @@ const EditRentalPage = () => {
                 <Typography variant="h3" sx={{textAlign: "center", pb: 3}}>
                     Edit Rental Info
                 </Typography>
-                <TextField
+               {isLoading?<Skeleton animation="wave"  sx={{ width:"100%",height:30 }}/>:<TextField
                     required
                     fullWidth
-                    value={rental.nameOfBook || ""}
+                    value={(rental.nameOfBook || "")}
                     name="nameOfBook"
                     label="Name Of Book"
                     type="text"
@@ -113,15 +114,15 @@ const EditRentalPage = () => {
                     onChange={handleChange}
                     sx={{mb: 2}}
                     disabled={rental.returned}
-                />
-                <DatePicker
+                />}
+                {isLoading?<Skeleton animation="wave"  sx={{ width:"100%",height:30 }}/>:<DatePicker
                     // disablePast
                     value={dayjs(new Date(rental.dueDate))|| null}
                     onChange={handleEndDateChange}
                     format="YYYY-MM-DD"
                     sx={{minWidth: 230, alignSelf: "start", mb: 2}}
                     disabled={rental.returned}
-                />
+                />}
 
                 {/* <FormControlLabel
                     sx={{alignSelf: "start"}}

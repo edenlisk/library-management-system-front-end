@@ -1,6 +1,6 @@
 import React, { useState,useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { TextField, Typography, Button,Box,useTheme } from "@mui/material";
+import { TextField, Typography, Button,Box,useTheme,Skeleton } from "@mui/material";
 import { LoginOutlined,ChevronLeftOutlined} from "@mui/icons-material";
 import { useUpdateTeacherMutation,useGetTeacherQuery} from "../states/apiSlice";
 import {toast} from "react-toastify";
@@ -81,7 +81,7 @@ const EditTeacherPage = () => {
         <Typography variant="h3" sx={{ textAlign: "center", mb: 3 }}>
           Edit Teacher Info
         </Typography>
-        <TextField
+       { isLoading?<Skeleton animation="wave"  sx={{ width:"100%",height:30 }}/>:<TextField
           required
           fullWidth
           value={user.name || ""}
@@ -93,7 +93,7 @@ const EditTeacherPage = () => {
           onChange={handleChange}
           sx={{ mb: 2 }}
 
-        />
+        />}
 
         <Button
           variant="contained"
