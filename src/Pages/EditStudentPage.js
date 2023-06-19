@@ -26,7 +26,6 @@ const EditStudentPage = () => {
     if (isSuccess) {
       const { data: info } = data;
       const{student}=info;
-      console.log(student);
       setUser({ name: student.name, fine: student.fine })
     }
   }, [isSuccess]);
