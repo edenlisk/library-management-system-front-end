@@ -5,7 +5,7 @@ import {useWeeklyStatsQuery, useOverallStatsQuery, useSubCategoriesStatsQuery} f
 import {Box} from "@mui/material";
 import {Bars} from "react-loader-spinner";
 import {toast} from "react-toastify";
-import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from "recharts"
+import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from "recharts"
 
 
 export const MyResponsivePie = () => {
@@ -434,18 +434,12 @@ export const StatisticsByBookCategory = () => {
     //     }
     // ]
     return (
+
+        <ResponsiveContainer width="100%" height="100%">
         <LineChart
-            width={800}
-            height={400}
             data={graphData}
-            margin={{
-                top: 5,
-                right: 30,
-                left: 20,
-                bottom: 5
-            }}
         >
-            <CartesianGrid strokeDasharray="3 3"/>
+            <CartesianGrid strokeDasharray="4 4" opacity={0.2}/>
             <XAxis dataKey="categoryName"/>
             <YAxis/>
             <Tooltip/>
@@ -463,5 +457,6 @@ export const StatisticsByBookCategory = () => {
             {/*<Line type="monotone" dataKey="seniorthree"/>*/}
             {/*<Line type="monotone" dataKey="seniorfour"/>*/}
         </LineChart>
+        </ResponsiveContainer>
     );
 }

@@ -6,6 +6,7 @@ import StudentsStatsCards from "./StudentsStatsCards";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetStudentRentalsQuery,useGetOneStudentQuery } from "../states/apiSlice";
 import { MonetizationOnTwoTone, NotificationAddOutlined } from "@mui/icons-material";
+import UserNavbar from "../components/UserNavbar";
 
 
 const statsAreaLargescrn=`
@@ -60,7 +61,8 @@ return diffInDays;
 
 return(
     <>
-    <Box padding="17px"><Typography variant="h3">{StName}</Typography></Box>
+    <UserNavbar studentId={studentId}/>
+    <Box display="flex" flexDirection="column" gap="15px" padding="0px 20px"><Typography variant="h3">{StName}</Typography>
     <Box  display="grid"
     sx={{
         gridTemplateColumns:isNonMediumScreens?"repeat(4,minmax(58px,1fr))":"1fr",
@@ -68,7 +70,7 @@ return(
         gridTemplateAreas: isNonMediumScreens? statsAreaLargescrn:statsAreaSmallscrn,
     }}
     gap="16px"
-    padding="17px"
+    
     >
       <StudentsStatsCards title="Fine" value={StData.fine} icon={<MonetizationOnTwoTone sx={{fontSize:"30px",color: theme.palette.dashboard.main}}/>} gridArea="box1"></StudentsStatsCards>
       <StudentsStatsCards title="Rentals" value={rents.length} gridArea="box2"></StudentsStatsCards>
@@ -79,11 +81,11 @@ return(
     </Box>
     <Box width="100%" display="flex"
     flexDirection="column" gap="4px"
-    padding="17px"
+    
     >
         <Box padding="10px" display="flex" justifyContent="space-between" alignItems="center">
             <Typography variant="h2">Rentals</Typography>
-            <NotificationAddOutlined onClick={()=>navigate(`/students/newnotifications/${studentId}`)}/>
+            {/* <NotificationAddOutlined onClick={()=>navigate(`/students/newnotifications/${studentId}`)}/> */}
         </Box>
 
 
@@ -101,7 +103,7 @@ return(
       
       ))}
     </Box>
-    
+    </Box>
     </>
 )
 

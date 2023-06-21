@@ -159,8 +159,21 @@ const DashboardTwo = () => {
                 >
                     <TopBooks />
                 </Box>
+                <Box
+                    gridColumn="span 12"
+                    gridRow="span 3"
+                    display="flex"
+                    flexDirection="column"
+                    justifyContent="space-between"
+                    p="1rem 0.5rem"
+                    flex="1 1 100%"
+                    backgroundColor={theme.palette.background.alt}
+                    borderRadius="0.55rem"
+                    width="100%"
+                >
+                   <StatisticsByBookCategory/>
+                </Box>
             </Box>
-            <StatisticsByBookCategory/>
 
         </>
     );
