@@ -44,7 +44,6 @@ const AddBook = ({ isOpen, setIsOpen }) => {
     const { data } = catz;
     const { categories: catgz } = data;
     categrz = catgz;
-    console.log(catgz);
   }
   useEffect(() => {
     if (isSuccess) {
@@ -79,7 +78,6 @@ const AddBook = ({ isOpen, setIsOpen }) => {
     const body = { ...book };
     await createBook(body);
     setIsOpen(!isOpen);
-    console.log(book);
     setBook({
       bookName: "",
       author: "",
@@ -105,7 +103,6 @@ const AddBook = ({ isOpen, setIsOpen }) => {
             component="form"
             sx={{
               p:"10px 30px",
-             
               width: "70%",
               height:"97%",
               display: "flex",

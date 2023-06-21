@@ -421,6 +421,10 @@ export const apiSlice = createApi({
         lessBooks: builder.query({
             query: () => `/books/less-books`,
             providesTags: ['rentals', 'books', 'teachersRentals', 'settings', 'statistics']
+        }),
+        subCategoriesStats: builder.query({
+            query: () => `/statistics/stats-subcategories`,
+            providesTags: ["rentals", "books", "teachersRentals", "statistics", "books-categories"]
         })
 
         // GET STUDENTS BY CLASSID  TO GET: STUNT-ID,NAME CLASS-ID,REG-NBR,FINE
@@ -495,5 +499,6 @@ export const {
     useGetAllRentalsMutation,
     useLessBooksQuery,
     useStudentLoginMutation,
-    useGetStudentRentalsQuery
+    useGetStudentRentalsQuery,
+    useSubCategoriesStatsQuery
 } = apiSlice;

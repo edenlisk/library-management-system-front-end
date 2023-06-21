@@ -10,6 +10,7 @@ import {
     useTheme,
 
 } from "@mui/material";
+import { StatisticsByBookCategory } from './dashboard/Graphs';
 import {
     PersonAdd,
     LibraryBooks,
@@ -159,6 +160,7 @@ const DashboardTwo = () => {
                     <TopBooks />
                 </Box>
             </Box>
+            <StatisticsByBookCategory/>
 
         </>
     );
