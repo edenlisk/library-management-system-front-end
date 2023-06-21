@@ -439,7 +439,7 @@ export const StatisticsByBookCategory = () => {
         <LineChart
             data={graphData}
         >
-            <CartesianGrid strokeDasharray="4 4" opacity={0.2}/>
+            <CartesianGrid strokeDasharray="4 4" />
             <XAxis dataKey="categoryName"/>
             <YAxis/>
             <Tooltip/>

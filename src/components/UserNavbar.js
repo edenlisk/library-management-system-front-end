@@ -1,11 +1,11 @@
 import { AppBar, Avatar, Toolbar,Box, Typography } from "@mui/material";
 import React from "react";
 import FlexBetween from "./FlexBetween";
-import { AutoStoriesOutlined, SettingsOutlined } from "@mui/icons-material";
+import { AutoStoriesOutlined, NotificationsOutlined, SettingsOutlined } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
 
-const UserNavbar = ({studentId}) => {
+const UserNavbar = ({studentId,userName}) => {
     const navigate=useNavigate();
     return (
 
@@ -28,17 +28,16 @@ const UserNavbar = ({studentId}) => {
                         
                     </FlexBetween> */}
                     <FlexBetween p={"0px 10px"} gap="20px" alignItems="center">
-                    <Typography sx={{fontSize:"20px",fontWeight:"bold"}} onClick={()=>navigate(`/students/newnotifications/${studentId} `)} >notifications</Typography>
+                    {/* <Typography sx={{fontSize:"20px",fontWeight:"bold"}} onClick={()=>navigate(`/students/newnotifications/${studentId} `)} >notifications</Typography> */}
+                    <NotificationsOutlined  sx={{fontSize:"28px"}} onClick={()=>navigate(`/students/newnotifications/${studentId} `)}/>
                        
                         <Avatar
                                         alt="profile"
                                         // src="https://media.istockphoto.com/id/502581380/photo/portrait-of-an-african-american-man-with-glasses.jpg?s=612x612&w=0&k=20&c=cjS24yXM56lie7N-KsFtDH2CKCaS03OQFxwJgIag0ac="
 
-                                        height="10px"
-                                        width="10px"
-                                        sx={{objectFit: "cover"}}
+                                        sx={{objectFit: "cover", width: 32, height: 32 }}
                                     >
-                                        {'jonas'.charAt(0).toUpperCase() }
+                                        {userName.charAt(0).toUpperCase() }
                                     </Avatar>
                                     {/* <SettingsOutlined sx={{fontSize:"25px"}}/> */}
                     </FlexBetween>

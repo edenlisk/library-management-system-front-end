@@ -1,11 +1,11 @@
-import React from "react";
-import { Box,useTheme,useMediaQuery,Typography} from "@mui/material";
+import React,{useState} from "react";
+import { Box,useTheme,useMediaQuery,Typography,Menu,MenuItem} from "@mui/material";
 import FlexBetween from "../components/FlexBetween";
 import RentalCard from "./RentalCard";
 import StudentsStatsCards from "./StudentsStatsCards";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetStudentRentalsQuery,useGetOneStudentQuery } from "../states/apiSlice";
-import { MonetizationOnTwoTone, NotificationAddOutlined } from "@mui/icons-material";
+import { FilterAltOutlined, MonetizationOnTwoTone } from "@mui/icons-material";
 import UserNavbar from "../components/UserNavbar";
 
 
@@ -19,6 +19,7 @@ const statsAreaSmallscrn=`
 const StudentsInteraction=()=>{
     const theme =useTheme();
     const navigate =useNavigate();
+    // let filteredObject=[];
     let rents=[]
     let StName=""
     let StData=[]
@@ -46,23 +47,66 @@ const StudentsInteraction=()=>{
     console.log(rtData);
 
   }
-  const daysLeft=(dt1,dt2)=>{
-    const date1 = new Date(dt1);
+  const daysLeft=(dt2)=>{
+    const date1 = new Date(Date.now());
 const date2 = new Date(dt2);
 
 const diffInMilliseconds = date2 - date1;
 
 const millisecondsInADay = 1000 * 60 * 60 * 24;
 const diffInDays = Math.floor(diffInMilliseconds / millisecondsInADay);
+if(diffInDays< 0){
+  return ' No days left!!'
+}
 return diffInDays;
+  }
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [search, setSearch] = useState("");
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+      setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+      setAnchorEl(null);
+  };
+
+  const handleFilter=(filterVal)=>{
+    setSearch(filterVal);
+
+    console.log( `filter  `+filterVal)
+     
+
+    handleClose();
+  }
+
+  let filteredObject=[]
+  if(search!=="" || null){
+
+    filteredObject=rents.filter((rent)=>rent.returned ===search);
+  }
+  else{
+    filteredObject=rents
+  }
+
+
+
+  const unRerurned=filteredObject
+
+  console.log(unRerurned)
+
+  const removeFilter=()=>{
+  
   }
 
 
 
 return(
     <>
-    <UserNavbar studentId={studentId}/>
-    <Box display="flex" flexDirection="column" gap="15px" padding="0px 20px"><Typography variant="h3">{StName}</Typography>
+    <UserNavbar studentId={studentId}
+    userName={StName}/>
+    <Box display="flex" flexDirection="column" gap="15px" padding="0px 20px 20px 20px"><Typography variant="h3">{StName}</Typography>
     <Box  display="grid"
     sx={{
         gridTemplateColumns:isNonMediumScreens?"repeat(4,minmax(58px,1fr))":"1fr",
@@ -74,8 +118,8 @@ return(
     >
       <StudentsStatsCards title="Fine" value={StData.fine} icon={<MonetizationOnTwoTone sx={{fontSize:"30px",color: theme.palette.dashboard.main}}/>} gridArea="box1"></StudentsStatsCards>
       <StudentsStatsCards title="Rentals" value={rents.length} gridArea="box2"></StudentsStatsCards>
-      <StudentsStatsCards gridArea="box3"></StudentsStatsCards>
-      <StudentsStatsCards gridArea="box4"></StudentsStatsCards>
+      <StudentsStatsCards title="Un-returned Rentals" gridArea="box3"></StudentsStatsCards>
+      <StudentsStatsCards title="Overdue Rentals" gridArea="box4"></StudentsStatsCards>
 
 
     </Box>
@@ -85,16 +129,16 @@ return(
     >
         <Box padding="10px" display="flex" justifyContent="space-between" alignItems="center">
             <Typography variant="h2">Rentals</Typography>
-            {/* <NotificationAddOutlined onClick={()=>navigate(`/students/newnotifications/${studentId}`)}/> */}
+            <FilterAltOutlined onClick={handleClick}/>
         </Box>
 
 
-      {rents.map(({categoryName,issueDate,dueDate,nameOfBook,_id,author,bookId})=>(
+      {filteredObject.map(({categoryName,issueDate,dueDate,nameOfBook,_id,author,bookId})=>(
       
         <RentalCard title={nameOfBook}
         key={_id}
         category={categoryName}
-        daysLeft={daysLeft(issueDate,dueDate)}
+        daysLeft={daysLeft(dueDate)}
         author={author}
         issueDate={issueDate.split('T')[0]}
         dueDate={dueDate.split('T')[0]}
@@ -104,6 +148,25 @@ return(
       ))}
     </Box>
     </Box>
+
+    <Menu
+                            id="user-menu"
+                            anchorEl={anchorEl}
+                            open={open}
+                            onClose={handleClose}
+                            MenuListProps={{
+                                'aria-labelledby': 'gauge-button',
+                            }}
+                            sx={{
+                                "& .MuiList-root": {
+                                    backgroundColor: ""
+                                }
+                            }}
+                        >
+                            <MenuItem onClick={()=>handleFilter(true)}>Returned</MenuItem>
+                            <MenuItem onClick={()=>handleFilter(false)}>Un returned</MenuItem>
+                            <MenuItem onClick={()=>handleFilter("")}>All</MenuItem>
+                        </Menu>
     </>
 )
 
