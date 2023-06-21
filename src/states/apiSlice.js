@@ -119,7 +119,7 @@ export const apiSlice = createApi({
         generateStudentReport: builder.mutation({
             query: (studentId) => ({
                 url: `/students/report/${studentId}`,
-                method: 'POST',
+                method: 'POST', 
                 responseHandler: (response) => response.blob()
             }),
             invalidatesTags: ['students']

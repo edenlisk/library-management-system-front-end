@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../states/apiSlice";
 import { setAccessibility, setAuthToken, setUserData } from "../../states/authSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -101,7 +101,7 @@ const LoginPage = () => {
   };
 
   return (
-    <Box height="100%">
+    <Box height="100%" p="10px 10px">
       <Box
         component="form"
         onSubmit={handleSubmit}
@@ -110,15 +110,17 @@ const LoginPage = () => {
         flexDirection="column"
         alignItems="center"
         justifyContent="center"
-        height="70%"
+        // height="70%"
+        minHeight={700}
         margin="auto"
+        gap="13px"
         p="10px 10px"
         boxShadow={"1.5px 1.5px 10px #ccc"}
         padding={2}
         borderRadius="7px"
         marginTop="20px"
       >
-        <Typography variant="h3" sx={{ textAlign: "center", mb: 3 }}>
+        <Typography variant="h3" sx={{ textAlign: "center",}}>
           Account Login
         </Typography>
         <TextField
@@ -131,7 +133,7 @@ const LoginPage = () => {
           id="standard-basic"
           variant="outlined"
           onChange={handleChange}
-          sx={{ mb: 2 }}
+          sx={{}}
           error={Boolean(loginErrors.email)}
           helperText={loginErrors.email}
         />
@@ -142,7 +144,7 @@ const LoginPage = () => {
           fullWidth
           error={Boolean(loginErrors.password)}
           onChange={handleChange}
-          sx={{ mb: 2 }}
+          sx={{}}
         >
           <InputLabel htmlFor="password">Password</InputLabel>
           <OutlinedInput
@@ -166,12 +168,13 @@ const LoginPage = () => {
 
           <FormHelperText id="password">{loginErrors.password}</FormHelperText>
         </FormControl>
+        <Box display="flex" alignItems="center" gap="8px" justifyContent="start" width="100%">
         <Button
           disabled={!!isLoading}
           variant="contained"
           size="medium"
           type="submit"
-          sx={{ mb: 2, width: "100px", alignSelf: "start" }}
+          sx={{ width: "100px", alignSelf: "start" }}
           endIcon={<LoginOutlined />}
         >
           {isLoading ? (
@@ -186,7 +189,11 @@ const LoginPage = () => {
             `Login`
           )}
         </Button>
-
+        {/* <Link to={`/studentsLogin`}>
+            <Typography >Student?</Typography>
+            </Link> */}
+        </Box>
+        
       </Box>
     </Box>
   );

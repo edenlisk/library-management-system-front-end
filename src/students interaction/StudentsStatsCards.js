@@ -17,10 +17,10 @@ const theme=useTheme();
       flex="1 1 100%"
       backgroundColor={theme.palette.background.alt}
       borderRadius="0.55rem"
-      width="100%"
+      
     >
       <FlexBetween>
-        <Typography variant="h6" sx={{ }}>
+        <Typography variant="h4" sx={{ }}>
           {title}
         </Typography>
         {icon}

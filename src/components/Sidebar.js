@@ -84,7 +84,7 @@ const navItems = [
     //     icon: null,
     // },
     {
-        text: "Overview",
+        text: "StudentsLogin",
         icon: <PointOfSaleOutlined/>,
     },
     // {

@@ -163,6 +163,12 @@ export const tokensDark = {
                 ...tokensLight.primary,
                 main: tokensDark.grey[200],
                 light: tokensDark.primary[500],
+            
+              },
+              bookText: {
+                ...tokensLight.deepOak,
+                main: tokensDark.deepOak[400],
+                light: tokensDark.deepOak[800],
            
               },
               dashboard: {

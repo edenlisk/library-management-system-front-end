@@ -1,12 +1,16 @@
 html,
-body,
+body{
+  height: 100%;
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+}
 #root,
 .App{
   height: 100%;
   width: 100%;
   margin: 0px;
   padding: 0px;
-  box-sizing: border-box;
 }
 
 code {

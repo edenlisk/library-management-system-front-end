@@ -46,6 +46,9 @@ import LessBooks from "./components/BookNotify";
 import DashboardTwo from "./components/DashboardTwo";
 import StudentsInteraction from "./students interaction/StudentsInteraction";
 import StLoginPage from "./students interaction/StLoginPage";
+import StudentsNotification from "./students interaction/StudentsNotification";
+import UserNavbar from "./components/UserNavbar";
+import './index.css';
 
 function App() {
     const mode = useSelector((state) => state.global.mode);
@@ -79,7 +82,6 @@ function App() {
                                     <Route path="/classes" element={<ClassNamesPage/>}/>
                                     <Route path="/students/:classId" element={<ClassListPage/>}/>
                                     <Route path="/rentals/:studentId" element={<StudentsRentalsPage/>}/>
-                                    <Route path="/overview" element={<StLoginPage/>}/>
                                     <Route path="/edit/student/:studentId" element={<EditStudentPage/>}/>
                                     <Route path="/edit/rental/:rentalId" element={<EditRentalPage/>}/>
                                     {/* TEST OF RTK QUERY DATAS IN THE TEST FILE */}
@@ -101,7 +103,10 @@ function App() {
                                     <Route path="/Permissions" element={<FileUploadButton/>}/>
                                     <Route path="/notification" element={<Notification/>}/>
                                     <Route path="/perfomance" element={<Tests/>}/>
-                                    <Route path="/transactions" element={<StudentsInteraction/>}/>
+                                    <Route path="/transactions" element={<UserNavbar/>}/>
+                                    <Route path="/students/newnotifications/:studentId" element={<StudentsNotification/>}/>
+                                    <Route path="/studentsLogin" element={<StLoginPage/>}/>
+                                    <Route path="/students/notifications/:studentId" element={<StudentsInteraction/>}/>
                                     <Route path="/settings" element={<RoleBasedRoute element={<Settings/>} roles={["admin"]} />}/>
                                     <Route path="/admin" element={<RoleBasedRoute element={<ManageLibrarians />} roles={["admin"]} />}/>
                                     <Route path="/permissions/:name/:librarianId" element={<ManagePermissions/>}/>
