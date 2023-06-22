@@ -1,6 +1,6 @@
 import { AppBar, Avatar, Toolbar,Box, Typography } from "@mui/material";
 import React from "react";
-import FlexBetween from "./FlexBetween";
+import FlexBetween from "../components/FlexBetween";
 import { AutoStoriesOutlined, NotificationsOutlined, SettingsOutlined } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 

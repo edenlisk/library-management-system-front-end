@@ -6,7 +6,7 @@ import StudentsStatsCards from "./StudentsStatsCards";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetStudentRentalsQuery,useGetOneStudentQuery } from "../states/apiSlice";
 import { AssignmentLateTwoTone, CancelTwoTone, FilterAltOutlined, LibraryBooksTwoTone, MonetizationOnTwoTone } from "@mui/icons-material";
-import UserNavbar from "../components/UserNavbar";
+import UserNavbar from "./UserNavbar";
 
 
 const statsAreaLargescrn=`

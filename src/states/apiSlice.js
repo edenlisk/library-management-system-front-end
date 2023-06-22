@@ -263,7 +263,7 @@ export const apiSlice = createApi({
         }),
         getTeacher: builder.query({
             query: (teacherId) => `/teachers/${teacherId}`,
-            providesTags: ['teachers']
+            providesTags: ['teachers','rentals', 'teachersRentals', 'books',]
         }),
         updateTeacher: builder.mutation({
             query: ({body, teacherId}) => ({
@@ -299,7 +299,7 @@ export const apiSlice = createApi({
             query: (teacherId) => ({
                 url: `/teachers/teachers-rentals/${teacherId}`
             }),
-            providesTags: ["teachersRentals"]
+            providesTags: ["teachersRentals",'rentals','teachers','books']
         }),
         getSingleTeacherRental: builder.query({
            query: (rentalId) => `/teachers-rental/${rentalId}`,

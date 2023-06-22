@@ -87,10 +87,10 @@ const navItems = [
         text: "Studentslogin",
         icon: <PointOfSaleOutlined/>,
     },
-    // {
-    //     text: "Daily",
-    //     icon: <TodayOutlined/>,
-    // },
+    {
+        text: "Daily",
+        icon: <TodayOutlined/>,
+    },
     // {
     //     text: "Monthly",
     //     icon: <CalendarViewMonthOutlined/>,

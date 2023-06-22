@@ -47,8 +47,11 @@ import DashboardTwo from "./components/DashboardTwo";
 import StudentsInteraction from "./students interaction/StudentsInteraction";
 import StLoginPage from "./students interaction/StLoginPage";
 import StudentsNotification from "./students interaction/StudentsNotification";
-import UserNavbar from "./components/UserNavbar";
+import UserNavbar from "./students interaction/UserNavbar";
 import './index.css';
+import TcLoginPage from "./components/teachers interaction/TcLoginPage";
+import TeachersInteraction from "./components/teachers interaction/TeachersInteraction";
+import TeachersNotification from "./components/teachers interaction/TeachersNotification";
 
 function App() {
     const mode = useSelector((state) => state.global.mode);
@@ -110,6 +113,9 @@ function App() {
                                     <Route path="/students/newnotifications/:studentId" element={<StudentsNotification/>}/>
                                     <Route path="/studentslogin" element={<StLoginPage/>}/>
                                     <Route path="/students/notifications/:studentId" element={<StudentsInteraction/>}/>
+                                    <Route path="/daily" element={<TcLoginPage/>}/>
+                                    <Route path="/teachers/notifications/:teacherId" element={<TeachersInteraction/>}/>
+                                    <Route path="/teachers/newnotifications/:teacherId" element={<TeachersNotification/>}/>
                                     <Route path="/settings" element={<RoleBasedRoute element={<Settings/>} roles={["admin"]} />}/>
                                     <Route path="/admin" element={<RoleBasedRoute element={<ManageLibrarians />} roles={["admin"]} />}/>
                                     <Route path="/permissions/:name/:librarianId" element={<ManagePermissions/>}/>
