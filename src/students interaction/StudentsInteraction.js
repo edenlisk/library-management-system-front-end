@@ -5,7 +5,7 @@ import RentalCard from "./RentalCard";
 import StudentsStatsCards from "./StudentsStatsCards";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetStudentRentalsQuery,useGetOneStudentQuery } from "../states/apiSlice";
-import { CancelTwoTone, FilterAltOutlined, LibraryBooksTwoTone, MonetizationOnTwoTone } from "@mui/icons-material";
+import { AssignmentLateTwoTone, CancelTwoTone, FilterAltOutlined, LibraryBooksTwoTone, MonetizationOnTwoTone } from "@mui/icons-material";
 import UserNavbar from "../components/UserNavbar";
 
 
@@ -124,7 +124,7 @@ return(
       <StudentsStatsCards title="Fine" value={StData.fine} icon={<MonetizationOnTwoTone sx={{fontSize:"30px",color: theme.palette.dashboard.main}}/>} gridArea="box1"></StudentsStatsCards>
       <StudentsStatsCards title="Rentals" value={rents.length} icon={<LibraryBooksTwoTone sx={{fontSize:"30px",color: theme.palette.dashboard.main}}/>} gridArea="box2"></StudentsStatsCards>
       <StudentsStatsCards title="Un-returned Rentals"value={unReturned} icon={<CancelTwoTone sx={{fontSize:"30px",color: theme.palette.dashboard.main}}/>} gridArea="box3"></StudentsStatsCards>
-      <StudentsStatsCards title="Overdue Rentals" value={OverdueBooks.length} gridArea="box4"></StudentsStatsCards>
+      <StudentsStatsCards title="Overdue Rentals" value={OverdueBooks.length} icon={<AssignmentLateTwoTone sx={{fontSize:"30px",color: theme.palette.dashboard.main}}/>} gridArea="box4"></StudentsStatsCards>
 
 
     </Box>
