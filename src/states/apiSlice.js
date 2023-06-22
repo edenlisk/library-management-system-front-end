@@ -288,6 +288,13 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: ['teachers', "teachersRentals", "books", "statistics"]
         }),
+        teacherLogin: builder.mutation({
+            query: ({registrationNumber, password}) => ({
+                url: `/teachers/login`,
+                method: 'POST',
+                body: {registrationNumber, password}
+            })
+        }),
         getTeacherRentals: builder.query({
             query: (teacherId) => ({
                 url: `/teachers/teachers-rentals/${teacherId}`
@@ -500,5 +507,6 @@ export const {
     useLessBooksQuery,
     useStudentLoginMutation,
     useGetStudentRentalsQuery,
-    useSubCategoriesStatsQuery
+    useSubCategoriesStatsQuery,
+    useTeacherLoginMutation
 } = apiSlice;
