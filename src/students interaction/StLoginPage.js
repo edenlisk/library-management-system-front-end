@@ -68,7 +68,7 @@ const StLoginPage = () => {
           borderRadius="7px"
         >
           <Typography variant="h3" sx={{ textAlign: "center" }}>
-            Account Login
+            Student Login
           </Typography>
           <TextField
             required
