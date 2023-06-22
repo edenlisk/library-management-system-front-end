@@ -437,7 +437,7 @@ const AddStudentBookRentalPage = () => {
                 </Grid2>
 
                 <Grid2 xs={12} md={6} spacing={2}>
-                    <Grid2 container component="form" spacing={2} columns={12}>
+                    <Grid2 container component="form" spacing={2} columns={12} onSubmit={handleSubmit}>
                         <Grid2 xs={12} md={3}>
                             <Typography variant="p">Book Name</Typography>
                         </Grid2>
@@ -493,6 +493,7 @@ const AddStudentBookRentalPage = () => {
                         </Grid2>
                         <Grid2 xs={12} md={9}>
                             <TextField
+                            required
                                 label="Book ID"
                                 sx={{width: "80%"}}
                                 name="bookId"
@@ -580,7 +581,7 @@ const AddStudentBookRentalPage = () => {
                                 sx={{backgroundColor:theme.palette.buttons.main}}
                                     variant="contained"
                                     type="submit"
-                                    onClick={handleSubmit}
+                                  
                                 >
                                     confirm & rent
                                 </Button>

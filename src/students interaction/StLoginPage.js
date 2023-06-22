@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Typography, TextField, IconButton, Button, FormHelperText, FormControl, OutlinedInput, InputLabel, InputAdornment, CircularProgress } from "@mui/material";
 import { LoginOutlined, Visibility, VisibilityOff } from "@mui/icons-material";
 import { useStudentLoginMutation } from "../states/apiSlice";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const StLoginPage = () => {
   const navigate=useNavigate();
@@ -10,6 +11,17 @@ const StLoginPage = () => {
   const [student, setStudent] = useState({ registrationNumber: "", password: "" });
   let studentId=""
   const [StudentLogin,{isLoading,isSuccess,isError,error}]=useStudentLoginMutation();
+
+  useEffect(()=>{
+    if(isSuccess){
+      toast.success("Logged in successfully");
+    }
+    else if(isError){
+      const { data: fullError } = error;
+      const { message } = fullError;
+      toast.error(message);
+    }
+  },[isSuccess,isError,error])
 
 
 
@@ -48,6 +60,8 @@ const StLoginPage = () => {
 
 
 
+
+
   return (
     <>
       <Box   
@@ -68,7 +82,7 @@ const StLoginPage = () => {
           borderRadius="7px"
         >
           <Typography variant="h3" sx={{ textAlign: "center" }}>
-            Account Login
+            Student Login
           </Typography>
           <TextField
             required

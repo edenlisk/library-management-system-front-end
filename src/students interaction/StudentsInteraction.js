@@ -5,7 +5,7 @@ import RentalCard from "./RentalCard";
 import StudentsStatsCards from "./StudentsStatsCards";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetStudentRentalsQuery,useGetOneStudentQuery } from "../states/apiSlice";
-import { FilterAltOutlined, MonetizationOnTwoTone } from "@mui/icons-material";
+import { AssignmentLateTwoTone, CancelTwoTone, FilterAltOutlined, LibraryBooksTwoTone, MonetizationOnTwoTone } from "@mui/icons-material";
 import UserNavbar from "../components/UserNavbar";
 
 
@@ -35,6 +35,7 @@ const StudentsInteraction=()=>{
 
    console.log(rtData);
    rents=rentalData;
+   
 
   }
   if (isSuccess) {
@@ -48,17 +49,13 @@ const StudentsInteraction=()=>{
 
   }
   const daysLeft=(dt2)=>{
-    const date1 = new Date(Date.now());
-const date2 = new Date(dt2);
-
-const diffInMilliseconds = date2 - date1;
-
-const millisecondsInADay = 1000 * 60 * 60 * 24;
-const diffInDays = Math.floor(diffInMilliseconds / millisecondsInADay);
-if(diffInDays< 0){
+    const dueDate = new Date(dt2);
+    const timeDiff = dueDate.getTime() - new Date().getTime();
+    const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+if(daysDiff< 0){
   return ' No days left!!'
 }
-return diffInDays;
+return daysDiff;
   }
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -90,11 +87,19 @@ return diffInDays;
     filteredObject=rents
   }
 
+  const OverdueBooks=rents.filter((item) => {
+    const dueDate = new Date(item.dueDate);
+    const timeDiff = dueDate.getTime() - new Date().getTime();
+    const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+    if(!item.returned){
+      return daysDiff <= 3;
+    }
+    
+  });
 
+  const unReturned=rents.filter((rent)=>rent.returned ===false).length;
 
-  const unRerurned=filteredObject
-
-  console.log(unRerurned)
+  console.log(unReturned)
 
   const removeFilter=()=>{
   
@@ -117,9 +122,9 @@ return(
     
     >
       <StudentsStatsCards title="Fine" value={StData.fine} icon={<MonetizationOnTwoTone sx={{fontSize:"30px",color: theme.palette.dashboard.main}}/>} gridArea="box1"></StudentsStatsCards>
-      <StudentsStatsCards title="Rentals" value={rents.length} gridArea="box2"></StudentsStatsCards>
-      <StudentsStatsCards title="Un-returned Rentals" gridArea="box3"></StudentsStatsCards>
-      <StudentsStatsCards title="Overdue Rentals" gridArea="box4"></StudentsStatsCards>
+      <StudentsStatsCards title="Rentals" value={rents.length} icon={<LibraryBooksTwoTone sx={{fontSize:"30px",color: theme.palette.dashboard.main}}/>} gridArea="box2"></StudentsStatsCards>
+      <StudentsStatsCards title="Un-returned Rentals"value={unReturned} icon={<CancelTwoTone sx={{fontSize:"30px",color: theme.palette.dashboard.main}}/>} gridArea="box3"></StudentsStatsCards>
+      <StudentsStatsCards title="Overdue Rentals" value={OverdueBooks.length} icon={<AssignmentLateTwoTone sx={{fontSize:"30px",color: theme.palette.dashboard.main}}/>} gridArea="box4"></StudentsStatsCards>
 
 
     </Box>
@@ -133,7 +138,7 @@ return(
         </Box>
 
 
-      {filteredObject.map(({categoryName,issueDate,dueDate,nameOfBook,_id,author,bookId})=>(
+      {filteredObject.map(({categoryName,issueDate,dueDate,nameOfBook,_id,author,bookId,returned})=>(
       
         <RentalCard title={nameOfBook}
         key={_id}
@@ -143,6 +148,7 @@ return(
         issueDate={issueDate.split('T')[0]}
         dueDate={dueDate.split('T')[0]}
         rentalId={bookId}
+        returned={returned}
         />
       
       ))}

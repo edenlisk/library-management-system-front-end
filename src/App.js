@@ -64,9 +64,9 @@ function App() {
                             autoClose={3000}
                         />
                         <Routes>
-                        <Route path="/students/newnotifications/:studentId" element={<StudentsNotification/>}/>
+                        {/* <Route path="/students/newnotifications/:studentId" element={<StudentsNotification/>}/>
                                     <Route path="/studentsLogin" element={<StLoginPage/>}/>
-                                    <Route path="/students/notifications/:studentId" element={<StudentsInteraction/>}/>
+                                    <Route path="/students/notifications/:studentId" element={<StudentsInteraction/>}/> */}
                             <Route element={<Layout/>}>
                                 <Route path="/" element={<Navigate to="/login" replace/>}/>
                                 <Route path="/login" element={<LoginPage/>}/>
@@ -107,9 +107,9 @@ function App() {
                                     <Route path="/notification" element={<Notification/>}/>
                                     <Route path="/perfomance" element={<Tests/>}/>
                                     <Route path="/transactions" element={<UserNavbar/>}/>
-                                    {/* <Route path="/students/newnotifications/:studentId" element={<StudentsNotification/>}/>
-                                    <Route path="/studentsLogin" element={<StLoginPage/>}/>
-                                    <Route path="/students/notifications/:studentId" element={<StudentsInteraction/>}/> */}
+                                    <Route path="/students/newnotifications/:studentId" element={<StudentsNotification/>}/>
+                                    <Route path="/studentslogin" element={<StLoginPage/>}/>
+                                    <Route path="/students/notifications/:studentId" element={<StudentsInteraction/>}/>
                                     <Route path="/settings" element={<RoleBasedRoute element={<Settings/>} roles={["admin"]} />}/>
                                     <Route path="/admin" element={<RoleBasedRoute element={<ManageLibrarians />} roles={["admin"]} />}/>
                                     <Route path="/permissions/:name/:librarianId" element={<ManagePermissions/>}/>

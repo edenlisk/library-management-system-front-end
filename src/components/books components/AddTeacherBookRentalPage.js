@@ -173,7 +173,7 @@ const AddTeacherBookRentalPage = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const body = { ...rentBook, bookIds: rentBook.bookIds.split(",") };
+    const body = { ...rentBook, bookIds: rentBook.bookIds?.split(","), rentalFor:rentBook.rentalFor.toUpperCase() };
     await createTeacherRental({ body });
     console.log(book);
     console.log(body);
@@ -425,6 +425,7 @@ const AddTeacherBookRentalPage = () => {
             </Grid2>
             <Grid2 xs={12} md={9}>
               <TextField
+              required
                 label="Book ID"
                 sx={{ width: "80%" }}
                 name="bookIds"
@@ -441,6 +442,7 @@ const AddTeacherBookRentalPage = () => {
             </Grid2>
             <Grid2 xs={12} md={9}>
               <TextField
+              
                 label="Rental For"
                 sx={{ width: "80%" }}
                 name="rentalFor"
