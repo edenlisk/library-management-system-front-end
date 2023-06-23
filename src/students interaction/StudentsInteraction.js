@@ -1,5 +1,5 @@
 import React,{useState} from "react";
-import { Box,useTheme,useMediaQuery,Typography,Menu,MenuItem} from "@mui/material";
+import { Box,useTheme,useMediaQuery,Typography,Menu,MenuItem, Skeleton} from "@mui/material";
 import FlexBetween from "../components/FlexBetween";
 import RentalCard from "./RentalCard";
 import StudentsStatsCards from "./StudentsStatsCards";
@@ -137,7 +137,6 @@ return(
             <FilterAltOutlined onClick={handleClick}/>
         </Box>
 
-
       {filteredObject.map(({categoryName,issueDate,dueDate,nameOfBook,_id,author,bookId,returned})=>(
       
         <RentalCard title={nameOfBook}
@@ -149,6 +148,7 @@ return(
         dueDate={dueDate.split('T')[0]}
         rentalId={bookId}
         returned={returned}
+        isLoading={isFetching}
         />
       
       ))}

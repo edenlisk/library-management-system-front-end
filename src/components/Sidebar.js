@@ -88,13 +88,13 @@ const navItems = [
         icon: <PointOfSaleOutlined/>,
     },
     {
-        text: "Daily",
+        text: "Teacherslogin",
         icon: <TodayOutlined/>,
     },
-    // {
-    //     text: "Monthly",
-    //     icon: <CalendarViewMonthOutlined/>,
-    // },
+    {
+        text: "Monthly",
+        icon: <CalendarViewMonthOutlined/>,
+    },
     // {
     //     text: "Breakdown",
     //     icon: <PieChartOutline/>,

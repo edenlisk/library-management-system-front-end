@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import TchNavbar from "./TchNavbar";
-import { Box, useTheme, useMediaQuery, Typography, Menu, MenuItem } from "@mui/material";
+import { Box, useTheme, useMediaQuery, Typography, Menu, MenuItem,Skeleton } from "@mui/material";
 import RentalCard from "../../students interaction/RentalCard";
 import StudentsStatsCards from "../../students interaction/StudentsStatsCards";
 import { useNavigate, useParams } from "react-router-dom";
@@ -135,8 +135,7 @@ const TeachersInteraction = () => {
                         <Typography variant="h2">Rentals</Typography>
                         <FilterAltOutlined onClick={handleClick} />
                     </Box>
-
-
+                    
                     {filteredObject.map(({ categoryName, issueDate, dueDate, nameOfBook, _id, author, bookId, returned }) => (
 
                         <RentalCard title={nameOfBook}
@@ -148,6 +147,7 @@ const TeachersInteraction = () => {
                             dueDate={dueDate.split('T')[0]}
                             rentalId={bookId}
                             returned={returned}
+                            isLoading={isFetching}
                         />
 
                     ))}

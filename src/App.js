@@ -52,13 +52,15 @@ import './index.css';
 import TcLoginPage from "./components/teachers interaction/TcLoginPage";
 import TeachersInteraction from "./components/teachers interaction/TeachersInteraction";
 import TeachersNotification from "./components/teachers interaction/TeachersNotification";
+import {Box} from "@mui/material";
+import WelcomePage from "./components/WelcomePage";
 
 function App() {
     const mode = useSelector((state) => state.global.mode);
     const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <div className="App">
+            <Box sx={{height:"100%"}}>
                 <BrowserRouter>
                     <ThemeProvider theme={theme}>
                         <CssBaseline/>
@@ -70,10 +72,16 @@ function App() {
                         {/* <Route path="/students/newnotifications/:studentId" element={<StudentsNotification/>}/>
                                     <Route path="/studentsLogin" element={<StLoginPage/>}/>
                                     <Route path="/students/notifications/:studentId" element={<StudentsInteraction/>}/> */}
+                                    {/* <Route path="/monthly" element={<WelcomePage/>}/> */}
+                                    <Route path="/teacherslogin" element={<TcLoginPage/>}/>
+                                    <Route path="/studentslogin" element={<StLoginPage/>}/>
+                                    <Route path="/login" element={<LoginPage/>}/>
+                                    <Route path="/monthly" element={<WelcomePage/>}/>
                             <Route element={<Layout/>}>
                                 <Route path="/" element={<Navigate to="/login" replace/>}/>
                                 <Route path="/login" element={<LoginPage/>}/>
                                 <Route path="/unauthorized" element={<UnavailablePage/>}/>
+                                
                                 <Route element={<RequireAuth/>}>
                                     {/*<Route*/}
                                     {/*    path="/"*/}
@@ -116,6 +124,7 @@ function App() {
                                     <Route path="/daily" element={<TcLoginPage/>}/>
                                     <Route path="/teachers/notifications/:teacherId" element={<TeachersInteraction/>}/>
                                     <Route path="/teachers/newnotifications/:teacherId" element={<TeachersNotification/>}/>
+                                    {/* <Route path="/monthly" element={<WelcomePage/>}/> */}
                                     <Route path="/settings" element={<RoleBasedRoute element={<Settings/>} roles={["admin"]} />}/>
                                     <Route path="/admin" element={<RoleBasedRoute element={<ManageLibrarians />} roles={["admin"]} />}/>
                                     <Route path="/permissions/:name/:librarianId" element={<ManagePermissions/>}/>
@@ -124,7 +133,7 @@ function App() {
                         </Routes>
                     </ThemeProvider>
                 </BrowserRouter>
-            </div>
+            </Box>
         </LocalizationProvider>
     );
 }

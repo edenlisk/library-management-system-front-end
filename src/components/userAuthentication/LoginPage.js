@@ -31,11 +31,11 @@ const LoginPage = () => {
   // const [accessability, setAccess] = useState(() => {
   //   return localStorage.getItem('accessability');
   // })
-
+  const token = localStorage.getItem('token');
+  const userData = localStorage.getItem('profile');
+  const accessability = localStorage.getItem('accessability');
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    const userData = localStorage.getItem('profile');
-    const accessability = localStorage.getItem('accessability');
+
 
     if (token && userData && accessability) {
       dispatch(setAuthToken(token));
@@ -43,7 +43,7 @@ const LoginPage = () => {
       dispatch(setAccessibility(accessability));
       navigate("/dashboard");
     }
-  }, [navigate]);
+  }, [navigate,useDispatch]);
 
 
   useEffect(() => {
