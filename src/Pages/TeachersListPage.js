@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams, Link } from "react-router-dom";
 import {
-useGetTeachersQuery,
-useCreateTeacherMutation,
-useDeleteTeacherMutation
+  useGetTeachersQuery,
+  useCreateTeacherMutation,
+  useDeleteTeacherMutation
 } from "../states/apiSlice";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { DataGrid } from "@mui/x-data-grid";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import {
   Box,
@@ -18,9 +18,8 @@ import {
   Tooltip,
   Stack,
   Button,
-  CircularProgress 
+  CircularProgress
 } from "@mui/material";
-import Status from "../components/Status";
 import {
   ChevronRightOutlined,
   CloseOutlined,
@@ -28,50 +27,43 @@ import {
   ModeEditOutlined,
 } from "@mui/icons-material";
 import AddteacherForm from "../components/teachersComponents/AddTeacherForm";
-import Customtoolbar from "../components/Customtoolbar";
-import ReceiveBook from "../components/books components/ReceiveBook";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 
 const TeacherListPage = () => {
   const academicYear = useSelector((state) => state.global.academicYear);
 
   const { classId } = useParams();
 
-  const [createNewTeacher, {isSuccess:isCreateSuccess, isError:isCreateError, error:createError,isLoading:isSending}] =useCreateTeacherMutation();
+  const [createNewTeacher, { isSuccess: isCreateSuccess, isError: isCreateError, error: createError, isLoading: isSending }] = useCreateTeacherMutation();
 
   useEffect(() => {
     if (isCreateSuccess) {
       toast.success("Teacher created successfully")
     } else if (isCreateError) {
-      const { data:fullError } = createError;
-      const {message} = fullError;
+      const { data: fullError } = createError;
+      const { message } = fullError;
       toast.error(message);
     }
   }, [isCreateError, isCreateSuccess]);
-  const [deleteTeacher, {isSuccess:isDeleteSuccess, isError:isDeleteError, error:deleteError,isLoading:isDeleting}] = useDeleteTeacherMutation();
+  const [deleteTeacher, { isSuccess: isDeleteSuccess, isError: isDeleteError, error: deleteError, isLoading: isDeleting }] = useDeleteTeacherMutation();
   useEffect(() => {
     if (isDeleteSuccess) {
       toast.success("Teacher deleted successfully")
     } else if (isDeleteError) {
-      const { data:fullError } = deleteError;
-      const {message} = fullError;
+      const { data: fullError } = deleteError;
+      const { message } = fullError;
       toast.error(message);
     }
   }, [isDeleteError, isDeleteSuccess]);
 
   const { data, isLoading, isSuccess, isError, error } = useGetTeachersQuery();
-//   const{data:classInfo,isSuccess:isDone}=useGetOneClassQuery(classId);
-
 
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
   const [selectedId, setSelectedId] = useState(null);
   const [selectedTeacher, setSelectedTeacher] = useState("");
-  // TO BE TAKEN IN THE STUDENT TABLE PAGE WILL NOT STAY IN HERE
 
-  // TO HANDLE ROW DELETION
-
-  const handleClickOpenDeleteModal = (id,name) => {
+  const handleClickOpenDeleteModal = (id, name) => {
     setSelectedId(id);
     setSelectedTeacher(name);
     setOpenDeleteModal(!openDeleteModal);
@@ -80,11 +72,8 @@ const TeacherListPage = () => {
   const handleCloseDeleteModal = () => {
     setOpenDeleteModal(!openDeleteModal);
   };
-  // FETCHING STUDENTS LIST
 
-  // ADDING NEW STUDENT
-
-  let className="";
+  let className = "";
 
 
   let rows = [];
@@ -99,7 +88,7 @@ const TeacherListPage = () => {
     const { teachers } = teachersdata;
     console.log(teachersdata);
     rows = teachers
-    ;
+      ;
   }
   const [open, setOpen] = useState(false);
 
@@ -113,11 +102,11 @@ const TeacherListPage = () => {
     name: "",
     registrationNumber: "",
   });
-  const capitalizeSentence = (sentence) =>(
+  const capitalizeSentence = (sentence) => (
     sentence
       .toLowerCase()
       .replace(/(^\w|\s\w)/g, (match) => match.toUpperCase())
-    );
+  );
 
   const handleChange = (e) => {
     setNewTeacher({ ...newTeacher, [e.target.name]: e.target.name === "name" ? capitalizeSentence(e.target.value) : e.target.value });
@@ -126,9 +115,9 @@ const TeacherListPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const body = { ...newTeacher };
-    await createNewTeacher({ ...newTeacher, body});
+    await createNewTeacher({ ...newTeacher, body });
     console.log(newTeacher);
-    setNewTeacher({ name: "", registrationNumber: ""});
+    setNewTeacher({ name: "", registrationNumber: "" });
     handleClose();
   };
   const handleRowDelete = async () => {
@@ -150,9 +139,9 @@ const TeacherListPage = () => {
     {
       field: "actions",
       headerName: "Actions",
-      flex: 0.5,
+      flex: 0.3,
       renderCell: (params) => {
-        // TO DELETE LATER
+
 
         return (
           <>
@@ -162,7 +151,7 @@ const TeacherListPage = () => {
                   aria-label="delete"
                   variant="contained"
                   size="small"
-                  onClick={() => handleClickOpenDeleteModal(params.row._id,params.row.name)}
+                  onClick={() => handleClickOpenDeleteModal(params.row._id, params.row.name)}
                 >
                   <DeleteOutlined sx={{ fontSize: 21 }} />
                 </IconButton>
@@ -177,7 +166,7 @@ const TeacherListPage = () => {
                     <ModeEditOutlined sx={{ fontSize: 21 }} />
                   </IconButton>
                 </Tooltip>
-                {/* TO DELETE LATER */}
+
               </Link>
               <Link to={`/teachers/teachers-rentals/${params.row._id}`}>
                 <Tooltip title="Details" placement="top" arrow>
@@ -195,15 +184,8 @@ const TeacherListPage = () => {
         );
       },
     },
-    // {
-    //   field: "status",
-    //   headerName: "Status",
-    //   flex: 0.3,
-    //   renderCell: (params) => <Status />,
-    // },
-  ];
 
-  // glitch in maximizing screen
+  ];
   const theme = useTheme();
 
   return (
@@ -222,14 +204,14 @@ const TeacherListPage = () => {
         "& .MuiDataGrid-virtualScroller": {},
       }}
     >
-      {/* INLINE NAME AND FORM */}
+
       <Grid2 container spacing={2} flexDirection="column" p="10px 10px 10px ">
         <Grid2
           xs={12}
           display="flex"
           justifyContent="end"
           alignItems="center"
-          
+
         >
 
           <AddteacherForm
@@ -244,7 +226,7 @@ const TeacherListPage = () => {
           />
         </Grid2>
       </Grid2>
-      {/* DATA GRID TABLE */}
+
       <div style={{ maxWidth: "99%", margin: "auto", overflowX: "auto" }}>
         <div style={{ width: "100%", overflowX: "auto" }}>
           <DataGrid
@@ -256,16 +238,6 @@ const TeacherListPage = () => {
             disableColumnSelector
             disableDensitySelector
             autoHeight
-            // components={{
-            //   Toolbar: () => <Customtoolbar classId={classId} />,
-            // }}
-            // slots={{ toolbar: Customtoolbar }}
-            // slotProps={{
-            //   toolbar: {
-            //     showQuickFilter: true,
-            //     quickFilterProps: { debounceMs: 500 },
-            //   },
-            // }}
             initialState={{
               ...rows.initialState,
               pagination: { paginationModel: { pageSize: 8 } },
@@ -275,7 +247,7 @@ const TeacherListPage = () => {
           />
         </div>
       </div>
-      {/* DELETE CONFIRMATION MODAL */}
+
       <Modal
         open={openDeleteModal}
         aria-labelledby="add-modal-title"
@@ -310,23 +282,23 @@ const TeacherListPage = () => {
                 {`Sure you want to delete data in row ${selectedTeacher}`}
               </Typography>
               <Box display="flex" gap={2} sx={{ alignSelf: "center" }}>
-               {isDeleting? <Button
+                {isDeleting ? <Button
                   variant="contained"
                   size="medium"
                   type="button"
                   disabled
-                  startIcon={ <CircularProgress size={20}/>}
+                  startIcon={<CircularProgress size={20} />}
                   sx={{ mb: 2, width: "200px", alignSelf: "start" }}
                 >
-                deleting
-                </Button>:<Button
+                  deleting
+                </Button> : <Button
                   variant="contained"
                   size="medium"
                   type="button"
                   sx={{ mb: 2, width: "200px", alignSelf: "start" }}
                   onClick={handleRowDelete}
                 >
-                 delete
+                  delete
                 </Button>}
                 <Button
                   variant="contained"

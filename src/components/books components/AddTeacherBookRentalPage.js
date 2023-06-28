@@ -173,7 +173,7 @@ const AddTeacherBookRentalPage = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const body = { ...rentBook, bookIds: rentBook.bookIds.split(",") };
+    const body = { ...rentBook, bookIds: rentBook.bookIds?.split(","), rentalFor:rentBook.rentalFor.toUpperCase() };
     await createTeacherRental({ body });
     console.log(book);
     console.log(body);
@@ -194,7 +194,7 @@ const AddTeacherBookRentalPage = () => {
     navigate(-1);
   };
 
-  const levels = ["S1", "S2", "S3", "S4", "S5", "S6", "AllEvels"];
+  const levels = ["senor one", "senior two", "senior three", "senior four", "senior five", "senior six", "others"];
 
   const cardClick = (id) => {
     const clickedBook = rows.find((book) => book._id === id);
@@ -357,7 +357,8 @@ const AddTeacherBookRentalPage = () => {
                     category={categoryName}
                     academicLevel={academicLevel}
                     language={language}
-                    numberOfBooks={numberOfBooks}availableCopy={availableCopy}
+                    numberOfBooks={numberOfBooks}
+                    availableCopy={availableCopy}
                     cardClick={() => cardClick(_id)}
                     key={_id}
                   />
@@ -424,6 +425,7 @@ const AddTeacherBookRentalPage = () => {
             </Grid2>
             <Grid2 xs={12} md={9}>
               <TextField
+              required
                 label="Book ID"
                 sx={{ width: "80%" }}
                 name="bookIds"
@@ -440,6 +442,7 @@ const AddTeacherBookRentalPage = () => {
             </Grid2>
             <Grid2 xs={12} md={9}>
               <TextField
+              
                 label="Rental For"
                 sx={{ width: "80%" }}
                 name="rentalFor"
@@ -523,6 +526,7 @@ const AddTeacherBookRentalPage = () => {
                 </Button>
               ) : (
                 <Button
+                sx={{backgroundColor:theme.palette.buttons.main}}
                   variant="contained"
                   type="submit"
                   onClick={handleSubmit}
@@ -531,6 +535,7 @@ const AddTeacherBookRentalPage = () => {
                 </Button>
               )}
               <Button
+              sx={{backgroundColor:theme.palette.buttons.main}}
                 variant="contained"
                 type="button"
                 onClick={() => navigate(-1)}

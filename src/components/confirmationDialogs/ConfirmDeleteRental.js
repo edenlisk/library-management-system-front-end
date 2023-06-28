@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/material";
+import {Button, Dialog, DialogActions, DialogContent, DialogTitle,useTheme} from "@mui/material";
 import {useDeleteRentalMutation} from "../../states/apiSlice";
 import {toast} from "react-toastify";
 
@@ -8,6 +8,7 @@ const ConfirmDeleteRental = () => {
     const [deleteRental, {isSuccess, isError, error}] = useDeleteRentalMutation();
     const [open, setOpen] = useState(false);
     const [book, setBook] = useState(null);
+    const theme=useTheme();
 
     useEffect(() => {
         if (isSuccess) {
@@ -52,6 +53,7 @@ const ConfirmDeleteRental = () => {
                 </DialogContent>
                 <DialogActions>
                     <Button
+                        sx={{backgroundColor:theme.palette.buttons.main}}
                         variant="contained"
                         onClick={handleDelete}
                         color="error"
@@ -59,6 +61,7 @@ const ConfirmDeleteRental = () => {
                         Delete
                     </Button>
                     <Button
+                        sx={{backgroundColor:theme.palette.buttons.main}}
                         variant="contained"
                         onClick={handleClose}
                         color="success"

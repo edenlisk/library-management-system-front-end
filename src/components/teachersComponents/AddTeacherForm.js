@@ -118,7 +118,7 @@ const AddteacherForm = ({newTeacher,handleChange,onSubmit,open,handleOpen,handle
                   size="medium"
                   type="submit"
 
-                  sx={{ mb: 2, width: "90%", alignSelf: "start" }}
+                  sx={{ mb: 2, width: "90%", alignSelf: "start" ,backgroundColor:theme.palette.buttons.main}}
                 >
                 Add teacher
                 </Button>}
@@ -130,7 +130,7 @@ const AddteacherForm = ({newTeacher,handleChange,onSubmit,open,handleOpen,handle
                   size="medium"
                   type="button"
                   onClick={handleClose}
-                  sx={{ mb: 2, width: "90%", alignSelf: "start" }}
+                  sx={{ mb: 2, width: "90%", alignSelf: "start" ,backgroundColor:theme.palette.buttons.main}}
                 >
                   cancel
                 </Button>

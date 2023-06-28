@@ -42,7 +42,7 @@ export default function AlertDialogSlide({ open, handleClose, bookId }) {
             width: "60%",
             maxWidth: "none",
             height: "90%",
-            backgroundColor: theme.palette.primary[800],
+            backgroundColor:theme.palette.primary[900],
             fontSize: 26,
           },
         }}
@@ -53,7 +53,6 @@ export default function AlertDialogSlide({ open, handleClose, bookId }) {
         {/*<DialogTitle sx={{fontSize: '30px'}}>*/}
         {/*    The selected book has the following details*/}
         {/*</DialogTitle>*/}
-        <hr />
         <DialogContent>
           <TableContainer>
             <Table>

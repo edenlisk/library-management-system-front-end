@@ -33,6 +33,7 @@ import {
   InputAdornment,
   useMediaQuery,
   useTheme,
+  Accordion,AccordionSummary,AccordionDetails
 } from "@mui/material";
 import {
   LoginOutlined,
@@ -42,6 +43,13 @@ import {
   Email,
   PointOfSale,
   Traffic,
+  WarningRounded,
+ ExpandMore,
+ LibraryBooks,
+ MonetizationOnRounded,
+ LibraryBooksRounded,
+ LibraryAddTwoTone,
+ LibraryBooksTwoTone
 } from "@mui/icons-material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
@@ -54,6 +62,10 @@ import StatBox from "./StatBox";
 import { setAcademicYear } from "../states/slice";
 // import MyResponsiveLine from "./Datachart";
 import { MyResponsivePie,MyResponsiveLine } from "./dashboard/Graphs";
+import TopStudents from "./dashboard/TopStudents";
+import LastCreated from "./dashboard/LastCreated";
+import TopBooks from "./dashboard/TopBooks";
+
 
 // const rows = [
 //   { id: 1, name: "John", age: 25, email: "john@example.com" },
@@ -197,6 +209,64 @@ const Tests = () => {
     setOpenModal(!openModal);
   };
 
+  const criticalBooks=[ {
+    BKname: "The Hidden Path",
+    total: 50,
+    remaining: 20,
+    id:1
+  },
+  {
+    BKname: "Beyond the Horizon",
+    total: 30,
+    remaining: 5,
+    id:2
+  },
+  {
+    BKname: "Whispering Shadows",
+    total: 25,
+    remaining: 10,
+    id:3
+  },
+  {
+    BKname: "The Enigma Code",
+    total: 15,
+    remaining: 2,
+    id:4
+  },
+  {
+    BKname: "Secrets of the Lost Temple",
+    total: 40,
+    remaining: 15,
+    id:5
+  },
+  {
+    BKname: "The Forgotten Key",
+    total: 20,
+    remaining: 8,
+    id:6
+  },
+  {
+    BKname: "Echoes of Eternity",
+    total: 35,
+    remaining: 18,
+    id:7
+  },
+  {
+    BKname: "The Silent Witness",
+    total: 50,
+    remaining: 30,
+    id:8
+  }];
+
+  // const BookNotify=({BKname,total,remaining,id})=>{
+
+  //   return(
+  //     <Box padding={4.5} display="flex" gap={0.5} alignItems="center">
+  //     <WarningRounded color="warning" sx={{ fontSize: 26 }}/>
+  //     <Typography variant="h5">Book:<span style={{fontWeight:"bold"}}> {BKname}</span> is at it's limit <span style={{color:"red"}}>{`(${remaining} of ${total})`}</span> is remaining.</Typography>
+  //   </Box>
+  //   )
+  // }
   return (
     // <div style={{ height: 400, width: "100%" }}>
     //   <DataGrid
@@ -378,44 +448,43 @@ const Tests = () => {
         mt="20px"
         display="grid"
         gridTemplateColumns="repeat(12, 1fr)"
-        gridAutoRows="160px"
+        gridAutoRows= "minmax(160px, auto)"
         gap="20px"
         p="0px 17px"
         sx={{
           "& > div": { gridColumn: isNonMediumScreens ? undefined : "span 12" },
         }}
       >
+        <Box gridColumn="span 8"
+        display="flex"
+        flexDirection="column"
+        justifyContent="space-between" flex="1 1 100%"
+        gap="1rem">
         
         <StatBox
-          title="Total Customers"
+          title="Total Revenue"
           // value={data && data.totalCustomers}
           increase="+14%"
           icon={
-            <Email
+            <MonetizationOnRounded
               sx={{ color: theme.palette.secondary[300], fontSize: "26px" }}
             />
           }
         />
         <StatBox
-          title="Sales Today"
+          title="Total Books"
           // value={data && data.todayStats.totalSales}
           increase="+21%"
 
           icon={
-            <PointOfSale
-              sx={{ color: theme.palette.secondary[300], fontSize: "26px" }}
+            <LibraryBooks
+              sx={{ color: theme.palette.bookText.light, fontSize: "26px" }}
             />
           }
         />
-                <Box
-        gridColumn="span 8"
-        gridRow="span 2"
-        backgroundColor={theme.palette.background.alt}
-        p="16px"
-        borderRadius="0.55rem"
-      ><MyResponsivePie /> </Box>
+
         <StatBox
-          title="Monthly Sales"
+          title="Lost Books"
           // value={data && data.thisMonthStats.totalSales}
           increase="+5%"
           icon={
@@ -425,24 +494,82 @@ const Tests = () => {
           }
         />
         <StatBox
-          title="Yearly Sales"
+          title="Issued Books"
           // value={data && data.yearlySalesTotal}
           increase="+43%"
           icon={
-            <Traffic
+            <LibraryAddTwoTone
               sx={{ color: theme.palette.secondary[300], fontSize: "26px" }}
             />
           }
         />
-                <Box
-          gridColumn="span 12"
-          gridRow="span 2"
-          backgroundColor={theme.palette.background.alt}
-          p="16px"
-          borderRadius="0.55rem"
-        ><MyResponsiveLine /> </Box>
+        </Box>
 
-      </Box>
+           <Box
+      gridColumn="span 4"
+      // gridRow="span 3"
+      display="flex"
+      flexDirection="column"
+      justifyContent="space-between"
+      p="1rem 0.5rem"
+      flex="1 1 100%"
+      backgroundColor={theme.palette.background.alt}
+      borderRadius="0.55rem"
+      width="100%"
+    >
+     <TopStudents/>
+    </Box>
+    <Box
+      gridColumn="span 8"
+      // gridRow="span 4"
+      display="flex"
+      flexDirection="column"
+      justifyContent="space-between"
+      p="1rem 0.5rem"
+      flex="1 1 100%"
+      backgroundColor={theme.palette.background.alt}
+      borderRadius="0.55rem"
+      width="100%"
+    >
+     <LastCreated/>
+    </Box>
+    <Box
+      gridColumn="span 4"
+      // gridRow="span 3"
+      display="flex"
+      flexDirection="column"
+      justifyContent="space-between"
+      p="1rem 0.5rem"
+      flex="1 1 100%"
+      backgroundColor={theme.palette.background.alt}
+      borderRadius="0.55rem"
+      width="100%"
+    >
+     <TopBooks/>
+    </Box>
+        </Box>
+
+
+
+
+    
+{/* <Box padding={3.5}>
+      <Accordion sx={{backgroundColor:theme.palette.background.default,'& .MuiAccordionDetails-root': { padding: 0 },'& .MuiBox-root': { padding:1 }}}>
+      <AccordionSummary
+          expandIcon={<ExpandMore />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <Typography variant="h4">Books</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+        {criticalBooks.map(({BKname,total,remaining,id})=>(<BookNotify key={id}
+        BKname={BKname} total={total} remaining={remaining}/>))}
+
+        </AccordionDetails>
+      </Accordion>
+      </Box> */}
+      
     </>
   );
 };

@@ -119,7 +119,7 @@ export const apiSlice = createApi({
         generateStudentReport: builder.mutation({
             query: (studentId) => ({
                 url: `/students/report/${studentId}`,
-                method: 'POST',
+                method: 'POST', 
                 responseHandler: (response) => response.blob()
             }),
             invalidatesTags: ['students']
@@ -132,6 +132,17 @@ export const apiSlice = createApi({
                 body: formData
             }),
             invalidatesTags: ['students', 'classes']
+        }),
+        studentLogin: builder.mutation({
+            query: ({registrationNumber, password}) => ({
+                url: `/students/login`,
+                method: 'POST',
+                body: {registrationNumber, password}
+            }),
+        }),
+        getStudentRentals: builder.query({
+            query: (studentId) => `/rentals/student/${studentId}`,
+            providesTags: ['rentals', 'students', 'classes', 'books']
         }),
         getRentals: builder.query({
             query: ({academicYear, studentId}) => ({
@@ -167,6 +178,13 @@ export const apiSlice = createApi({
                 body
             }),
             invalidatesTags: ['rentals', 'teachersRentals', 'statistics', "books"]
+        }),
+        getAllRentals: builder.mutation({
+            query: ({startDate, endDate}) => ({
+                url:  `/rentals/all-rentals/${startDate}/${endDate}`,
+                method: 'POST'
+            }),
+            providesTags: ['rentals', 'teachersRental', 'statistics']
         }),
         lostBooks: builder.query({
             query: () => `/rentals/inactive-rentals`,
@@ -245,7 +263,7 @@ export const apiSlice = createApi({
         }),
         getTeacher: builder.query({
             query: (teacherId) => `/teachers/${teacherId}`,
-            providesTags: ['teachers']
+            providesTags: ['teachers','rentals', 'teachersRentals', 'books',]
         }),
         updateTeacher: builder.mutation({
             query: ({body, teacherId}) => ({
@@ -270,11 +288,18 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: ['teachers', "teachersRentals", "books", "statistics"]
         }),
+        teacherLogin: builder.mutation({
+            query: ({registrationNumber, password}) => ({
+                url: `/teachers/login`,
+                method: 'POST',
+                body: {registrationNumber, password}
+            })
+        }),
         getTeacherRentals: builder.query({
             query: (teacherId) => ({
                 url: `/teachers/teachers-rentals/${teacherId}`
             }),
-            providesTags: ["teachersRentals"]
+            providesTags: ["teachersRentals",'rentals','teachers','books']
         }),
         getSingleTeacherRental: builder.query({
            query: (rentalId) => `/teachers-rental/${rentalId}`,
@@ -397,8 +422,16 @@ export const apiSlice = createApi({
             providesTags: ['statistics', 'rentals', 'teachersRentals', 'books']
         }),
         issuedBooks: builder.query({
-            query: () => `/statistics/all-rentals`,
+            query: (academicYear) => `/statistics/all-rentals/${academicYear}`,
             providesTags: ['statistics', 'rentals', 'teachersRentals', 'books']
+        }),
+        lessBooks: builder.query({
+            query: () => `/books/less-books`,
+            providesTags: ['rentals', 'books', 'teachersRentals', 'settings', 'statistics']
+        }),
+        subCategoriesStats: builder.query({
+            query: () => `/statistics/stats-subcategories`,
+            providesTags: ["rentals", "books", "teachersRentals", "statistics", "books-categories"]
         })
 
         // GET STUDENTS BY CLASSID  TO GET: STUNT-ID,NAME CLASS-ID,REG-NBR,FINE
@@ -469,5 +502,11 @@ export const {
     useDeleteLibrarianMutation,
     useGetLibrariansQuery,
     useGetLibrarianQuery,
-    useIssuedBooksQuery
+    useIssuedBooksQuery,
+    useGetAllRentalsMutation,
+    useLessBooksQuery,
+    useStudentLoginMutation,
+    useGetStudentRentalsQuery,
+    useSubCategoriesStatsQuery,
+    useTeacherLoginMutation
 } = apiSlice;

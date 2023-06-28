@@ -1,11 +1,12 @@
 import {useUploadBooksMutation} from "../../states/apiSlice";
 import React, {useEffect, useRef, useState} from "react";
-import {Box, Button, Stack, Tooltip} from "@mui/material";
-import {UploadFile} from "@mui/icons-material";
+import {Box, Button,CircularProgress,useTheme} from "@mui/material";
+import {UploadFile,CheckCircleOutlineOutlined} from "@mui/icons-material";
 import {toast} from "react-toastify";
 
 
 const FileUploadBooks = () => {
+    const theme= useTheme();
     const [uploadBooks, { isSuccess, isLoading, isError, error }] = useUploadBooksMutation();
     useEffect(() => {
         if (isSuccess) {
@@ -25,52 +26,63 @@ const FileUploadBooks = () => {
     const fileBooksInputRef = useRef(null);
 
     const handleFileChange = (event) => {
-        setSelectedFile(event.target.files[0]);
-        setFirstClick(true);
-    };
+        // to choose file on file explorer modal and enable trigger of the upload function after
+        const files = event.target.files;
+        if (files && files.length > 0) {
+          // File selected
+          console.log('File selected:', files[0]);
+          setFirstClick(true);
+          setSelectedFile(files[0]);
+        }
+        else {
+          // when file is not selected cancel upload function and revert back to handle buttonclick
+              setFirstClick(false)
+              console.log('niko');
+            }
+          
+      };
+
+      const one= ()=>{
+        console.log("one click is all it takes")
+      }
+      const two= ()=>{
+        console.log("two click is all it takes")
+      }
+
+      const handleButtonClick = () => {
+        fileBooksInputRef.current.click();
+        console.log("yoola")
+      };
+
     const handleUpload = async () => {
         const formData = new FormData();
         formData.append("books", selectedFile, selectedFile.name);
         await uploadBooks({ formData });
-    };
-    const handleFirstclick = () => {
-        if (!fileDialogOpened) {
-            fileBooksInputRef.current.click();
-            setFileDialogOpened(true);
-            setFirstClick(true);
-        }
+        setSelectedFile("");
+        setFirstClick(false);
     };
 
     return (
         <Box sx={{ display: "flex" }}>
-            <Tooltip title="Upload books" placement="top" arrow>
-                <Stack
-                    variant="contained"
-                    onClick={() =>
-                        firstClick ? handleUpload() : handleFirstclick()
-                    }
-                >
-                    {isLoading ? (
-                        "Uploading"
-                    ) : (
-                        // TO CHANGE THE BUTTON ON FILE CHANGE
-                        <Button
-                            variant="contained"
-                            startIcon={<UploadFile sx={{ fontSize: "10.8px" }} />}
-                            sx={{ fontSize: "10.8px" }}
-                        >
-                            <input
-                                type="file"
-                                style={{ display: "none" }}
-                                ref={fileBooksInputRef}
-                                onChange={handleFileChange}
-                            />
-                            books
-                        </Button>
-                    )}
-                </Stack>
-            </Tooltip>
-        </Box>
+      
+        <input
+          type="file"
+          ref={fileBooksInputRef}
+          style={{ display: 'none' }}
+          accept=".csv, text/csv"
+          onChange={handleFileChange}
+          onClick={() =>
+            firstClick ? two() : one()}
+        />
+        {firstClick ?<> {isLoading?<Button variant="contained" disabled startIcon={<CircularProgress size={20}/> }>
+         uploading
+        </Button>:<Button sx={{backgroundColor:"#37796c"}} variant="contained" startIcon={<CheckCircleOutlineOutlined sx={{ fontSize: "10.8px" }} />} onClick={() =>handleUpload()}>
+         upload Books
+        </Button>}</>:<Button variant="contained" sx={{backgroundColor:theme.palette.buttons.main}} startIcon={<UploadFile sx={{ fontSize: "10.8px" }} />} onClick={() =>handleButtonClick()}>
+          books
+        </Button>}
+       
+      </Box>
     );
 }
 

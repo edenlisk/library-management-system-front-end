@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../states/apiSlice";
 import { setAccessibility, setAuthToken, setUserData } from "../../states/authSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,32 +18,31 @@ import {
 import { LoginOutlined, Visibility, VisibilityOff } from "@mui/icons-material";
 import { RotatingLines } from "react-loader-spinner";
 import { toast } from "react-toastify";
-// TO ADD A BOOLEAN TO MAKE FIELDS RED WHEN THERE IS AN ERROR
-
 const LoginPage = () => {
   const [login, { data, isSuccess, isLoading, isError, error }] =
     useLoginMutation();
   const navigate = useNavigate();
-  const [token, setToken] = useState(() => {
-    return localStorage.getItem('token')
-  })
-  const [userData, setProfile] = useState(() => {
-    return localStorage.getItem('profile');
-  })
-  const [accessability, setAccess] = useState(() => {
-    return localStorage.getItem('accessability');
-  })
-  // const token = localStorage.getItem("token");
-  // const userData = localStorage.getItem("profile");
-  // const accessability=localStorage.getItem("accessability")
+  // const [token, setToken] = useState(() => {
+  //   return localStorage.getItem('token')
+  // })
+  // const [userData, setProfile] = useState(() => {
+  //   return localStorage.getItem('profile');
+  // })
+  // const [accessability, setAccess] = useState(() => {
+  //   return localStorage.getItem('accessability');
+  // })
+  const token = localStorage.getItem('token');
+  const userData = localStorage.getItem('profile');
+  const accessability = localStorage.getItem('accessability');
   useEffect(() => {
-    if (token) {
+    if (token && userData && accessability) {
       dispatch(setAuthToken(token));
       dispatch(setUserData(userData));
       dispatch(setAccessibility(accessability));
       navigate("/dashboard");
     }
-  }, [navigate, token]);
+  }, [navigate,useDispatch]);
+
 
   useEffect(() => {
     if (isSuccess) {
@@ -55,7 +54,6 @@ const LoginPage = () => {
     }
   }, [isError, isSuccess, error]);
 
-  // const userDataStore = useSelector(state => state.auth.userData);
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -65,15 +63,12 @@ const LoginPage = () => {
 
   const [loginErrors, setLoginErrors] = useState({ email: "", password: "" });
 
-  // TAKES INPUT FROM INPUT FIELDS
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  // SUBMITS DATA IN THE INPUTS FIELDS
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // form validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const passwordRegex = /^[a-zA-Z0-9]+$/;
 
@@ -91,8 +86,7 @@ const LoginPage = () => {
       const { token, data } = userData;
       dispatch(setAuthToken(token));
       dispatch(setUserData(data.user));
-      dispatch(setAccessibility(data.user.accessibility))
-      console.log(data.user.accessibility)
+      dispatch(setAccessibility(data.user.accessibility));
       localStorage.setItem("token", token);
       localStorage.setItem("profile", JSON.stringify(data.user));
       localStorage.setItem("accessability", data.user.accessibility);
@@ -105,7 +99,7 @@ const LoginPage = () => {
   };
 
   return (
-    <Box height="100%">
+    <Box maxHeight="100%" p="10px 10px">
       <Box
         component="form"
         onSubmit={handleSubmit}
@@ -114,15 +108,16 @@ const LoginPage = () => {
         flexDirection="column"
         alignItems="center"
         justifyContent="center"
-        height="70%"
+        minHeight={400}
         margin="auto"
+        gap="13px"
         p="10px 10px"
         boxShadow={"1.5px 1.5px 10px #ccc"}
         padding={2}
         borderRadius="7px"
         marginTop="20px"
       >
-        <Typography variant="h3" sx={{ textAlign: "center", mb: 3 }}>
+        <Typography variant="h3" sx={{ textAlign: "center",}}>
           Account Login
         </Typography>
         <TextField
@@ -135,7 +130,7 @@ const LoginPage = () => {
           id="standard-basic"
           variant="outlined"
           onChange={handleChange}
-          sx={{ mb: 2 }}
+          sx={{}}
           error={Boolean(loginErrors.email)}
           helperText={loginErrors.email}
         />
@@ -146,7 +141,7 @@ const LoginPage = () => {
           fullWidth
           error={Boolean(loginErrors.password)}
           onChange={handleChange}
-          sx={{ mb: 2 }}
+          sx={{}}
         >
           <InputLabel htmlFor="password">Password</InputLabel>
           <OutlinedInput
@@ -167,15 +162,16 @@ const LoginPage = () => {
             }
             label="Password"
           />
-          {/* Form helper in helper text */}
+
           <FormHelperText id="password">{loginErrors.password}</FormHelperText>
         </FormControl>
+        <Box display="flex" alignItems="center" gap="8px" justifyContent="start" width="100%">
         <Button
           disabled={!!isLoading}
           variant="contained"
           size="medium"
           type="submit"
-          sx={{ mb: 2, width: "100px", alignSelf: "start" }}
+          sx={{ width: "100px", alignSelf: "start" }}
           endIcon={<LoginOutlined />}
         >
           {isLoading ? (
@@ -190,12 +186,8 @@ const LoginPage = () => {
             `Login`
           )}
         </Button>
-        {/* <Typography
-          variant="p"
-          sx={{ alignSelf: "start", paddingRight: "4px" }}
-        >
-          Forgot Password ? <NavLink to="/passwordrecover">Recover</NavLink>
-        </Typography> */}
+        </Box>
+        
       </Box>
     </Box>
   );

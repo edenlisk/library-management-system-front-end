@@ -1,12 +1,14 @@
 import React from "react";
-import { Box, Typography, useTheme } from "@mui/material";
-import FlexBetween from "./FlexBetween";
+import { Box,Typography,useTheme } from "@mui/material";
+import FlexBetween from "../components/FlexBetween";
 
-const StatBox = ({ title, value, increase, icon, description }) => {
-  const theme = useTheme();
-  return (
-    <Box
-      gridColumn="span 4"
+const StudentsStatsCards=({title,icon,value})=>{
+const theme=useTheme();
+
+    return(
+
+        <>
+            <Box
       gridRow="span 1"
       display="flex"
       flexDirection="column"
@@ -15,10 +17,10 @@ const StatBox = ({ title, value, increase, icon, description }) => {
       flex="1 1 100%"
       backgroundColor={theme.palette.background.alt}
       borderRadius="0.55rem"
-      width="100%"
+      
     >
       <FlexBetween>
-        <Typography variant="h6" sx={{ }}>
+        <Typography variant="h4" sx={{ }}>
           {title}
         </Typography>
         {icon}
@@ -32,17 +34,18 @@ const StatBox = ({ title, value, increase, icon, description }) => {
         {value}
       </Typography>
       <FlexBetween gap="1rem">
-        <Typography
+        {/* <Typography
           variant="h4"
           fontStyle="italic"
           sx={{ color: theme.palette.secondary.light }}
         >
-          {increase}
+          {"increase"}
         </Typography>
-        <Typography>{description}</Typography>
+        <Typography>{"description"}</Typography> */}
       </FlexBetween>
     </Box>
-  );
+        </>
+    )
 };
 
-export default StatBox;
+export default StudentsStatsCards;

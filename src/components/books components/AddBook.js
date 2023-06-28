@@ -44,7 +44,6 @@ const AddBook = ({ isOpen, setIsOpen }) => {
     const { data } = catz;
     const { categories: catgz } = data;
     categrz = catgz;
-    console.log(catgz);
   }
   useEffect(() => {
     if (isSuccess) {
@@ -79,7 +78,6 @@ const AddBook = ({ isOpen, setIsOpen }) => {
     const body = { ...book };
     await createBook(body);
     setIsOpen(!isOpen);
-    console.log(book);
     setBook({
       bookName: "",
       author: "",
@@ -90,7 +88,7 @@ const AddBook = ({ isOpen, setIsOpen }) => {
       language: "",
     });
   };
-  const levels = ["S1", "S2", "S3", "S4", "S5", "S6", "AllEvels"];
+  const levels = ["Senior One", "Senior Two", "Senior Three", "Senior Four", "Senior Five", "Senior Six", "Others"];
   const languages = ["English", "French", "Kinyarwanda", "Swahili", "Other"];
 
   return (
@@ -104,14 +102,14 @@ const AddBook = ({ isOpen, setIsOpen }) => {
           <Box
             component="form"
             sx={{
-              p: 4.5,
-              pt: 2,
+              p:"10px 30px",
               width: "70%",
-              height:"100%",
+              height:"97%",
               display: "flex",
               margin:"auto",
               flexDirection: "column",
               alignItems: "center",
+              justifyContent:"top",
               gap: "20px",
               borderRadius:"12px",
             }}
@@ -281,11 +279,14 @@ const AddBook = ({ isOpen, setIsOpen }) => {
                       Adding
                     </Button>
                   ) : (
-                    <Button variant="contained" type="submit">
+                    <Button 
+                    sx={{backgroundColor:theme.palette.buttons.main}}
+                    variant="contained" type="submit">
                       Add book
                     </Button>
                   )}
                   <Button
+                  sx={{backgroundColor:theme.palette.buttons.main}}
                     variant="contained"
                     type="button"
                     onClick={handleModalClose}

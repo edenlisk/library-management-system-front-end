@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { useGenerateStudentReportMutation } from "../states/apiSlice";
 import { FileDownloadOutlined } from "@mui/icons-material";
-import { Box, Button, CircularProgress } from "@mui/material";
+import { Box, Button, CircularProgress,useTheme } from "@mui/material";
 
 const GenerateStudentReport = ({ studentId }) => {
+  const theme=useTheme();
   const [generateStudentReport, { data, isLoading }] =
     useGenerateStudentReportMutation();
 
@@ -37,7 +38,7 @@ const GenerateStudentReport = ({ studentId }) => {
           <Button
             variant="contained"
             startIcon={<FileDownloadOutlined sx={{ fontSize: "10.8px" }} />}
-            sx={{ fontSize: "10.8px" }}
+            sx={{ fontSize: "10.8px", backgroundColor:theme.palette.buttons.main }}
           >
             download
           </Button>

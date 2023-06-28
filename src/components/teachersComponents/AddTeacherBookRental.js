@@ -130,7 +130,7 @@ const AddTeacherBookRental = ({ rental,format, handleChange, onSubmit,handleStar
                   variant="contained"
                   size="medium"
                   type="submit"
-                  sx={{ alignSelf: "start" }}
+                  sx={{ alignSelf: "start",backgroundColor:theme.palette.buttons.main }}
                 >
                   Add Rental
                 </Button>
@@ -139,7 +139,7 @@ const AddTeacherBookRental = ({ rental,format, handleChange, onSubmit,handleStar
                   size="medium"
                   type="button"
                   onClick={handleModalClose}
-                  sx={{ alignSelf: "start" }}
+                  sx={{ alignSelf: "start",backgroundColor:theme.palette.buttons.main }}
                 >
                   cancel
                 </Button>

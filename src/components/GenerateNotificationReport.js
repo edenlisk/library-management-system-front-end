@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { FileDownloadOutlined } from "@mui/icons-material";
 import { useNotificationReportMutation } from "../states/apiSlice";
-import { Box, Button, CircularProgress } from "@mui/material";
+import { Box, Button, CircularProgress,useTheme } from "@mui/material";
 
 const GenerateNotificationReport = () => {
+  const theme=useTheme();
   const [notificationReport, { data, isLoading }] =
     useNotificationReportMutation();
 
@@ -37,7 +38,7 @@ const GenerateNotificationReport = () => {
           <Button
             variant="contained"
             startIcon={<FileDownloadOutlined sx={{ fontSize: "10.8px" }} />}
-            sx={{ fontSize: "10.8px" }}
+            sx={{ fontSize: "10.8px", backgroundColor:theme.palette.buttons.main }}
           >
             Download PDF
           </Button>

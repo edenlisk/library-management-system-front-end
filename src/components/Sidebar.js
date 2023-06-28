@@ -38,7 +38,7 @@ import {
     ChevronLeftOutlined,
     Inventory2Outlined,
     WorkHistoryOutlined,
-    BookOutlined, Security,MenuBookOutlined,CancelOutlined
+    BookOutlined, Security, MenuBookOutlined, CancelOutlined, FactCheck
 } from "@mui/icons-material";
 import {useEffect, useState} from "react";
 import {useLocation, useNavigate, Navigate} from "react-router-dom";
@@ -52,7 +52,7 @@ const navItems = [
         icon: <HomeOutlined/>,
     },
     {
-        text: "Client Facing",
+        text: "Librarian",
         icon: null,
     },
     {
@@ -68,45 +68,49 @@ const navItems = [
         icon: <MenuBookOutlined/>,
     },
     {
-        text: "Lost books",
+        text: "Lost-books",
         icon: <CancelOutlined/>,
     },
+    {
+        text: "Issued-Books",
+        icon: <FactCheck/>
+    },
     // {
-    //     text: "Transactions ",
+    //     text: "Transactions",
     //     icon: <PublicOffOutlined/>,
     // },
+    // {
+    //     text: "Statistics",
+    //     icon: null,
+    // },
+    // {
+    //     text: "Studentslogin",
+    //     icon: <PointOfSaleOutlined/>,
+    // },
+    // {
+    //     text: "Teacherslogin",
+    //     icon: <TodayOutlined/>,
+    // },
+    // {
+    //     text: "Monthly",
+    //     icon: <CalendarViewMonthOutlined/>,
+    // },
+    // {
+    //     text: "Breakdown",
+    //     icon: <PieChartOutline/>,
+    // },
     {
-        text: "Statistics",
-        icon: null,
-    },
-    {
-        text: "Overview",
-        icon: <PointOfSaleOutlined/>,
-    },
-    {
-        text: "Daily",
-        icon: <TodayOutlined/>,
-    },
-    {
-        text: "Monthly",
-        icon: <CalendarViewMonthOutlined/>,
-    },
-    {
-        text: "Breakdown",
-        icon: <PieChartOutline/>,
-    },
-    {
-        text: "Management",
+        text: "Admin Management",
         icon: null,
     },
     {
         text: "Admin",
         icon: <AdminPanelSettingsOutlined/>,
     },
-    {
-        text: "Perfomance",
-        icon: <TrendingUpOutlined/>,
-    },
+    // {
+    //     text: "Perfomance",
+    //     icon: <TrendingUpOutlined/>,
+    // },
     {
         text: "settings",
         icon: <SettingsOutlined/>
@@ -122,19 +126,33 @@ const Sidebar = ({
 
     const [logout, {data, isLoading, isSuccess, isError, error}] = useLogoutMutation();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     // const token = useSelector(state => state.auth.token);
     // const userData = useSelector(state => state.auth.userData);
+    // const [token, setToken] = useState(() => {
+    //     return localStorage.getItem('token');
+    // });
+    // const [userData, setUser] = useState(() => {
+    //     return localStorage.getItem('profile');
+    // });
+
+    // useEffect(() => {
+    //     if (token && userData) {
+    //         navigate('/login')
+    //     }
+    // }, [userData, token]);
     const token = localStorage.getItem("token");
     const rawUserData = localStorage.getItem("profile");
     const userData = JSON.parse(rawUserData);
 
-    useEffect(() => {
-        return () => {
-            dispatch(setUserData(null));
-            dispatch(setAuthToken(null));
-            navigate('/login')
-        }
-    }, [dispatch])
+    // useEffect(() => {
+    //     return () => {
+    //         dispatch(setUserData(null));
+    //         dispatch(setAuthToken(null));
+    //         navigate('/login')
+    //     }
+    // }, [dispatch])
 
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
@@ -161,7 +179,7 @@ const Sidebar = ({
             localStorage.removeItem("profile");
             dispatch(setUserData(null));
             dispatch(setAuthToken(null));
-            navigate('/login');
+            navigate('/');
         }
         handleClose();
     }
@@ -171,164 +189,158 @@ const Sidebar = ({
 
     const [active, setActive] = useState("");
 
-    const navigate = useNavigate();
 
     const theme = useTheme();
     useEffect(() => {
         setActive(pathname.substring(1));
     }, [pathname]);
     return (
-        token ? <Box component="nav">
-                {isSidebarOpen && (
-                    <Drawer
-                        open={isSidebarOpen}
-                        onClose={() => setIsSidebarOpen(false)}
-                        variant="persistent"
-                        anchor="left"
-                        sx={{
+        <Box component="nav">
+            {isSidebarOpen && (
+                <Drawer
+                    open={isSidebarOpen}
+                    onClose={() => setIsSidebarOpen(false)}
+                    variant="persistent"
+                    anchor="left"
+                    sx={{
+                        width: drawerWidth,
+                        "& .MuiDrawer-paper": {
+                            color: theme.palette.secondary[200],
+                            backgroundColor: theme.palette.background.alt,
+                            boxSizing: "border-box",
+                            borderWidth: isNonMobile ? 0 : "2px",
                             width: drawerWidth,
-                            "&.MuiDrawer-paper": {
-                                color: theme.palette.secondary[200],
-                                backgroundcolor: theme.palette.background.alt,
-                                boxSizing: "border-box",
-                                borderWidth: isNonMobile ? 0 : "2px",
-                                width: drawerWidth,
-                            },
-                        }}
+                        },
+                    }}
+                >
+                    <Box
+                        width="100%"
                     >
-                        <Box
-                            width="100%"
-                            sx={{
-                                backgroundColor: theme.palette.background.alt,
-                            }}
-                        >
-                            <Box m="1.5rem 2rem 2rem 3rem">
-                                <FlexBetween color={theme.palette.secondary.main}>
-                                    <Box display="flex" alignItems="center" gap="0.5rem">
-                                        <Typography variant="h4">LIBRARY</Typography>
-                                    </Box>
-                                    {!isNonMobile && (
-                                        <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
-                                            <ChevronLeft/>
-                                        </IconButton>
-                                    )}
-                                </FlexBetween>
-                            </Box>
-                            <List>
-                                {navItems.map(({text, icon}) => {
-                                    if (!icon) {
-                                        return (
-                                            <Typography key={text} sx={{m: "2.25rem 0 1rem 3rem"}}>
-                                                {text}
-                                            </Typography>
-                                        );
-                                    }
-                                    const lcText = text.toLowerCase();
+                        <Box m="1.5rem 2rem 2rem 3rem">
+                            <FlexBetween color={theme.palette.secondary.main}>
+                                <Box display="flex" alignItems="center" gap="0.5rem">
+                                    <Typography variant="h4">LIBRARY</Typography>
+                                </Box>
+                                {!isNonMobile && (
+                                    <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
+                                        <ChevronLeft/>
+                                    </IconButton>
+                                )}
+                            </FlexBetween>
+                        </Box>
+                        <List>
+                            {navItems.map(({text, icon}) => {
+                                if (!icon) {
                                     return (
-                                        <ListItem key={text} disablePadding>
-                                            <ListItemButton
-                                                onClick={() => {
-                                                    navigate(`/${lcText}`);
-                                                    setActive(lcText);
-                                                }}
+                                        <Typography key={text} sx={{m: "2.25rem 0 1rem 3rem"}}>
+                                            {text}
+                                        </Typography>
+                                    );
+                                }
+                                const lcText = text.toLowerCase();
+                                return (
+                                    <ListItem key={text} disablePadding>
+                                        <ListItemButton
+                                            onClick={() => {
+                                                navigate(`/${lcText}`);
+                                                setActive(lcText);
+                                            }}
+                                            sx={{
+                                                backgroundColor:
+                                                    active === lcText
+                                                        ? theme.palette.grey[500]
+                                                        : "transparent",
+                                                color:
+                                                    active === lcText
+                                                        ? theme.palette.primary[600]
+                                                        : theme.palette.accordion.light,
+                                            }}
+                                        >
+                                            <ListItemIcon
                                                 sx={{
-                                                    backgroundColor:
-                                                        active === lcText
-                                                            ? theme.palette.secondary[300]
-                                                            : "transparent",
+                                                    ml: "2rem",
                                                     color:
                                                         active === lcText
                                                             ? theme.palette.primary[600]
-                                                            : theme.palette.secondary[100],
+                                                            : theme.palette.accordion.main,
                                                 }}
                                             >
-                                                <ListItemIcon
-                                                    sx={{
-                                                        ml: "2rem",
-                                                        color:
-                                                            active === lcText
-                                                                ? theme.palette.primary[600]
-                                                                : theme.palette.secondary[200],
-                                                    }}
-                                                >
-                                                    {icon}
-                                                </ListItemIcon>
-                                                <ListItemText primary={text}/>
-                                                {active === lcText && (
-                                                    <ChevronLeftOutlined sx={{ml: "auto"}}/>
-                                                )}
-                                            </ListItemButton>
-                                        </ListItem>
-                                    );
-                                })}
-                            </List>
-                            {/* LIBRARIAN PROFILE */}
-                            <Box bottom="2rem">
-                                <Divider/>
-                                <FlexBetween textTransform="none" gap="1rem" m="1.5rem 2rem 0 3rem">
-                                    <Avatar
-                                        alt="profile"
-                                        // src="https://media.istockphoto.com/id/502581380/photo/portrait-of-an-african-american-man-with-glasses.jpg?s=612x612&w=0&k=20&c=cjS24yXM56lie7N-KsFtDH2CKCaS03OQFxwJgIag0ac="
+                                                {icon}
+                                            </ListItemIcon>
+                                            <ListItemText primary={text}/>
+                                            {active === lcText && (
+                                                <ChevronLeftOutlined sx={{ml: "auto"}}/>
+                                            )}
+                                        </ListItemButton>
+                                    </ListItem>
+                                );
+                            })}
+                        </List>
+                        {/* LIBRARIAN PROFILE */}
+                        <Box bottom="2rem">
+                            <Divider/>
+                            <FlexBetween textTransform="none" gap="1rem" m="1.5rem 2rem 0 3rem">
+                                <Avatar
+                                    alt="profile"
+                                    // src="https://media.istockphoto.com/id/502581380/photo/portrait-of-an-african-american-man-with-glasses.jpg?s=612x612&w=0&k=20&c=cjS24yXM56lie7N-KsFtDH2CKCaS03OQFxwJgIag0ac="
 
-                                        height="40px"
-                                        width="40px"
-                                        sx={{objectFit: "cover"}}
+                                    height="40px"
+                                    width="40px"
+                                    sx={{objectFit: "cover"}}
+                                >
+                                    {userData?.username ? userData.username.charAt(0).toUpperCase() : 'LDK'}
+                                </Avatar>
+                                <Box textAlign="left">
+                                    <Typography
+                                        fontWeight="bold"
+                                        fontSize="0.9rem"
+                                        sx={{color: theme.palette.secondary[100]}}
                                     >
-                                        {userData?.username ? userData.username.charAt(0).toUpperCase() : 'LDK'}
-                                    </Avatar>
-                                    <Box textAlign="left">
-                                        <Typography
-                                            fontWeight="bold"
-                                            fontSize="0.9rem"
-                                            sx={{color: theme.palette.secondary[100]}}
-                                        >
-                                            {userData? userData.username : `librarian`}
-                                        </Typography>
-                                        <Typography
-                                            fontWeight="bold"
-                                            fontSize="0.8rem"
-                                            sx={{color: theme.palette.secondary[200]}}
-                                        >
-                                            {'librarian'}
-                                        </Typography>
-                                    </Box>
-                                    <SettingsOutlined
-                                        sx={{color: theme.palette.secondary[300], fontSize: "25px"}}
-                                        id="gauge-button"
-                                        aria-controls={open ? 'user-menu' : undefined}
-                                        aria-haspopup="false"
-                                        aria-expanded={open ? 'true' : undefined}
-                                        onClick={handleClick}
-                                    />
-                                </FlexBetween>
-                            </Box>
-
+                                        {userData ? userData.username : `librarian`}
+                                    </Typography>
+                                    <Typography
+                                        fontWeight="bold"
+                                        fontSize="0.8rem"
+                                        sx={{color: theme.palette.accordion.main}}
+                                    >
+                                        {'librarian'}
+                                    </Typography>
+                                </Box>
+                                <SettingsOutlined
+                                    sx={{color: theme.palette.accordion.main, fontSize: "25px"}}
+                                    id="gauge-button"
+                                    aria-controls={open ? 'user-menu' : undefined}
+                                    aria-haspopup="false"
+                                    aria-expanded={open ? 'true' : undefined}
+                                    onClick={handleClick}
+                                />
+                            </FlexBetween>
                         </Box>
-                        {/* WHERE THE USER PROFILE IS AT COLOR UNMATCH */}
 
-                        <Menu
-                            id="user-menu"
-                            anchorEl={anchorEl}
-                            open={open}
-                            onClose={handleClose}
-                            MenuListProps={{
-                                'aria-labelledby': 'gauge-button',
-                            }}
-                            sx={{
-                                "& .MuiList-root": {
-                                    backgroundColor: ""
-                                }
-                            }}
-                        >
-                            <MenuItem onClick={handleClose}>Profile</MenuItem>
-                            <MenuItem onClick={handleClose}>My account</MenuItem>
-                            <MenuItem onClick={handleLogout}>Logout</MenuItem>
-                        </Menu>
-                    </Drawer>
-                )}
-            </Box>
-            :
-            <Navigate to="/login" replace/>
+                    </Box>
+                    {/* WHERE THE USER PROFILE IS AT COLOR UNMATCH */}
+
+                    <Menu
+                        id="user-menu"
+                        anchorEl={anchorEl}
+                        open={open}
+                        onClose={handleClose}
+                        MenuListProps={{
+                            'aria-labelledby': 'gauge-button',
+                        }}
+                        sx={{
+                            "& .MuiList-root": {
+                                backgroundColor: ""
+                            }
+                        }}
+                    >
+                        <MenuItem onClick={handleClose}>Profile</MenuItem>
+                        <MenuItem onClick={handleClose}>My account</MenuItem>
+                        <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                    </Menu>
+                </Drawer>
+            )}
+        </Box>
     );
 };
 

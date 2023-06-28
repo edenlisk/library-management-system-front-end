@@ -50,7 +50,7 @@ export default function ReceiveBook ({open, handleClose, book}) {
                         width: '70%',
                         maxWidth: 'none',
                         height: '90%',
-                        backgroundColor: theme.palette.primary[800],
+                        backgroundColor:theme.palette.primary[900],
                         fontSize: 24
                     }
                 }}
@@ -61,7 +61,6 @@ export default function ReceiveBook ({open, handleClose, book}) {
                 <DialogTitle sx={{fontSize: '20px'}}>
                     {"Do you want to receive this book with following Information, Are you sure ?"}
                 </DialogTitle>
-                <hr/>
                 <DialogContent>
                     <TableContainer>
                         <Table>

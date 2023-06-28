@@ -1,25 +1,21 @@
 import React, { useState,useEffect } from "react";
-import { NavLink, useNavigate, useParams } from "react-router-dom";
-import { FormHelperText, TextField, Typography } from "@mui/material";
+import { useNavigate, useParams } from "react-router-dom";
+import { TextField, Typography,useTheme } from "@mui/material";
 import {
-  FormControl,
-  InputLabel,
-  OutlinedInput,
-  InputAdornment,
-  IconButton,
   Button,
   Box,
-  CircularProgress
+  CircularProgress,
+  Skeleton
 } from "@mui/material";
-import { LoginOutlined,ChevronLeftOutlined } from "@mui/icons-material";
+import {ChevronLeftOutlined } from "@mui/icons-material";
 import { useUpdateStudentMutation,useGetOneStudentQuery } from "../states/apiSlice";
 import {toast} from "react-toastify";
 
-// TO ADD A BOOLEAN TO MAKE FIELDS RED WHEN THERE IS AN ERROR
 
 const EditStudentPage = () => {
   const { studentId } = useParams();
   const navigate=useNavigate();
+  const theme=useTheme();
   const{data,isLoading,isSuccess}=useGetOneStudentQuery(studentId);
  
   const [user, setUser] = useState({ name: "", fine: 0 });
@@ -30,7 +26,6 @@ const EditStudentPage = () => {
     if (isSuccess) {
       const { data: info } = data;
       const{student}=info;
-      console.log(student);
       setUser({ name: student.name, fine: student.fine })
     }
   }, [isSuccess]);
@@ -51,12 +46,10 @@ const EditStudentPage = () => {
       .replace(/(^\w|\s\w)/g, (match) => match.toUpperCase())
     );
 
-  // TAKES INPUT FROM INPUT FIELDS
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]:e.target.name === "name" ? capitalizeSentence(e.target.value) : e.target.value});
   };
 
-  // SUBMITS DATA IN THE INPUTS FIELDS
   const handleSubmit =  async (event) => {
     event.preventDefault();
     const body={...user}
@@ -88,7 +81,7 @@ const EditStudentPage = () => {
         <Typography variant="h3" sx={{ textAlign: "center", mb: 3 }}>
           Edit Student Info
         </Typography>
-        <TextField
+        {isLoading?<Skeleton animation="wave"  sx={{ width:"100%",height:30 }}/>:<TextField
           required
           fullWidth
           value={user.name || "" }
@@ -100,8 +93,8 @@ const EditStudentPage = () => {
           onChange={handleChange}
           sx={{ mb: 2 }}
 
-        />
-        <TextField
+        />}
+       { isLoading?<Skeleton animation="wave"  sx={{ width:"100%",height:30 }}/>:<TextField
           fullWidth
           value={user.fine || "" }
           name="fine"
@@ -112,7 +105,7 @@ const EditStudentPage = () => {
           onChange={handleChange}
           sx={{ mb: 2 }}
 
-        />
+        />}
 
        {isSending? <Button
           variant="contained"
@@ -127,7 +120,7 @@ const EditStudentPage = () => {
           variant="contained"
           size="medium"
           type="submit"
-          sx={{ mb: 2, width: "100px", alignSelf: "start" }}
+          sx={{ mb: 2, width: "100px", alignSelf: "start",backgroundColor:theme.palette.buttons.main }}
         >
           Update
         </Button>}

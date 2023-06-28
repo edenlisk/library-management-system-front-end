@@ -1,10 +1,12 @@
 import React, {useState, useRef, useEffect} from "react";
-import {Box, Button, TextField, Tooltip, Stack, CircularProgress } from "@mui/material";
+import {Box, Button, TextField, Tooltip, Stack, CircularProgress,useTheme } from "@mui/material";
 import { CheckCircleOutlineOutlined, UploadFile } from "@mui/icons-material";
 import { useUploadStudentsMutation } from "../states/apiSlice";
 import {toast} from "react-toastify";
 
 const FileUploadStudents = ({ classId }) => {
+
+  const theme=useTheme();
   const [uploadStudents, { isSuccess, isLoading, isError, error }] = useUploadStudentsMutation();
 
   useEffect(() => {
@@ -68,6 +70,7 @@ const FileUploadStudents = ({ classId }) => {
         type="file"
         ref={fileStudentsInputRef}
         style={{ display: 'none' }}
+        accept=".csv, text/csv"
         onChange={handleFileChange}
         onClick={() =>
           firstClick ? two() : one()}
@@ -76,7 +79,7 @@ const FileUploadStudents = ({ classId }) => {
        uploading
       </Button>:<Button sx={{backgroundColor:"#37796c"}} variant="contained" startIcon={<CheckCircleOutlineOutlined sx={{ fontSize: "10.8px" }} />} onClick={() =>handleUpload(classId)}>
        upload students
-      </Button>}</>:<Button variant="contained"  startIcon={<UploadFile sx={{ fontSize: "10.8px" }} />} onClick={() =>handleButtonClick()}>
+      </Button>}</>:<Button variant="contained" sx={{backgroundColor:theme.palette.buttons.main}} startIcon={<UploadFile sx={{ fontSize: "10.8px" }} />} onClick={() =>handleButtonClick()}>
         students
       </Button>}
      

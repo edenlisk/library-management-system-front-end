@@ -1,9 +1,21 @@
 html,
-body,
-#root,
-.App{
+body{
   height: 100%;
   width: 100%;
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+
+}
+#root{
+  height: 100%;
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+.App{
+  height: 100%;
 }
 
 code {
@@ -48,7 +60,90 @@ code {
   font-size: small;
   padding: 10px 10px;
 }
-::-webkit-scrollbar{
+.welcome{
+  height: 100%;
+  width: 100%;
+  padding: 50px 75px;
+  background-color: #141937;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+.flex-element{
+  width: 100%;
+  height: 100%;
+  box-shadow: 2px 2px 4px 4px rgba(26, 20, 20, 0.2);
+  background-color: #191f45;
+}
+.element1{
+  width: 100%;
+  background-image: url("https://images.unsplash.com/photo-1568667256531-7d5ac92eaa7a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE0fHx8ZW58MHx8fHx8&w=1000&q=80");
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 0px 5px 5px 0px;
+}
+.element2{
+  width: 100%;
+  /* height: 100%; */
+
+}
+.word-container{
+  position: relative;
+  z-index: 1;
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+}
+.word-container::before{
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(8px); 
+  background-color: #813c1f6f;
+  z-index: -1;
+  border-radius: inherit;
+}
+.explaination{
+  font-size: 1rem;
+}
+.link-words{
+  background-color: #21295c;
+  width: 130px;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  color: #fff;
+  font-size: .9rem;
+  text-decoration: none;
+  box-shadow: 3px 4px 4px 4px rgba(26, 20, 20, 0.2);
+}
+/* .link-words:hover{
+  transition: 2000ms;
+background-color: #45910f;
+} */
+
+@media screen and (max-width: 480px) {
+  .welcome{
+    padding: 30px;
+  }
+
+}
+
+@media screen and (max-width: 767px) {
+  /* .element2{
+    box-shadow: 2px 2px 4px 4px rgba(26, 20, 20, 0.2);
+    border: #910f0f 10px solid;
+  } */
+}
+/* ::-webkit-scrollbar{
   width: 10px;
 }
 
@@ -60,4 +155,4 @@ code {
 }
 ::-webkit-scrollbar-track:hover{
   background:#21295c ;
-}
+} */

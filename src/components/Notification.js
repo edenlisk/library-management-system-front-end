@@ -3,6 +3,7 @@ import {Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, Tab
 import {useNotificationQuery} from "../states/apiSlice";
 import {Bars} from "react-loader-spinner";
 import GenerateNotificationReport from "./GenerateNotificationReport";
+import BookNotify  from "./BookNotify";
 
 const Notification = () => {
     const {data, isSuccess, isLoading} = useNotificationQuery();
@@ -16,7 +17,7 @@ const Notification = () => {
 
     return (
         <div>
-            <Box sx={{display: "flex", justifyContent: 'end', mr: '5rem'}}>
+            <Box sx={{display: "flex", justifyContent: 'end', mr: '5rem',gap:"10px"}}>
                 <GenerateNotificationReport />
             </Box>
             <TableContainer>
@@ -71,6 +72,7 @@ const Notification = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <BookNotify/>
         </div>
     )
 }

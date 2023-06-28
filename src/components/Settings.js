@@ -5,7 +5,7 @@ import {toast} from "react-toastify";
 
 
 const Settings = () => {
-    const [settings, setSettings] = useState({fineAmount: 0, fixedAmount: 0, graceDays: 0, inactivityDays: 0});
+    const [settings, setSettings] = useState({fineAmount: 0, fixedAmount: 0, graceDays: 0, inactivityDays: 0, limitPercentage: 0});
     const [updateSettings, {isLoading, isError, error, isSuccess}] = useUpdateSettingsMutation();
     const handleUpdate = async () => {
         const body = {...settings}
@@ -96,6 +96,16 @@ const Settings = () => {
                         variant="standard"
                         helperText="Number of days given to lost books to be returned"
                         value={settings.inactivityDays}
+                        onChange={handleChange}
+                    />
+                    <TextField
+                        fullWidth
+                        name="limitPercentage"
+                        label="Rental limit percentage"
+                        type="number"
+                        variant="standard"
+                        helperText="System will limit rentals when available copies of books falls under this percentage of total books"
+                        value={settings.limitPercentage}
                         onChange={handleChange}
                     />
                 </Box>

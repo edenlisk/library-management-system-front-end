@@ -85,8 +85,8 @@ const AddClassForm = ({ newClass, setNewClass, handleChange, onSubmit,isSending,
                   onChange={handleChange}
                 >
                  
-                  <MenuItem value="O-Level">O-Level</MenuItem>
-                  <MenuItem value="A-Level">A-Level</MenuItem>
+                  <MenuItem value="O Level">O Level</MenuItem>
+                  <MenuItem value="A Level">A Level</MenuItem>
                 </Select>
               </FormControl>
                <Grid2 container justifyContent="start" alignSelf="start" width="100%">
@@ -105,7 +105,7 @@ const AddClassForm = ({ newClass, setNewClass, handleChange, onSubmit,isSending,
                   size="medium"
                   type="submit"
 
-                  sx={{ mb: 2, width: "90%", alignSelf: "start" }}
+                  sx={{ mb: 2, width: "90%", alignSelf: "start",backgroundColor:theme.palette.buttons.main }}
                 >
                   Add class
                 </Button>}
@@ -116,7 +116,7 @@ const AddClassForm = ({ newClass, setNewClass, handleChange, onSubmit,isSending,
                   size="medium"
                   type="button"
                   onClick={handleClose}
-                  sx={{ mb: 2, width: "90%", alignSelf: "start" }}
+                  sx={{ mb: 2, width: "90%", alignSelf: "start" ,backgroundColor:theme.palette.buttons.main}}
                 >
                   cancel
                 </Button>

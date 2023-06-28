@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useTheme } from "@emotion/react";
-import { useNavigate, useParams, Link, NavLink } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import {
   useCreateRentalMutation,
   useDeleteRentalMutation,
@@ -10,7 +10,6 @@ import {
 } from "../states/apiSlice";
 import {
   ChevronLeft,
-  ChevronRightOutlined,
   DeleteOutlined,
   ModeEditOutlined,
   Add,
@@ -23,18 +22,15 @@ import {
   Stack,
   Tooltip,
   Button,
-  Toolbar,
   Fade,
   Modal,
   CircularProgress,
 } from "@mui/material";
+import Skeleton from '@mui/material/Skeleton';
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { DataGrid } from "@mui/x-data-grid";
 import Customtoolbar from "../components/Customtoolbar";
-import AddBookRental from "../components/students tables components/AddBookRentalForm";
-import Status from "../components/Status";
 import ReceiveBook from "../components/books components/ReceiveBook";
-import dayjs from "dayjs";
 import { toast } from "react-toastify";
 
 const StudentsRentalsPage = () => {
@@ -60,7 +56,7 @@ const StudentsRentalsPage = () => {
     issueDate: null,
     dueDate: null,
   });
-  
+
   const [
     createRental,
     { isSuccess: isCreateSuccess, isError: isCreateError, error: createError },
@@ -81,7 +77,7 @@ const StudentsRentalsPage = () => {
     studentId,
   });
 
-  const { data: studentInfo, isSuccess: isDone } =
+  const { data: studentInfo, isSuccess: isDone, isLoading:isFetching } =
     useGetOneStudentQuery(studentId);
 
 
@@ -93,7 +89,7 @@ const StudentsRentalsPage = () => {
       const { message } = fullError;
       toast.error(message);
     }
-  }, [isCreateError, isCreateSuccess]);
+  }, [isCreateError, isCreateSuccess, createError]);
 
   useEffect(() => {
     if (isDeleteSuccess) {
@@ -103,7 +99,7 @@ const StudentsRentalsPage = () => {
       const { message } = fullError;
       toast.error(message);
     }
-  }, [isDeleteError, isDeleteSuccess]);
+  }, [isDeleteError, isDeleteSuccess, deleteError]);
 
   let studentName = "";
   if (isDone) {
@@ -166,16 +162,16 @@ const StudentsRentalsPage = () => {
   };
 
   const columns = [
-    { field: "nameOfBook", headerName: "Book name", flex: 0.4 },
-    { field: "bookId", headerName: "ID", flex: 0.2 },
-    { field: "categoryName", headerName: "category", flex: 0.3 },
-    { field: "issueDate", headerName: "Issue date", flex: 0.4 },
-    { field: "dueDate", headerName: "Due date", flex: 0.4 },
-    { field: "returnDate", headerName: "Return date", flex: 0.3 },
+    { field: "nameOfBook", headerName: "Book name", flex: 0.3 },
+    { field: "bookId", headerName: "ID", flex: 0.18 },
+    { field: "categoryName", headerName: "category", flex: 0.2 },
+    { field: "issueDate", headerName: "Issue date", flex: 0.2 },
+    { field: "dueDate", headerName: "Due date", flex: 0.2 },
+    { field: "returnDate", headerName: "Return date", flex: 0.2 },
     {
       field: "Receive",
       headerName: "Receive",
-      flex: 0.3,
+      flex: 0.15,
       renderCell: (params) => {
         return (
           <Button
@@ -192,7 +188,7 @@ const StudentsRentalsPage = () => {
     {
       field: "actions",
       headerName: "Actions",
-      flex: 0.3,
+      flex: 0.15,
       renderCell: (params) => (
         <Stack direction="row" spacing={1}>
           <Tooltip title="Delete" placement="top" arrow>
@@ -244,9 +240,8 @@ const StudentsRentalsPage = () => {
         alignItems="center"
       >
         <Typography variant="h4">
-          {studentName}:{academicYear}
+          {isFetching?<Skeleton animation="wave"  sx={{ width: 400,height:40 }} />:(`${studentName}:${academicYear}`)}
         </Typography>
-
         <Button
           size="small"
           sx={{
@@ -347,7 +342,7 @@ const StudentsRentalsPage = () => {
                         variant="contained"
                         size="medium"
                         type="button"
-                        sx={{ mb: 2, width: "200px", alignSelf: "start" }}
+                        sx={{ mb: 2, width: "200px", alignSelf: "start", backgroundColor:theme.palette.buttons.main  }}
                         onClick={handleRowDelete}
                       >
                         delete
@@ -357,7 +352,7 @@ const StudentsRentalsPage = () => {
                       variant="contained"
                       size="medium"
                       type="button"
-                      sx={{ mb: 2, width: "200px", alignSelf: "start" }}
+                      sx={{ mb: 2, width: "200px", alignSelf: "start", backgroundColor:theme.palette.buttons.main  }}
                       onClick={handleCloseDeleteModal}
                     >
                       cancel

@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {ResponsiveLine} from '@nivo/line';
 import {ResponsivePie} from '@nivo/pie';
-import {useWeeklyStatsQuery, useOverallStatsQuery} from "../../states/apiSlice";
+import {useWeeklyStatsQuery, useOverallStatsQuery, useSubCategoriesStatsQuery} from "../../states/apiSlice";
 import {Box} from "@mui/material";
 import {Bars} from "react-loader-spinner";
 import {toast} from "react-toastify";
+import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from "recharts"
 
 
 export const MyResponsivePie = () => {
@@ -226,9 +227,9 @@ export const MyResponsiveLine = () => {
                             <text
                                 textAnchor="middle"
                                 dominantBaseline="middle"
-                                style={{ fill: index === 0 ? 'red' : '#F9E2AF', fontSize: 10 }}
+                                style={{fill: index === 0 ? 'red' : '#F9E2AF', fontSize: 10}}
                             >
-                                {tick.value.split(' ').length > 0 ? tick.value.split(' ')[0] : tick.value }
+                                {tick.value.split(' ').length > 0 ? tick.value.split(' ')[0] : tick.value}
                             </text>
                         </g>
                     ),
@@ -245,7 +246,7 @@ export const MyResponsiveLine = () => {
                             <text
                                 textAnchor="end"
                                 dominantBaseline="middle"
-                                style={{ fill: '#F9E2AF', fontSize: 10 }}
+                                style={{fill: '#F9E2AF', fontSize: 10}}
                             >
                                 {tick.value}
                             </text>
@@ -260,8 +261,8 @@ export const MyResponsiveLine = () => {
                 pointLabelYOffset={-12}
                 useMesh={true}
                 // enableSlices="x"
-                height={500}
-                width={900}
+                height={700}
+                // width={900}
                 legends={[
                     {
                         padding: 30,
@@ -294,4 +295,159 @@ export const MyResponsiveLine = () => {
         </>
     )
 }
-// 0000007F
+
+export const StatisticsByBookCategory = () => {
+    const {data, isLoading, isSuccess, isError, error} = useSubCategoriesStatsQuery();
+    const [graphData, setGraphData] = useState([]);
+    useEffect(() => {
+        if (data) {
+            const {result} = data.data;
+            setGraphData(result)
+        }
+    }, [isSuccess, data])
+    const colors = [
+        {
+            academicLevel: "seniorone",
+            color: "#525FE1"
+        },
+        {
+            academicLevel: "seniortwo",
+            color: "#F86F03"
+        },
+        {
+            academicLevel: "seniorthree",
+            color: "#E966A0"
+        },
+        {
+            academicLevel: "seniorfour",
+            color: "#17594A"
+        },
+        {
+            academicLevel: "seniorfive",
+            color: "#6554AF"
+        },
+        {
+            academicLevel: "seniorsix",
+            color: "#68B984"
+        },
+        // {
+        //     categoryName: "KINY",
+        //     color: "#B31312"
+        // },
+        // {
+        //     categoryName: "KISW",
+        //     color: "#884A39"
+        // },
+        // {
+        //     categoryName: "FRE",
+        //     color: "#FFD95A"
+        // },
+        // {
+        //     categoryName: "ENG",
+        //     color: "#394867"
+        // },
+        // {
+        //     categoryName: "HIST",
+        //     color: "#5D9C59"
+        // },
+    ]
+    // const data = [
+    //     {
+    //         "categoryName": "BIO",
+    //         "seniorfour": 28,
+    //         "seniortwo": 65,
+    //         "seniorone": 86,
+    //         "seniorthree": 52
+    //     },
+    //     {
+    //         "categoryName": "FRE",
+    //         "seniorthree": 35,
+    //         "seniorone": 36,
+    //         "seniortwo": 64
+    //     },
+    //     {
+    //         "categoryName": "HIST",
+    //         "seniorsix": 115
+    //     },
+    //     {
+    //         "categoryName": "KINY",
+    //         "seniorsix": 118
+    //     },
+    //     {
+    //         "categoryName": "ENG",
+    //         "seniortwo": 67,
+    //         "seniorfive": 35,
+    //         "seniorone": 54
+    //     },
+    //     {
+    //         "categoryName": "ECON",
+    //         "seniorfour": 19
+    //     },
+    //     {
+    //         "categoryName": "ENT",
+    //         "seniorone": 65,
+    //         "seniortwo": 45,
+    //         "seniorsix": 43
+    //     },
+    //     {
+    //         "categoryName": "MATH",
+    //         "seniorone": 54,
+    //         "seniorfive": 65,
+    //         "seniortwo": 34,
+    //         "seniorfour": 57
+    //     },
+    //     {
+    //         "categoryName": "KISW",
+    //         "seniorsix": 45,
+    //         "seniorfour": 34,
+    //         "seniortwo": 65,
+    //         "seniorone": 75,
+    //         "seniorfive": 37,
+    //         "seniorthree": 45,
+    //     },
+    //     {
+    //         "categoryName": "GEO",
+    //         "seniorfour": 65,
+    //         "seniortwo": 36,
+    //         "seniorone": 45,
+    //         "seniorfive": 23,
+    //         "seniorthree": 44,
+    //         "seniorsix": 57,
+    //     },
+    //     {
+    //         "categoryName": "CHEM",
+    //         "seniortwo": 76,
+    //         "seniorone": 65,
+    //         "seniorfive": 54,
+    //         "seniorthree": 86,
+    //         "seniorsix": 16,
+    //         "seniorfour": 32
+    //     },
+    //     {
+    //         "categoryName": "PHY",
+    //         "seniorfive": 54,
+    //         "seniorone": 56,
+    //         "seniortwo": 76,
+    //         "seniorthree": 64,
+    //         "seniorsix": 35,
+    //         "seniorfour": 50
+    //     }
+    // ]
+    return (
+
+        <ResponsiveContainer width="100%" height="100%">
+        <LineChart
+            data={graphData}
+        >
+            <CartesianGrid strokeDasharray="4 4" />
+            <XAxis dataKey="categoryName"/>
+            <YAxis/>
+            <Tooltip/>
+            <Legend/>
+            {colors.map((item, index) => {
+                return <Line key={index} type="monotone" dataKey={item.academicLevel} stroke={item.color} activeDot={{ r: 8 }}/>
+            })}
+        </LineChart>
+        </ResponsiveContainer>
+    );
+}

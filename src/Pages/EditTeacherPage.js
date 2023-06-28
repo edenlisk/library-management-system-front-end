@@ -1,15 +1,6 @@
 import React, { useState,useEffect } from "react";
-import { NavLink, useNavigate, useParams } from "react-router-dom";
-import { FormHelperText, TextField, Typography } from "@mui/material";
-import {
-  FormControl,
-  InputLabel,
-  OutlinedInput,
-  InputAdornment,
-  IconButton,
-  Button,
-  Box,
-} from "@mui/material";
+import { useNavigate, useParams } from "react-router-dom";
+import { TextField, Typography, Button,Box,useTheme,Skeleton } from "@mui/material";
 import { LoginOutlined,ChevronLeftOutlined} from "@mui/icons-material";
 import { useUpdateTeacherMutation,useGetTeacherQuery} from "../states/apiSlice";
 import {toast} from "react-toastify";
@@ -19,6 +10,7 @@ import {toast} from "react-toastify";
 const EditTeacherPage = () => {
   const { teacherId } = useParams();
   const navigate=useNavigate();
+  const theme=useTheme();
   const{data,isLoading,isSuccess}=useGetTeacherQuery(teacherId);
  
   const [user, setUser] = useState({ name: "" });
@@ -58,7 +50,6 @@ const EditTeacherPage = () => {
     setUser({ ...user, [e.target.name]: capitalizeSentence(e.target.value) });
   };
 
-  // SUBMITS DATA IN THE INPUTS FIELDS
   const handleSubmit =  async (event) => {
     event.preventDefault();
     const body={...user}
@@ -90,7 +81,7 @@ const EditTeacherPage = () => {
         <Typography variant="h3" sx={{ textAlign: "center", mb: 3 }}>
           Edit Teacher Info
         </Typography>
-        <TextField
+       { isLoading?<Skeleton animation="wave"  sx={{ width:"100%",height:30 }}/>:<TextField
           required
           fullWidth
           value={user.name || ""}
@@ -102,13 +93,13 @@ const EditTeacherPage = () => {
           onChange={handleChange}
           sx={{ mb: 2 }}
 
-        />
+        />}
 
         <Button
           variant="contained"
           size="medium"
           type="submit"
-          sx={{ mb: 2, width: "100px", alignSelf: "start" }}
+          sx={{ mb: 2, width: "100px", alignSelf: "start",backgroundColor:theme.palette.buttons.main }}
           endIcon={<LoginOutlined />}
         >
           save
