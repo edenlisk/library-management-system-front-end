@@ -108,8 +108,7 @@ const LoginPage = () => {
         flexDirection="column"
         alignItems="center"
         justifyContent="center"
-        // height="70%"
-        minHeight={700}
+        minHeight={400}
         margin="auto"
         gap="13px"
         p="10px 10px"

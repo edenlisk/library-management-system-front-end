@@ -58,6 +58,7 @@ const TcLoginPage = () => {
             const {data: userDatata} = teacherData;
             const {user: userInfo} = userDatata;
             const {_id: tcId} = userInfo;
+            teacherId=tcId;
             dispatch(setAuthToken(teacherData.token));
             navigate(`/teachers/notifications/${teacherId}`);
         }
