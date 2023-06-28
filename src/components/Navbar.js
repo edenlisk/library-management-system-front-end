@@ -26,15 +26,15 @@ import {useGetAcademicYearsQuery, useNotificationQuery} from "../states/apiSlice
 import {useNavigate} from "react-router-dom";
 
 const Navbar = ({isSidebarOpen, setIsSidebarOpen}) => {
-    const token =  localStorage.getItem('token');
+    // const token = localStorage.getItem('token');
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const theme = useTheme();
-    useEffect(() => {
-        if (!token) {
-            navigate('/login')
-        }
-    }, [token, navigate])
+    // useEffect(() => {
+    //     if (!token) {
+    //         navigate('/login')
+    //     }
+    // }, [token, navigate])
     // useSelector(state => state.auth.token) ||
     // FETCH ACADEMIC YEARS
     const {data: years, isSuccess: isDone} = useGetAcademicYearsQuery();
@@ -50,7 +50,7 @@ const Navbar = ({isSidebarOpen, setIsSidebarOpen}) => {
 
     useEffect(() => {
         if (isDone) {
-            const {data:academicYears} = years;
+            const {data: academicYears} = years;
             const {schoolYears} = academicYears;
             setSchoolYearsSelect(schoolYears);
             const rawYears = schoolYears.map(year => year.academicYear);
@@ -66,83 +66,81 @@ const Navbar = ({isSidebarOpen, setIsSidebarOpen}) => {
     const schoolYear = useSelector((state) => state.global.academicYear);
 
     return (
-        token ? <AppBar
-                sx={{
-                    position: "static",
-                    background: "none",
-                    boxShadow: "none",
-                    p:"0px 0px"
-                }}
-            >
-                <Toolbar sx={{justifyContent: "space-between",p:"0px"}}>
-                    {/* LEFT SIDE */}
-                    <FlexBetween sx={{P:"0px"}}>
-                        <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
-                            <MenuIcon/>
-                        </IconButton>
-                        <FlexBetween
-                            backgroundColor={theme.palette.background.alt}
-                            borderRadius="9px"
-                            gap="3rem"
-                            p="0.1rem "
-                        >
-                            {/* <InputBase placeholder="Search.." />
+        <AppBar
+            sx={{
+                position: "static",
+                background: "none",
+                boxShadow: "none",
+                p: "0px 0px"
+            }}
+        >
+            <Toolbar sx={{justifyContent: "space-between", p: "0px"}}>
+                {/* LEFT SIDE */}
+                <FlexBetween sx={{P: "0px"}}>
+                    <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
+                        <MenuIcon/>
+                    </IconButton>
+                    <FlexBetween
+                        backgroundColor={theme.palette.background.alt}
+                        borderRadius="9px"
+                        gap="3rem"
+                        p="0.1rem "
+                    >
+                        {/* <InputBase placeholder="Search.." />
             <IconButton>
               <Search />
             </IconButton> */}
-                            <FormControl sx={{border: "0px", minWidth: 160}} fullWidth size="small">
-                                <InputLabel id="demo-simple-select-label">academic Year</InputLabel>
-                                <Select
+                        <FormControl sx={{border: "0px", minWidth: 160}} fullWidth size="small">
+                            <InputLabel id="demo-simple-select-label">academic Year</InputLabel>
+                            <Select
 
-                                    labelId="academicYear"
-                                    id="academicYear"
-                                    value={selectedAcademicYear}
-                                    label="academicYear"
-                                    onChange={(event) => {
-                                        setSelectedAcademicYear(event.target.value);
-                                        // dispatch(setAcademicYear(selectedAcademicYear))
-                                        // console.log(selectedAcademicYear)
-                                    }}
-                                >
-                                    {/* <MenuItem value=""><em>academic Year</em></MenuItem> */}
-                                    {schoolYearsSelect.map(({academicYear, _id}, index) => {
-                                        return <MenuItem key={index} value={academicYear}>{academicYear}</MenuItem>
-                                    })}
-                                    {/*<MenuItem selected value="2023-2024">*/}
-                                    {/*    2023-2024*/}
-                                    {/*</MenuItem>*/}
-                                    {/*<MenuItem value="2024-2025">2024-2025</MenuItem>*/}
-                                    {/*<MenuItem value="2025-2026">2025-2026</MenuItem>*/}
-                                </Select>
-                            </FormControl>
-                        </FlexBetween>
+                                labelId="academicYear"
+                                id="academicYear"
+                                value={selectedAcademicYear}
+                                label="academicYear"
+                                onChange={(event) => {
+                                    setSelectedAcademicYear(event.target.value);
+                                    // dispatch(setAcademicYear(selectedAcademicYear))
+                                    // console.log(selectedAcademicYear)
+                                }}
+                            >
+                                {/* <MenuItem value=""><em>academic Year</em></MenuItem> */}
+                                {schoolYearsSelect.map(({academicYear, _id}, index) => {
+                                    return <MenuItem key={index} value={academicYear}>{academicYear}</MenuItem>
+                                })}
+                                {/*<MenuItem selected value="2023-2024">*/}
+                                {/*    2023-2024*/}
+                                {/*</MenuItem>*/}
+                                {/*<MenuItem value="2024-2025">2024-2025</MenuItem>*/}
+                                {/*<MenuItem value="2025-2026">2025-2026</MenuItem>*/}
+                            </Select>
+                        </FormControl>
                     </FlexBetween>
-                    {/* RIGHT SIDE */}
-                    <FlexBetween gap="1.5rem">
-                        <IconButton
-                            onClick={() => navigate('/notification')}
-                        >
-                            <Badge badgeContent={notificationNumber ? notificationNumber : "0"} color="secondary">
-                                <NotificationsNone sx={{fontSize: '24px'}}/>
-                            </Badge>
-                        </IconButton>
-                        <IconButton onClick={() => dispatch(setMode())}>
-                            {theme.palette.mode === "dark" ? (
-                                <DarkModeOutlined sx={{fontSize: "25px"}}/>
-                            ) : (
-                                <LightModeOutlined sx={{fontSize: "25px"}}/>
-                            )}
-                        </IconButton>
-                        <IconButton
-                            onClick={() => navigate('/settings')}
-                        >
-                            <SettingsOutlined sx={{fontSize: "25px"}}/>
-                        </IconButton>
-                    </FlexBetween>
-                </Toolbar>
-            </AppBar>
-            :
-            <div/>
+                </FlexBetween>
+                {/* RIGHT SIDE */}
+                <FlexBetween gap="1.5rem">
+                    <IconButton
+                        onClick={() => navigate('/notification')}
+                    >
+                        <Badge badgeContent={notificationNumber ? notificationNumber : "0"} color="secondary">
+                            <NotificationsNone sx={{fontSize: '24px'}}/>
+                        </Badge>
+                    </IconButton>
+                    <IconButton onClick={() => dispatch(setMode())}>
+                        {theme.palette.mode === "dark" ? (
+                            <DarkModeOutlined sx={{fontSize: "25px"}}/>
+                        ) : (
+                            <LightModeOutlined sx={{fontSize: "25px"}}/>
+                        )}
+                    </IconButton>
+                    <IconButton
+                        onClick={() => navigate('/settings')}
+                    >
+                        <SettingsOutlined sx={{fontSize: "25px"}}/>
+                    </IconButton>
+                </FlexBetween>
+            </Toolbar>
+        </AppBar>
     );
 };
 

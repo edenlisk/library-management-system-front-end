@@ -444,18 +444,9 @@ export const StatisticsByBookCategory = () => {
             <YAxis/>
             <Tooltip/>
             <Legend/>
-            {colors.map(item => {
-                return <Line type="monotone" dataKey={item.academicLevel} stroke={item.color} activeDot={{ r: 8 }}/>
+            {colors.map((item, index) => {
+                return <Line key={index} type="monotone" dataKey={item.academicLevel} stroke={item.color} activeDot={{ r: 8 }}/>
             })}
-            {/*<Line*/}
-            {/*    type="monotone"*/}
-            {/*    dataKey="seniorone"*/}
-            {/*    stroke="#8884d8"*/}
-            {/*    activeDot={{r: 8}}*/}
-            {/*/>*/}
-            {/*<Line type="monotone" dataKey="seniortwo" stroke="#82ca9d"/>*/}
-            {/*<Line type="monotone" dataKey="seniorthree"/>*/}
-            {/*<Line type="monotone" dataKey="seniorfour"/>*/}
         </LineChart>
         </ResponsiveContainer>
     );

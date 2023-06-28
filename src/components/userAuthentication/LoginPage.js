@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../states/apiSlice";
 import { setAccessibility, setAuthToken, setUserData } from "../../states/authSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -35,8 +35,6 @@ const LoginPage = () => {
   const userData = localStorage.getItem('profile');
   const accessability = localStorage.getItem('accessability');
   useEffect(() => {
-
-
     if (token && userData && accessability) {
       dispatch(setAuthToken(token));
       dispatch(setUserData(userData));
@@ -88,7 +86,7 @@ const LoginPage = () => {
       const { token, data } = userData;
       dispatch(setAuthToken(token));
       dispatch(setUserData(data.user));
-      dispatch(setAccessibility(data.user.accessibility))
+      dispatch(setAccessibility(data.user.accessibility));
       localStorage.setItem("token", token);
       localStorage.setItem("profile", JSON.stringify(data.user));
       localStorage.setItem("accessability", data.user.accessibility);
@@ -101,7 +99,7 @@ const LoginPage = () => {
   };
 
   return (
-    <Box height="100%" p="10px 10px">
+    <Box maxHeight="100%" p="10px 10px">
       <Box
         component="form"
         onSubmit={handleSubmit}
@@ -189,9 +187,6 @@ const LoginPage = () => {
             `Login`
           )}
         </Button>
-        {/* <Link to={`/studentsLogin`}>
-            <Typography >Student?</Typography>
-            </Link> */}
         </Box>
         
       </Box>
