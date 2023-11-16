@@ -119,8 +119,8 @@ You can deploy this project using:
 
   👤 **Josue**
 
-- GitHub: [@Edenlisk](https://github.com/ijosue16)
-- Twitter: [@Edenlisk](https://twitter.com/iradukunda_23)
+- GitHub: [@Josue16](https://github.com/ijosue16)
+- Twitter: [@Josue16](https://twitter.com/iradukunda_23)
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
