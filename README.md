@@ -57,6 +57,10 @@
 
 ## 🚀 Live Demo <a name="live-demo"></a>
 Click [here](https://library-management-system-lc5l.onrender.com/) to view a live demo of the project.
+Click [here](https://github.com/edenlisk/library-management-system-backend) to get to the backend repository.
+demo username: admin@lms.com
+demo password: admin123
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
